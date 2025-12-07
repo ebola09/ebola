@@ -1,9 +1,19 @@
 {
     "games": [
         {
+            "name": "Polytrack",
+            "path": "games/polytrack.html",
+            "thumbnail": "assets/thumbnails/polytrack.png"
+        },
+        {
             "name": "BitLife",
             "path": "games/bitlife.html",
             "thumbnail": "assets/thumbnails/bitlife.png"
+        },
+        {
+            "name": "Retro Bowl",
+            "path": "games/retrobowl.html",
+            "thumbnail": "assets/thumbnails/retrobowl.png"
         },
         {
             "name": "Cookie CLicker",
@@ -24,16 +34,7 @@
             "name": "OvO 2",
             "path": "games/ovo2.html",
             "thumbnail": "assets/thumbnails/ovo2.png"
-        },
-        {
-            "name": "Polytrack",
-            "path": "games/polytrack.html",
-            "thumbnail": "assets/thumbnails/polytrack.png"
-        },
-        {
-            "name": "Retro Bowl",
-            "path": "games/retrobowl.html",
-            "thumbnail": "assets/thumbnails/retrobowl.png"
         }
     ]
+
 }

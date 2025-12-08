@@ -16,6 +16,11 @@
             "thumbnail": "assets/thumbnails/retrobowl.png"
         },
         {
+            "name": "Blackjack",
+            "path": "games/blackjack.html",
+            "thumbnail": "assets/thumbnails/blackjack.png"
+        },
+        {
             "name": "Cookie CLicker",
             "path": "games/cookie_clicker.html",
             "thumbnail": "assets/thumbnails/cookie_clicker.png"
@@ -38,3 +43,4 @@
     ]
 
 }
+

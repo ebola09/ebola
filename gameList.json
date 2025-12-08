@@ -21,6 +21,16 @@
             "thumbnail": "assets/thumbnails/blackjack.png"
         },
         {
+            "name": "Apple Worm",
+            "path": "games/appleworm.html",
+            "thumbnail": "assets/thumbnails/appleworm.png"
+        },
+        {
+            "name": "Run 3",
+            "path": "games/run3.html",
+            "thumbnail": "assets/thumbnails/run3.png"
+        },
+        {
             "name": "Cookie CLicker",
             "path": "games/cookie_clicker.html",
             "thumbnail": "assets/thumbnails/cookie_clicker.png"

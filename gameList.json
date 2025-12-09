@@ -26,6 +26,11 @@
             "thumbnail": "assets/thumbnails/appleworm.png"
         },
         {
+            "name": "Crossy Road",
+            "path": "games/crossyroad.html",
+            "thumbnail": "assets/thumbnails/crossyroad.png"
+        },
+        {
             "name": "Run 3",
             "path": "games/run3.html",
             "thumbnail": "assets/thumbnails/run3.png"

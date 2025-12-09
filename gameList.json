@@ -31,6 +31,11 @@
             "thumbnail": "assets/thumbnails/run3.png"
         },
         {
+            "name": "Crossy Road",
+            "path": "games/crossyroad.html",
+            "thumbnail": "assets/thumbnails/crossyroad.png"
+        },
+        {
             "name": "Cookie CLicker",
             "path": "games/cookie_clicker.html",
             "thumbnail": "assets/thumbnails/cookie_clicker.png"

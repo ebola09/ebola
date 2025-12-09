@@ -31,11 +31,6 @@
             "thumbnail": "assets/thumbnails/crossyroad.png"
         },
         {
-            "name": "Fear Response",
-            "path": "games/fearresponse/games.playtropolis.com/fear-response/index.html",
-            "thumbnail": "assets/thumbnails/fearresponse.png"
-        },
-        {
             "name": "Run 3",
             "path": "games/run3.html",
             "thumbnail": "assets/thumbnails/run3.png"

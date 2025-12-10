@@ -16,6 +16,11 @@
             "thumbnail": "assets/thumbnails/retrobowl.png"
         },
         {
+            "name": "Retro Bowl College",
+            "path": "games/retrobowlcollege.html",
+            "thumbnail": "assets/thumbnails/retrobowlcollege.png"
+        },
+        {
             "name": "Blackjack",
             "path": "games/blackjack.html",
             "thumbnail": "assets/thumbnails/blackjack.png"

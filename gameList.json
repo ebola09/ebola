@@ -46,6 +46,21 @@
             "thumbnail": "assets/thumbnails/buckshotroulette.png"
         },
         {
+            "name": "Ultrakill",
+            "path": "games/ultrakill.html",
+            "thumbnail": "assets/thumbnails/ultrakill.png"
+        },
+        {
+            "name": "That's Not My Neighbour",
+            "path": "games/thatsnotmyneighbour.html",
+            "thumbnail": "assets/thumbnails/thatsnotmyneighbour.png"
+        },
+        {
+            "name": "Binding of Isaac: Wrath of the Lamb",
+            "path": "games/bindingofisaacwrathofthelamb.html",
+            "thumbnail": "assets/thumbnails/bindingofisaacwrathofthelamb.png"
+        },
+        {
             "name": "Postal",
             "path": "games/postal.html",
             "thumbnail": "assets/thumbnails/postal.jpeg"

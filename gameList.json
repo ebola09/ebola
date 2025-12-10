@@ -51,11 +51,6 @@
             "thumbnail": "assets/thumbnails/postal.jpeg"
         },
         {
-            "name": "Stick With It",
-            "path": "games/stickwithit.html",
-            "thumbnail": "assets/thumbnails/stickwithit.png"
-        },
-        {
             "name": "Run 3",
             "path": "games/run3.html",
             "thumbnail": "assets/thumbnails/run3.png"

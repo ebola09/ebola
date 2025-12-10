@@ -271,26 +271,38 @@
 
         // LOAD GAMES FROM JSON AND ADD TO PAGE
         fetch("gameList.json")
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById("gameGrid");
-                if (!data.games || data.games.length === 0) {
-                    container.innerHTML = `<p style="color: var(--text-color);">No games found. Check gameList.json.</p>`;
-                    return;
-                }
-                data.games.forEach(game => {
-                    let card = document.createElement("a");
-                    card.href = game.path || "#";
-                    card.classList.add("card");
-                    card.style.backgroundImage = `url('${game.thumbnail || ''}')`;
-                    card.setAttribute("data-title", game.name || "Untitled");
-                    container.appendChild(card);
-                });
-            })
-            .catch(error => {
-                document.getElementById("gameGrid").innerHTML = `<p style="color: var(--text-color);">Failed to load gameList.json</p>`;
-                console.error("Error loading game list:", error);
-            });
+    .then(response => response.json())
+    .then(data => {
+        const container = document.getElementById("gameGrid");
+        if (!data.games || data.games.length === 0) {
+            container.innerHTML = `<p style="color: var(--text-color);">No games found. Check gameList.json.</p>`;
+            return;
+        }
+
+        // Sort games alphabetically by name
+        data.games.sort((a, b) => {
+            const nameA = (a.name || "").toLowerCase();
+            const nameB = (b.name || "").toLowerCase();
+            if (nameA < nameB) return -1;
+            if (nameA > nameB) return 1;
+            return 0;
+        });
+
+        // Create cards
+        data.games.forEach(game => {
+            let card = document.createElement("a");
+            card.href = game.path || "#";
+            card.classList.add("card");
+            card.style.backgroundImage = `url('${game.thumbnail || ''}')`;
+            card.setAttribute("data-title", game.name || "Untitled");
+            container.appendChild(card);
+        });
+    })
+    .catch(error => {
+        document.getElementById("gameGrid").innerHTML = `<p style="color: var(--text-color);">Failed to load gameList.json</p>`;
+        console.error("Error loading game list:", error);
+    });
+
     </script>
 </body>
 </html>

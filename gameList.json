@@ -31,7 +31,7 @@
             "thumbnail": "assets/thumbnails/appleworm.png"
         },
         {
-            "name": "Osu",
+            "name": "osu!",
             "path": "games/osu.html",
             "thumbnail": "assets/thumbnails/osu.png"
         },

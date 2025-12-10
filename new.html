@@ -72,10 +72,10 @@
             user-select: none;
         }
 
-        /* Game Grid as responsive grid with square cards */
+        /* Game Grid as responsive 5-column grid with square cards */
         #gameGrid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            grid-template-columns: repeat(5, 1fr); /* exactly 5 cards per row */
             gap: 30px;
             padding: 20px 40px;
             max-width: 1200px;
@@ -88,9 +88,10 @@
             background-size: cover;
             background-position: center;
             border-radius: 4px;
+            border: 1px solid #210D00; /* thin outline */
             cursor: pointer;
             position: relative;
-            transition: transform 0.2s ease-in-out;
+            transition: transform 0.2s ease-in-out, border-color 0.2s;
         }
 
         .card:hover {
@@ -131,16 +132,27 @@
         }
 
         /* Responsive adjustments */
-        @media (max-width: 800px) {
+        @media (max-width: 1200px) {
             #gameGrid {
-                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-                gap: 20px;
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            #gameGrid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            #gameGrid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 500px) {
             #gameGrid {
-                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                grid-template-columns: 1fr;
             }
         }
     </style>

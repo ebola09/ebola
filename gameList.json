@@ -26,9 +26,34 @@
             "thumbnail": "assets/thumbnails/appleworm.png"
         },
         {
-            "name": "Crossy Road",
-            "path": "games/crossyroad.html",
-            "thumbnail": "assets/thumbnails/crossyroad.png"
+            "name": "Osu",
+            "path": "games/osu.html",
+            "thumbnail": "assets/thumbnails/osu.png"
+        },
+        {
+            "name": "Gobble",
+            "path": "games/gobble.html",
+            "thumbnail": "assets/thumbnails/gobble.png"
+        },
+        {
+            "name": "Hollow Night",
+            "path": "games/hollowknight.html",
+            "thumbnail": "assets/thumbnails/hollowknight.png"
+        },
+        {
+            "name": "Buckshot Roulette",
+            "path": "games/buckshotroulette.html",
+            "thumbnail": "assets/thumbnails/buckshotroulette.png"
+        },
+        {
+            "name": "Postal",
+            "path": "games/postal.html",
+            "thumbnail": "assets/thumbnails/postal.jpeg"
+        },
+        {
+            "name": "Stick With It",
+            "path": "games/stickwithit.html",
+            "thumbnail": "assets/thumbnails/stickwithit.png"
         },
         {
             "name": "Run 3",

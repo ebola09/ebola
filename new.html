@@ -21,25 +21,44 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 40px;
+            padding: 0 40px;
             font-size: 20px;
+            height: 90px; /* topbar height */
+            background-color: #0d0502;
+        }
+
+        .topbar .left, .topbar .right {
+            display: flex;
+            align-items: center;
         }
 
         .topbar a {
-            color: #ff7b00;
-            text-decoration: none;
+            color: #7A3307; /* Default link color */
+            text-decoration: none; /* Remove underline */
             margin-right: 20px;
+            transition: color 0.2s ease-in-out;
         }
 
         .topbar a:hover {
-            text-decoration: underline;
+            color: #ff7b00; /* Hover color */
+            text-decoration: none; /* Prevent underline on hover */
         }
 
-        /* Logo */
-        .logo {
+        /* Highlight arcade link as current page */
+        .topbar a.active {
+            color: #ff7b00;
+        }
+
+        /* Logo inside topbar */
+        .topbar .logo {
+            height: 100%;
             display: flex;
-            justify-content: center;
-            margin: 30px 0;
+            align-items: center;
+        }
+
+        .topbar .logo img {
+            height: 60px; /* adjust logo height to match topbar visually */
+            object-fit: contain;
         }
 
         /* Game Grid */
@@ -95,20 +114,20 @@
 
 <body>
     <div class="topbar">
-        <div>
-            <a href="#">arcade</a>
+        <div class="left">
+            <a href="#" class="active">arcade</a>
             <a href="#">tv</a>
             <a href="#">bookmarklets</a>
         </div>
-        <div>
+
+        <div class="logo">
+            <img src="assets/logos/orangeLogo.png" alt="logo" />
+        </div>
+
+        <div class="right">
             <a href="#">register</a>
             <a href="#">login</a>
         </div>
-    </div>
-
-    <div class="logo">
-        <!-- USER WILL INSERT EBOLA LOGO IMAGE HERE -->
-        <img src="assets/logos/orangeLogo.png" alt="logo" height="90" />
     </div>
 
     <div id="gameGrid"></div>
@@ -142,7 +161,7 @@
             .catch(error => {
                 document.getElementById("gameGrid").innerHTML = '<p style="color:#ff7b00;">Failed to load gameList.json</p>';
                 console.error("Error loading game list:", error);
-            }(error => console.error("Error loading game list:", error));
+            });
     </script>
 </body>
 </html>

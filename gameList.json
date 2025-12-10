@@ -56,9 +56,9 @@
             "thumbnail": "assets/thumbnails/ultrakill.png"
         },
         {
-            "name": "That's Not My Neighbour",
-            "path": "games/thatsnotmyneighbour.html",
-            "thumbnail": "assets/thumbnails/thatsnotmyneighbour.jpeg"
+            "name": "That's Not My Neighbor",
+            "path": "games/thatsnotmyneighbor.html",
+            "thumbnail": "assets/thumbnails/thatsnotmyneighbor.png"
         },
         {
             "name": "Binding of Isaac: Wrath of the Lamb",
@@ -68,7 +68,7 @@
         {
             "name": "Postal",
             "path": "games/postal.html",
-            "thumbnail": "assets/thumbnails/postal.jpeg"
+            "thumbnail": "assets/thumbnails/postal.png"
         },
         {
             "name": "Run 3",

@@ -61,8 +61,8 @@
             height: 100%;
             display: flex;
             align-items: center;
-            user-select: none; /* prevent text selection */
-            -webkit-user-drag: none; /* prevent drag in webkit browsers */
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
         .topbar .logo img {
@@ -72,19 +72,19 @@
             user-select: none;
         }
 
-        /* Game Grid as a narrow column */
+        /* Game Grid as responsive grid with square cards */
         #gameGrid {
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 30px;
             padding: 20px 40px;
-            max-width: 400px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         .card {
             width: 100%;
-            height: 200px;
+            aspect-ratio: 1 / 1; /* ensures square */
             background-size: cover;
             background-position: center;
             border-radius: 4px;
@@ -94,7 +94,7 @@
         }
 
         .card:hover {
-            transform: scale(1.02);
+            transform: scale(1.05);
         }
 
         .card::after {
@@ -106,7 +106,7 @@
             padding: 10px;
             background: rgba(0, 0, 0, 0.7);
             color: #ff7b00;
-            font-size: 16px;
+            font-size: 14px;
             opacity: 0;
             transition: opacity 0.2s ease-in-out;
         }
@@ -128,6 +128,20 @@
             border-top: 1px solid #7A3307;
             font-size: 16px;
             text-align: left;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 800px) {
+            #gameGrid {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            #gameGrid {
+                grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            }
         }
     </style>
 </head>

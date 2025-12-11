@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Login / Register</title>
     <script src="https://esm.sh/@supabase/supabase-js"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,7 +38,6 @@
     <!-- REGISTER -->
     <h2>Register</h2>
     <input id="reg-username" type="text" placeholder="Username">
-    <input id="reg-email" type="email" placeholder="Email">
     <input id="reg-password" type="password" placeholder="Password">
     <button onclick="register()">Create Account</button>
 
@@ -45,7 +45,7 @@
 
     <!-- LOGIN -->
     <h2>Login</h2>
-    <input id="login-email" type="email" placeholder="Email">
+    <input id="login-username" type="text" placeholder="Username">
     <input id="login-password" type="password" placeholder="Password">
     <button onclick="login()">Login</button>
 
@@ -58,18 +58,29 @@
             "YOUR_SUPABASE_ANON_KEY"
         );
 
+        function generateEmail(username) {
+            return username.toLowerCase() + "@local.user";
+        }
+
         // REGISTER FUNCTION
         async function register() {
-            const username = document.getElementById("reg-username").value;
-            const email = document.getElementById("reg-email").value;
+            const username = document.getElementById("reg-username").value.trim();
             const password = document.getElementById("reg-password").value;
             const msg = document.getElementById("reg-msg");
 
+            if (!username || !password) {
+                msg.textContent = "Enter a username and password.";
+                return;
+            }
+
             msg.textContent = "Creating account...";
 
+            const fakeEmail = generateEmail(username);
+
+            // Create auth user using a generated email
             const { data, error } = await supabase.auth.signUp({
-                email,
-                password
+                email: fakeEmail,
+                password: password
             });
 
             if (error) {
@@ -77,9 +88,9 @@
                 return;
             }
 
-            // Insert profile row
             const userId = data.user.id;
 
+            // Insert profile row
             await supabase.from("profiles").insert({
                 id: userId,
                 username: username,
@@ -87,20 +98,27 @@
                 saves: {}
             });
 
-            msg.textContent = "Account created successfully. Check email for verification link if required.";
+            msg.textContent = "Account created successfully.";
         }
 
         // LOGIN FUNCTION
         async function login() {
-            const email = document.getElementById("login-email").value;
+            const username = document.getElementById("login-username").value.trim();
             const password = document.getElementById("login-password").value;
             const msg = document.getElementById("login-msg");
 
+            if (!username || !password) {
+                msg.textContent = "Enter your username and password.";
+                return;
+            }
+
             msg.textContent = "Logging in...";
 
+            const fakeEmail = generateEmail(username);
+
             const { data, error } = await supabase.auth.signInWithPassword({
-                email,
-                password
+                email: fakeEmail,
+                password: password
             });
 
             if (error) {
@@ -110,10 +128,10 @@
 
             msg.textContent = "Login successful. Redirecting...";
 
-            // Example redirect (change to your game page)
+            // Change this to your game page
             setTimeout(() => {
                 window.location.href = "game.html";
-            }, 1000);
+            }, 800);
         }
     </script>
 

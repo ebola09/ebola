@@ -413,36 +413,6 @@
     URL.revokeObjectURL(url);
 });
 
-    // Convert the entire localStorage to an object
-    const allStorage = {};
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        allStorage[key] = localStorage.getItem(key);
-    }
-
-    // Convert to JSON and trigger download
-    const blob = new Blob([JSON.stringify(allStorage, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "localStorage_backup.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-});
-
-            const blob = new Blob([localStorage.getItem("gameProgress") || "{}"], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "ebola_game_progress.json";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        });
-
         importButton.addEventListener("click", () => importFile.click());
         importFile.addEventListener("change", e => {
             const file = e.target.files[0];

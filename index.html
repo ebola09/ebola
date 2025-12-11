@@ -262,7 +262,7 @@
         function updateRecentlyPlayedUI(games) {
             recentlyPlayedGrid.innerHTML = "";
             if (!games.length) {
-                recentlyPlayedGrid.innerHTML = "<p style='color: var(--link-color);'>you haven't played any games yet.</p>";
+                recentlyPlayedGrid.innerHTML = "<p style='color: var(--link-color);'>you haven't played any games yet :(</p>";
                 return;
             }
             games.forEach(game => {

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login / Register</title>
+    <script src="https://esm.sh/@supabase/supabase-js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 50px auto;
+        }
+        h2 {
+            margin-top: 40px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0 12px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            cursor: pointer;
+        }
+        .message {
+            margin-top: 15px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Account Access</h1>
+
+    <!-- REGISTER -->
+    <h2>Register</h2>
+    <input id="reg-username" type="text" placeholder="Username">
+    <input id="reg-email" type="email" placeholder="Email">
+    <input id="reg-password" type="password" placeholder="Password">
+    <button onclick="register()">Create Account</button>
+
+    <div id="reg-msg" class="message"></div>
+
+    <!-- LOGIN -->
+    <h2>Login</h2>
+    <input id="login-email" type="email" placeholder="Email">
+    <input id="login-password" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+
+    <div id="login-msg" class="message"></div>
+
+    <script>
+        // Initialize Supabase
+        const supabase = supabase.createClient(
+            "YOUR_SUPABASE_URL",
+            "YOUR_SUPABASE_ANON_KEY"
+        );
+
+        // REGISTER FUNCTION
+        async function register() {
+            const username = document.getElementById("reg-username").value;
+            const email = document.getElementById("reg-email").value;
+            const password = document.getElementById("reg-password").value;
+            const msg = document.getElementById("reg-msg");
+
+            msg.textContent = "Creating account...";
+
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password
+            });
+
+            if (error) {
+                msg.textContent = "Error: " + error.message;
+                return;
+            }
+
+            // Insert profile row
+            const userId = data.user.id;
+
+            await supabase.from("profiles").insert({
+                id: userId,
+                username: username,
+                theme: "default",
+                saves: {}
+            });
+
+            msg.textContent = "Account created successfully. Check email for verification link if required.";
+        }
+
+        // LOGIN FUNCTION
+        async function login() {
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+            const msg = document.getElementById("login-msg");
+
+            msg.textContent = "Logging in...";
+
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password
+            });
+
+            if (error) {
+                msg.textContent = "Error: " + error.message;
+                return;
+            }
+
+            msg.textContent = "Login successful. Redirecting...";
+
+            // Example redirect (change to your game page)
+            setTimeout(() => {
+                window.location.href = "game.html";
+            }, 1000);
+        }
+    </script>
+
+</body>
+</html>

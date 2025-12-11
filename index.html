@@ -32,18 +32,29 @@
         img { pointer-events: none; user-drag: none; }
 
         .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 40px;
-            font-size: 20px;
-            height: 90px;
-            background-color: var(--bg-color);
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 1000;
-            border-bottom: 1px solid var(--bottombar-border-color);
-        }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    font-size: 20px;
+    height: 90px;
+    background-color: var(--bg-color);
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--bottombar-border-color);
+}
+
+/* Center the logo absolutely */
+.topbar .logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
 
         .topbar a {
             color: var(--link-color);

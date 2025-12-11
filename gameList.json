@@ -94,6 +94,11 @@
             "name": "OvO 2",
             "path": "games/ovo2.html",
             "thumbnail": "assets/thumbnails/ovo2.png"
+        },
+        {
+            "name": "Geometry Dash Lite",
+            "path": "games/geometrydashlite.html",
+            "thumbnail": "assets/thumbnails/geometrydashlite.png"
         }
     ]
 

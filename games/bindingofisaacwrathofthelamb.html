@@ -1,24 +1,127 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Binding of Isaac: Wrath of the Lamb</title>
-    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Binding of Isaac: Wrath of the Lamb</title>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+    }
+    #flash-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: black;
+      overflow: hidden;
+    }
+    .black-box {
+      position: fixed;
+      background: black;
+      z-index: 10;
+    }
+    #box-top, #box-bottom {
+      left: 0;
+      width: 100%;
+      height: 0;
+    }
+    #box-top {
+      top: 0;
+    }
+    #box-bottom {
+      bottom: 0;
+    }
+    #box-left, #box-right {
+      top: 0;
+      width: 0;
+      height: 100%;
+    }
+    #box-left {
+      left: 0;
+    }
+    #box-right {
+      right: 0;
+    }
+    ruffle-player {
+      width: 100%;
+      height: 100%;
+      background: black;
+      display: block;
+    }
+  </style>
+
+  <!-- Ruffle CDN -->
+  <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 </head>
+
 <body>
+  <div id="flash-container"></div>
+  <div class="black-box" id="box-top"></div>
+  <div class="black-box" id="box-bottom"></div>
+  <div class="black-box" id="box-left"></div>
+  <div class="black-box" id="box-right"></div>
 
-<div id="flash-container" style="width:800px; height:600px;"></div>
+  <script>
+    const container = document.getElementById("flash-container");
+    const boxTop = document.getElementById("box-top");
+    const boxBottom = document.getElementById("box-bottom");
+    const boxLeft = document.getElementById("box-left");
+    const boxRight = document.getElementById("box-right");
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const ruffle = window.RufflePlayer.newest();
+    function resizeGame() {
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+
+      // Your template used a 5.5:3 ratio
+      const aspectRatio = 5.5 / 3;
+
+      let width = Math.floor(windowWidth * 1);
+      let height = Math.floor(width / aspectRatio);
+
+      if (height > windowHeight * 1) {
+        height = Math.floor(windowHeight * 1);
+        width = Math.floor(height * aspectRatio);
+      }
+
+      container.style.width = `${width}px`;
+      container.style.height = `${height}px`;
+
+      const topMargin = (windowHeight - height) / 2;
+      const leftMargin = (windowWidth - width) / 2;
+
+      boxTop.style.height = `${topMargin}px`;
+      boxBottom.style.height = `${topMargin}px`;
+      boxLeft.style.width = `${leftMargin}px`;
+      boxRight.style.width = `${leftMargin}px`;
+    }
+
+    window.addEventListener("resize", resizeGame);
+
+    window.addEventListener("DOMContentLoaded", () => {
+      resizeGame();
+      const ruffle = window.RufflePlayer?.newest();
+      if (ruffle && container) {
         const player = ruffle.createPlayer();
-        document.getElementById("flash-container").appendChild(player);
+        player.style.width = "100%";
+        player.style.height = "100%";
+        player.style.background = "black";
+        container.appendChild(player);
 
-        // Load your SWF file
+        // Load your BOI.swf file
         player.load("/games/BOI.swf");
+      } else {
+        container.textContent = "Ruffle failed to load.";
+      }
     });
-</script>
+  </script>
 
 </body>
 </html>

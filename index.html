@@ -470,6 +470,36 @@
         });
 
         themeSelect.addEventListener("change", () => setTheme(themeSelect.value));
+        
+
+        function getSavedMinutes(gameID) {
+    return parseInt(localStorage.getItem(`gameTime_${gameID}`)) || 0;
+}
+
+function formatMinutes(minutes) {
+    if (minutes < 60) return `${minutes} min`;
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+    return m === 0 ? `${h} hr` : `${h} hr ${m} min`;
+}
+
+function addMinutesBadge(card, gameID) {
+    const badge = document.createElement("span");
+    badge.className = "minutes-badge";
+    badge.style.position = "absolute";
+    badge.style.bottom = "5px";
+    badge.style.right = "5px";
+    badge.style.fontSize = "12px";
+    badge.style.color = "var(--link-color)";
+    badge.style.backgroundColor = "rgba(0,0,0,0.5)";
+    badge.style.padding = "2px 4px";
+    badge.style.borderRadius = "3px";
+    badge.style.pointerEvents = "none"; // so it doesn’t block clicks
+    badge.textContent = formatMinutes(getSavedMinutes(gameID));
+    card.appendChild(badge);
+
+    return badge;
+}
 
         fetch("gameList.json")
             .then(res => res.json())

@@ -42,14 +42,15 @@
 
         let minutesPlayed = loadSavedMinutes(currentGame.gameID);
 
-        console.log(`[GameTime] Tracking game ID ${currentGame.gameID} (${currentGame.name}).`);
-        console.log(`[GameTime] Minutes already played: ${minutesPlayed}`);
+console.log(`[GameTime] Tracking game ID ${currentGame.gameID} (${currentGame.name}).`);
+console.log(`[GameTime] Minutes already played: ${minutesPlayed}`);
 
-        timer = setInterval(() => {
-            minutesPlayed++;
-            saveMinutes(currentGame.gameID, minutesPlayed);
-            console.log(`[GameTime] GameID ${currentGame.gameID} total minutes: ${minutesPlayed}`);
-        }, SAVE_INTERVAL_MS);
+timer = setInterval(() => {
+    minutesPlayed++;
+    saveMinutes(currentGame.gameID, minutesPlayed);
+    console.log(`[GameTime] +1 minute played - total minutes played: ${minutesPlayed}`);
+}, SAVE_INTERVAL_MS);
+
     }
 
     window.addEventListener("beforeunload", () => {

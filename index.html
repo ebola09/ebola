@@ -510,14 +510,19 @@ function addMinutesBadge(card, gameID) {
                 }
                 data.games.sort((a,b) => (a.name||"").toLowerCase().localeCompare((b.name||"").toLowerCase()));
                 data.games.forEach(game => {
-                    const card = document.createElement("a");
-                    card.href = game.path || "#";
-                    card.className = "card";
-                    card.style.backgroundImage = `url('${game.thumbnail||""}')`;
-                    card.setAttribute("data-title", game.name || "Untitled");
-                    card.addEventListener("click", () => addRecentlyPlayed(game));
-                    gameGrid.appendChild(card);
-                });
+    const card = document.createElement("a");
+    card.href = game.path || "#";
+    card.className = "card";
+    card.style.backgroundImage = `url('${game.thumbnail || ""}')`;
+    card.setAttribute("data-title", game.name || "Untitled");
+    card.addEventListener("click", () => addRecentlyPlayed(game));
+
+    // Add minutes badge, defaults to 0 min if no time recorded
+    addMinutesBadge(card, game.id || game.name);
+
+    gameGrid.appendChild(card);
+});
+
             })
             .catch(err => {
                 gameGrid.innerHTML = `<p style="color: var(--text-color);">Failed to load gameList.json</p>`;

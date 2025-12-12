@@ -1,136 +1,186 @@
 {
     "games": [
         {
+            "gameID": 1,
             "name": "Polytrack",
             "path": "games/polytrack.html",
-            "thumbnail": "assets/thumbnails/polytrack.png"
+            "thumbnail": "assets/thumbnails/polytrack.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 2,
             "name": "BitLife",
             "path": "games/bitlife.html",
-            "thumbnail": "assets/thumbnails/bitlife.png"
+            "thumbnail": "assets/thumbnails/bitlife.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 3,
             "name": "Retro Bowl",
             "path": "games/retrobowl.html",
-            "thumbnail": "assets/thumbnails/retrobowl.png"
+            "thumbnail": "assets/thumbnails/retrobowl.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 4,
             "name": "Retro Bowl College",
             "path": "games/retrobowlcollege.html",
-            "thumbnail": "assets/thumbnails/retrobowlcollege.png"
+            "thumbnail": "assets/thumbnails/retrobowlcollege.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 5,
             "name": "Blackjack",
             "path": "games/blackjack.html",
-            "thumbnail": "assets/thumbnails/blackjack.png"
+            "thumbnail": "assets/thumbnails/blackjack.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 6,
             "name": "Apple Worm",
             "path": "games/appleworm.html",
-            "thumbnail": "assets/thumbnails/appleworm.png"
+            "thumbnail": "assets/thumbnails/appleworm.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 7,
             "name": "osu!",
             "path": "games/osu.html",
-            "thumbnail": "assets/thumbnails/osu.png"
+            "thumbnail": "assets/thumbnails/osu.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 8,
             "name": "Gobble",
             "path": "games/gobble.html",
-            "thumbnail": "assets/thumbnails/gobble.png"
+            "thumbnail": "assets/thumbnails/gobble.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 9,
             "name": "Hollow Knight",
             "path": "games/hollowknight.html",
-            "thumbnail": "assets/thumbnails/hollowknight.png"
+            "thumbnail": "assets/thumbnails/hollowknight.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 10,
             "name": "Buckshot Roulette",
             "path": "games/buckshotroulette.html",
-            "thumbnail": "assets/thumbnails/buckshotroulette.png"
+            "thumbnail": "assets/thumbnails/buckshotroulette.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 11,
             "name": "Ultrakill",
             "path": "games/ultrakill.html",
-            "thumbnail": "assets/thumbnails/ultrakill.png"
+            "thumbnail": "assets/thumbnails/ultrakill.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 12,
             "name": "That's Not My Neighbor",
             "path": "games/thatsnotmyneighbor.html",
-            "thumbnail": "assets/thumbnails/thatsnotmyneighbor.png"
+            "thumbnail": "assets/thumbnails/thatsnotmyneighbor.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 13,
             "name": "Binding of Isaac: Wrath of the Lamb",
             "path": "games/bindingofisaacwrathofthelamb.html",
-            "thumbnail": "assets/thumbnails/bindingofisaacwrathofthelamb.png"
+            "thumbnail": "assets/thumbnails/bindingofisaacwrathofthelamb.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 14,
             "name": "Postal",
             "path": "games/postal.html",
-            "thumbnail": "assets/thumbnails/postal.png"
+            "thumbnail": "assets/thumbnails/postal.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 15,
             "name": "Run 3",
             "path": "games/run3.html",
-            "thumbnail": "assets/thumbnails/run3.png"
+            "thumbnail": "assets/thumbnails/run3.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 16,
             "name": "Cookie CLicker",
             "path": "games/cookie_clicker.html",
-            "thumbnail": "assets/thumbnails/cookie_clicker.png"
+            "thumbnail": "assets/thumbnails/cookie_clicker.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 17,
             "name": "Five Nights at Freddy's",
             "path": "games/fnaf.html",
-            "thumbnail": "assets/thumbnails/fnaf.png"
+            "thumbnail": "assets/thumbnails/fnaf.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 18,
             "name": "OvO",
             "path": "games/ovo.html",
-            "thumbnail": "assets/thumbnails/ovo.png"
+            "thumbnail": "assets/thumbnails/ovo.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 19,
             "name": "OvO 2",
             "path": "games/ovo2.html",
-            "thumbnail": "assets/thumbnails/ovo2.png"
+            "thumbnail": "assets/thumbnails/ovo2.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 20,
             "name": "Geometry Dash Lite",
             "path": "games/geometrydashlite.html",
-            "thumbnail": "assets/thumbnails/geometrydashlite.png"
+            "thumbnail": "assets/thumbnails/geometrydashlite.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 21,
             "name": "Slime Rancher",
             "path": "games/slimerancher.html",
-            "thumbnail": "assets/thumbnails/slimerancher.png"
+            "thumbnail": "assets/thumbnails/slimerancher.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 22,
             "name": "Kindergarten",
             "path": "games/kindergarten.html",
-            "thumbnail": "assets/thumbnails/kindergarten.png"
+            "thumbnail": "assets/thumbnails/kindergarten.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 23,
             "name": "Celeste",
             "path": "games/celeste.html",
-            "thumbnail": "assets/thumbnails/celeste.png"
+            "thumbnail": "assets/thumbnails/celeste.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 24,
             "name": "Endoparasitic",
             "path": "games/endoparasitic.html",
-            "thumbnail": "assets/thumbnails/endoparasitic.png"
+            "thumbnail": "assets/thumbnails/endoparasitic.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 25,
             "name": "Escape Road",
             "path": "games/escaperoad.html",
-            "thumbnail": "assets/thumbnails/escaperoad.png"
+            "thumbnail": "assets/thumbnails/escaperoad.png",
+            "dateAdded": "0"
         },
         {
+            "gameID": 26,
             "name": "Ovo 3 Dimensions",
             "path": "games/ovo3dimensions.html",
-            "thumbnail": "assets/thumbnails/ovo3dimensions.png"
+            "thumbnail": "assets/thumbnails/ovo3dimensions.png",
+            "dateAdded": "0"
         }
     ]
-
 }
-

@@ -99,6 +99,36 @@
             "name": "Geometry Dash Lite",
             "path": "games/geometrydashlite.html",
             "thumbnail": "assets/thumbnails/geometrydashlite.png"
+        },
+        {
+            "name": "Slime Rancher",
+            "path": "games/slimerancher.html",
+            "thumbnail": "assets/thumbnails/slimerancher.png"
+        },
+        {
+            "name": "Kindergarten",
+            "path": "games/kindergarten.html",
+            "thumbnail": "assets/thumbnails/kindergarten.png"
+        },
+        {
+            "name": "Celeste",
+            "path": "games/celeste.html",
+            "thumbnail": "assets/thumbnails/celeste.png"
+        },
+        {
+            "name": "Endoparasitic",
+            "path": "games/endoparasitic.html",
+            "thumbnail": "assets/thumbnails/endoparasitic.png"
+        },
+        {
+            "name": "Escape Road",
+            "path": "games/escaperoad.html",
+            "thumbnail": "assets/thumbnails/escaperoad.png"
+        },
+        {
+            "name": "Ovo 3 Dimensions",
+            "path": "games/ovo3dimensions.html",
+            "thumbnail": "assets/thumbnails/ovo3dimensions.png"
         }
     ]
 

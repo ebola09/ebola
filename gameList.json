@@ -181,6 +181,14 @@
             "path": "games/ovo3dimensions.html",
             "thumbnail": "assets/thumbnails/ovo3dimensions.png",
             "dateAdded": "0"
+        },
+        {
+            "gameID": 27,
+            "name": "Crossy Road",
+            "path": "games/crossyroad.html",
+            "thumbnail": "assets/thumbnails/crossyroad.html",
+            "dateAdded": 0
         }
     ]
 }
+

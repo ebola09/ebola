@@ -209,6 +209,13 @@
             "path": "games/granny3.html",
             "thumbnail": "assets/thumbnails/granny3.png",
             "dateAdded": "16/12/2025"
+        },
+        {
+            "gameID": 31,
+            "name": "Hotline Miami",
+            "path": "games/hotlinemiami.html",
+            "thumbnail": "assets/thumbnails/hotlinemiami.png",
+            "dateAdded": "16/12/2025"
         }
         
     ]

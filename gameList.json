@@ -187,8 +187,30 @@
             "name": "Crossy Road",
             "path": "games/crossyroad.html",
             "thumbnail": "assets/thumbnails/crossyroad.html",
-            "dateAdded": 0
+            "dateAdded": "16/12/2025"
+        },
+        {
+            "gameID": 28,
+            "name": "Granny",
+            "path": "games/granny.html",
+            "thumbnail": "assets/thumbnails/granny.html",
+            "dateAdded": "16/12/2025"
+        },
+        {
+            "gameID": 29,
+            "name": "Granny 2",
+            "path": "games/granny2.html",
+            "thumbnail": "assets/thumbnails/granny2.html",
+            "dateAdded": "16/12/2025"
+        },
+        {
+            "gameID": 30,
+            "name": "Granny 3",
+            "path": "games/granny3.html",
+            "thumbnail": "assets/thumbnails/granny3.html",
+            "dateAdded": "16/12/2025"
         }
+        
     ]
 }
 

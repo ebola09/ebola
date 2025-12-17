@@ -46,8 +46,8 @@
                         const li = document.createElement('li');
                         const link = document.createElement('a');
                         link.textContent = file.name;
-                        // Assuming your local path pattern is /game/<filename>.html
-                        link.href = `/game/${file.name}`;
+                        // Assuming your local path pattern is /games/<filename>.html
+                        link.href = `/games/${file.name}`;
                         li.appendChild(link);
                         fileList.appendChild(li);
                     }

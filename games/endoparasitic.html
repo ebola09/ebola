@@ -41,10 +41,11 @@
 
     <script type='text/javascript' src='Endoparasitic.js'></script>
     <script type='text/javascript'>
-        const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"Endoparasitic","experimentalVK":false,"fileSizes":{"Endoparasitic.pck":129276352,"Endoparasitic.wasm":17867504},"focusCanvas":true,"gdnativeLibs":[]};
-        var engine = new Engine(GODOT_CONFIG);
+    const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"Endoparasitic","experimentalVK":false,"fileSizes":{"Endoparasitic.pck":129276352,"Endoparasitic.wasm":17867504},"focusCanvas":true,"gdnativeLibs":[]};
+    var engine = new Engine(GODOT_CONFIG);
 
-        // Space / Shift+Space mouse emulation
+    // Wait for the engine canvas to be ready
+    window.addEventListener('load', () => {
         const canvas = document.getElementById('canvas');
         let leftClickHeld = false;
         let rightClickHeld = false;
@@ -68,7 +69,7 @@
                     leftClickHeld = true;
                     triggerMouseEvent('mousedown', 0);
                 }
-                e.preventDefault(); // prevent scrolling
+                e.preventDefault();
             }
         });
 
@@ -85,9 +86,12 @@
                 e.preventDefault();
             }
         });
-    </script>
+    });
+</script>
+
 </body>
 
 </html>
+
 
 

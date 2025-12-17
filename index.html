@@ -86,6 +86,21 @@
             margin-bottom: 20px;
             text-transform: lowercase;
         }
+        
+        .tos-button {
+    padding: 6px 12px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--card-border-color);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.tos-button:hover {
+    background-color: var(--card-overlay-color);
+    border-color: var(--link-hover-color);
+}
 
         #recentlyPlayedGrid,
         #gameGrid {
@@ -227,10 +242,8 @@
         <p style="margin: 0 0 10px;">
             By using this site, you agree to our <a href='/tos.html/' style='color: var(--link-color); text-decoration: underline;'>Terms of Service</a>.
         </p>
-        <button id="acceptTOS" style="
-            padding: 6px 12px; background-color: var(--bg-color); color: var(--text-color);
-            border: 1px solid var(--card-border-color); border-radius: 3px; cursor: pointer;
-        ">Accept</button>
+        <button id="acceptTOS" class="tos-button">Accept</button>
+
     </div>
 </div>
 

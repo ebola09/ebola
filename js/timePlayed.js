@@ -1,4 +1,3 @@
-<script>
 // Immediately Invoked Async Function Expression to allow async/await
 (async function() {
     // Load the game list JSON
@@ -44,4 +43,3 @@
         clearInterval(interval);
     });
 })();
-</script>

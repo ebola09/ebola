@@ -105,41 +105,41 @@
       src="html5game/RetroBowl.js?WAEAC=1633155445"
     ></script>
     <script>
-      function pauseGame() {
-    // Pause the game loop
-    if (typeof GameMaker_Pause !== "undefined") {
-        GameMaker_Pause();
-    } else {
-        // Example: stop the main animation frame
-        if (window.gameloopId) cancelAnimationFrame(window.gameloopId);
-    }
-
-    // Optionally pause audio
-    if (typeof Howler !== "undefined") Howler.pause();
+      function saveGameState() {
+    // Save any essential variables or player progress
+    localStorage.setItem("retrobowl_gameState", JSON.stringify({
+        // Example: score, player position, current level
+        score: window.currentScore || 0,
+        level: window.currentLevel || 1
+    }));
 }
 
-function resumeGame() {
-    // Resume the game loop
-    if (typeof GameMaker_Resume !== "undefined") {
-        GameMaker_Resume();
-    } else {
-        // Example: restart the main animation frame
-        if (typeof GameMaker_Init === "function") GameMaker_Init();
-    }
-
-    // Optionally resume audio
-    if (typeof Howler !== "undefined") Howler.play();
+function restoreGameState() {
+    const state = JSON.parse(localStorage.getItem("retrobowl_gameState") || "{}");
+    if (state.score !== undefined) window.currentScore = state.score;
+    if (state.level !== undefined) window.currentLevel = state.level;
 }
 
+// When tab or app is backgrounded
 document.addEventListener("visibilitychange", function() {
-    if (document.hidden) {
-        // User switched apps or locked the screen
-        pauseGame();
-    } else {
-        // User returned
-        resumeGame();
-    }
+    if (document.hidden) saveGameState();
+    else restoreGameState();
 });
+
+// For iOS Safari, also listen to pagehide
+window.addEventListener("pagehide", saveGameState);
+window.addEventListener("pageshow", restoreGameState);
+var canvas = document.getElementById("canvas");
+
+canvas.addEventListener("webglcontextlost", function(e) {
+    e.preventDefault();
+    console.log("WebGL context lost!");
+}, false);
+
+canvas.addEventListener("webglcontextrestored", function(e) {
+    console.log("WebGL context restored, reinitializing game...");
+    if (typeof GameMaker_Init === "function") GameMaker_Init();
+}, false);
 
       window.onload = GameMaker_Init;
     </script>

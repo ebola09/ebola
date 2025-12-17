@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Games Tree</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+        a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Games</h1>
+    <ul id="file-list"></ul>
+
+    <script>
+        const fileList = document.getElementById('file-list');
+        const repoUrl = "https://api.github.com/repos/ebola09/ebola/contents/games?ref=21c5275a7210dc9067e91f4880f14c0addce11ad";
+
+        async function fetchFiles() {
+            try {
+                const response = await fetch(repoUrl);
+                if (!response.ok) throw new Error('Failed to fetch repository files');
+                const files = await response.json();
+
+                files.forEach(file => {
+                    if (file.type === 'file' && file.name.endsWith('.html')) {
+                        const li = document.createElement('li');
+                        const link = document.createElement('a');
+                        link.textContent = file.name;
+                        // Assuming your local path pattern is /game/<filename>.html
+                        link.href = `/game/${file.name}`;
+                        li.appendChild(link);
+                        fileList.appendChild(li);
+                    }
+                });
+            } catch (error) {
+                console.error(error);
+                fileList.textContent = 'Failed to load files.';
+            }
+        }
+
+        fetchFiles();
+    </script>
+</body>
+</html>

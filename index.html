@@ -493,6 +493,12 @@
             root.style.setProperty('--card-overlay-color', c.overlay);
             root.style.setProperty('--bottombar-border-color', c.bottomBorder);
             root.style.setProperty('--bottombar-opacity', c.opacity);
+            // Update TOS button colors
+document.querySelectorAll('.tos-button').forEach(btn => {
+    btn.style.backgroundColor = c.bg;
+    btn.style.color = c.text;
+    btn.style.borderColor = c.border;
+});
 
             const svg = document.querySelector('.topbar .logo svg');
             if (svg) svg.querySelectorAll('path').forEach(path => path.setAttribute('fill', c.svgColor));

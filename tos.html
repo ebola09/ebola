@@ -3,21 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terms of Service</title>
+    <title>Terms of Service - Arcade</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #000000;
-            --text-color: rgb(255, 255, 255);
-            --link-color: #ffffff;
-            --link-hover-color: #000000;
-            --card-border-color: #000000;
-            --card-overlay-color: rgba(0, 0, 0, 0.85);
-            --bottombar-border-color: #000000;
+            --bg-color: #ffffff;
+            --text-color: #0d0502;
+            --link-color: #7A3307;
+            --link-hover-color: #ff7b00;
+            --card-border-color: #e0e0e0;
+            --card-overlay-color: rgba(255,255,255,0.85);
+            --bottombar-border-color: #7A3307;
             --bottombar-opacity: 0.9;
         }
-
         *, *::before, *::after { box-sizing: border-box; }
-
         body {
             margin: 0;
             font-family: 'IBM Plex Mono', monospace;
@@ -25,7 +24,6 @@
             color: var(--text-color);
             padding: 90px 0 40px;
         }
-
         .topbar {
             display: flex;
             justify-content: space-between;
@@ -36,42 +34,43 @@
             background-color: var(--bg-color);
             position: fixed;
             top: 0; left: 0; right: 0;
-            z-index: 1000;
             border-bottom: 1px solid var(--bottombar-border-color);
         }
-
         .topbar .logo {
-            position: absolute;
+            font-weight: bold;
             left: 50%;
             transform: translateX(-50%);
-            font-weight: bold;
+            position: absolute;
         }
-
         .grid-section {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 40px auto 0;
-            padding: 0 20px;
+            padding: 0 40px;
         }
-
         .grid-title {
             color: var(--link-color);
-            font-size: 20px;
+            font-size: 14px;
             margin-bottom: 20px;
+            text-transform: lowercase;
         }
-
-        .tos-content {
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            padding: 30px;
-            border-radius: 8px;
-            line-height: 1.6;
+        .card {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background-size: cover;
+            background-position: center;
+            border-radius: 4px;
+            border: 2px solid var(--card-border-color);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            text-align: center;
         }
-
-        .tos-content h2 {
-            color: var(--link-color);
-            margin-top: 20px;
-        }
-
         .bottombar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -82,155 +81,63 @@
             border-top: 1px solid var(--bottombar-border-color);
             font-size: 16px;
         }
-
-        .topbar .logo {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            height: 100%;
-        }
     </style>
 </head>
 <body>
     <div class="topbar">
-        <div class="logo">
-  <svg width="251" height="88" viewBox="0 0 251 88" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_di_36_21)">
-<path d="M172 75V62.5H182.375V50H213.625V37.5H182.375V25H224.125V37.5H234.5V75H244.875V87.5H224.125V75H213.625V62.5H192.875V75H213.625V87.5H182.375V75H172Z" fill="white"/>
-</g>
-<g filter="url(#filter1_di_36_21)">
-<path d="M177.625 75H188.125V87.5H146.375V75H156.875V12.5H146.375V0H177.625V75Z" fill="white"/>
-</g>
-<g filter="url(#filter2_di_36_21)">
-<path d="M104 75V37.5H114.375V25H156.125V37.5H166.5V75H156.125V87.5H114.375V75H104ZM124.875 75H145.625V37.5H124.875V75Z" fill="white"/>
-</g>
-<g filter="url(#filter3_di_36_21)">
-<path d="M52 87.5V75H62.375V12.5H52V0H83.25V37.5H114.5V50H124.875V75H114.5V87.5H83.25V75H104.125V50H83.25V75H72.875V87.5H52Z" fill="white"/>
-</g>
-<g filter="url(#filter4_di_36_21)">
-<path d="M0 75V37.5H10.375V25H52.125V37.5H62.5V62.5H20.875V75H52.125V87.5H10.375V75H0ZM20.875 37.5V50H41.625V37.5H20.875Z" fill="white"/>
-</g>
-<defs>
-<filter id="filter0_di_36_21" x="172" y="25" width="78.875" height="66.5" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dx="6"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_36_21"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_36_21" result="shape"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="4"/>
-<feGaussianBlur stdDeviation="2"/>
-<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="shape" result="effect2_innerShadow_36_21"/>
-</filter>
-<filter id="filter1_di_36_21" x="146.375" y="0" width="47.75" height="91.5" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dx="6"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_36_21"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_36_21" result="shape"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="4"/>
-<feGaussianBlur stdDeviation="2"/>
-<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="shape" result="effect2_innerShadow_36_21"/>
-</filter>
-<filter id="filter2_di_36_21" x="104" y="25" width="68.5" height="66.5" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dx="6"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_36_21"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_36_21" result="shape"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="4"/>
-<feGaussianBlur stdDeviation="2"/>
-<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="shape" result="effect2_innerShadow_36_21"/>
-</filter>
-<filter id="filter3_di_36_21" x="52" y="0" width="78.875" height="91.5" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dx="6"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_36_21"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_36_21" result="shape"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="4"/>
-<feGaussianBlur stdDeviation="2"/>
-<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="shape" result="effect2_innerShadow_36_21"/>
-</filter>
-<filter id="filter4_di_36_21" x="0" y="25" width="68.5" height="66.5" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dx="6"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_36_21"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_36_21" result="shape"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="4"/>
-<feGaussianBlur stdDeviation="2"/>
-<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="shape" result="effect2_innerShadow_36_21"/>
-</filter>
-</defs>
-</svg>
-</div>
+        <div class="logo">Arcade TOS</div>
     </div>
 
     <div class="grid-section">
-        <div class="grid-title">Terms of Service</div>
-        <div class="tos-content">
-            <h2>1. Acceptance of Terms</h2>
-            <p>By accessing or using this website (the "Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you must not access or use the Service.</p>
-
-            <h2>2. Use Restrictions</h2>
-            <p>You agree that you will not access, play, or otherwise use this Service while at school, on school property, or using school-owned or school-managed networks, devices, or accounts. You are solely responsible for ensuring that your use of the Service complies with all applicable school rules, policies, and regulations.</p>
-
-            <h2>3. Age-Appropriate Content</h2>
-            <p>You are responsible for ensuring that you only play games appropriate for your age. The Service is not responsible for any consequences that may arise from accessing or playing games that are not suitable for your age group.</p>
-
-            <h2>4. Intellectual Property and Ownership</h2>
-            <p>You acknowledge and agree that we do not own, claim ownership of, or assert any rights to any original game files, game content, trademarks, or other intellectual property that may be accessible through the Service. All such content remains the property of its respective owners. The Service is provided for informational or access purposes only and does not transfer any ownership or licensing rights to you.</p>
-
-            <h2>5. User Responsibility</h2>
-            <p>You agree to use the Service only for lawful purposes and in compliance with all applicable local, state, national, and international laws and regulations. You are solely responsible for your conduct while using the Service and for any consequences arising from your use.</p>
-
-            <h2>6. Disclaimer of Warranties</h2>
-            <p>The Service is provided on an "as is" and "as available" basis, without warranties of any kind, whether express or implied. We make no warranties regarding the accuracy, reliability, availability, or suitability of the Service for any purpose.</p>
-
-            <h2>7. Limitation of Liability</h2>
-            <p>To the fullest extent permitted by law, we shall not be liable for any direct, indirect, incidental, consequential, or special damages arising out of or in connection with your use of, or inability to use, the Service.</p>
-
-            <h2>8. Third-Party Content and Links</h2>
-            <p>The Service may include content or links to third-party websites or resources. We are not responsible for, and do not endorse, any third-party content, products, or services. Access to third-party content is at your own risk.</p>
-
-            <h2>9. Termination</h2>
-            <p>We reserve the right to suspend or terminate your access to the Service at any time, with or without notice, for any reason, including if we believe you have violated these Terms.</p>
-
-            <h2>10. Changes to These Terms</h2>
-            <p>We may update or modify these Terms at any time. Continued use of the Service after changes are posted constitutes your acceptance of the revised Terms.</p>
-
-            <h2>11. Governing Law</h2>
-            <p>These Terms shall be governed by and construed in accordance with the laws of the applicable jurisdiction, without regard to conflict of law principles.</p>
+        <h2 class="grid-title">Terms of Service</h2>
+        <div id="gameGrid">
+            <div class="card">
+                <h3>1. Acceptance of Terms</h3>
+                <p>By accessing or using this website (the "Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, do not use the Service.</p>
+            </div>
+            <div class="card">
+                <h3>2. Use Restrictions</h3>
+                <p>You may not access or play this Service at school or on school networks/devices. Compliance with school rules is your responsibility.</p>
+            </div>
+            <div class="card">
+                <h3>3. Age-Appropriate Content</h3>
+                <p>You are responsible for ensuring you only play games suitable for your age. The Service is not responsible for consequences if this is violated.</p>
+            </div>
+            <div class="card">
+                <h3>4. Intellectual Property</h3>
+                <p>We do not own any original game files. All intellectual property remains with its respective owners.</p>
+            </div>
+            <div class="card">
+                <h3>5. User Responsibility</h3>
+                <p>Use the Service only lawfully. You are responsible for your actions and their consequences.</p>
+            </div>
+            <div class="card">
+                <h3>6. Disclaimer of Warranties</h3>
+                <p>The Service is provided "as is" without any warranties. Accuracy, reliability, and suitability are not guaranteed.</p>
+            </div>
+            <div class="card">
+                <h3>7. Limitation of Liability</h3>
+                <p>We are not liable for any direct or indirect damages arising from use or inability to use the Service.</p>
+            </div>
+            <div class="card">
+                <h3>8. Third-Party Content</h3>
+                <p>The Service may link to third-party sites. We are not responsible for their content or services.</p>
+            </div>
+            <div class="card">
+                <h3>9. Termination</h3>
+                <p>We may suspend or terminate your access for any reason, including violations of these Terms.</p>
+            </div>
+            <div class="card">
+                <h3>10. Changes</h3>
+                <p>Terms may change at any time. Continued use constitutes acceptance of updates.</p>
+            </div>
+            <div class="card">
+                <h3>11. Governing Law</h3>
+                <p>These Terms are governed by the applicable jurisdiction's laws, without conflict of law principles.</p>
+            </div>
         </div>
     </div>
 
-    <div class="bottombar">&copy; 2025 ebola. All rights reserved.</div>
+    <div class="bottombar">version 1.0</div>
 </body>
 </html>

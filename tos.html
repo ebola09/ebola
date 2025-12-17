@@ -8,11 +8,11 @@
         :root {
             --bg-color: #ffffff;
             --text-color: #0d0502;
-            --link-color: #7A3307;
-            --link-hover-color: #ff7b00;
+            --link-color: #ffffff;
+            --link-hover-color: #ffffff;
             --card-border-color: #e0e0e0;
             --card-overlay-color: rgba(255, 255, 255, 0.85);
-            --bottombar-border-color: #7A3307;
+            --bottombar-border-color: #ffffff;
             --bottombar-opacity: 0.9;
         }
 
@@ -81,6 +81,15 @@
             padding: 10px 40px;
             border-top: 1px solid var(--bottombar-border-color);
             font-size: 16px;
+        }
+
+        .topbar .logo {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            height: 100%;
         }
     </style>
 </head>

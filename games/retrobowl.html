@@ -140,17 +140,6 @@ document.addEventListener("visibilitychange", function() {
         resumeGame();
     }
 });
-var canvas = document.getElementById("canvas");
-
-canvas.addEventListener("webglcontextlost", function(e) {
-    e.preventDefault();
-    console.log("WebGL context lost!");
-}, false);
-
-canvas.addEventListener("webglcontextrestored", function(e) {
-    console.log("WebGL context restored, reinitializing game...");
-    GameMaker_Init();
-}, false);
 
       window.onload = GameMaker_Init;
     </script>

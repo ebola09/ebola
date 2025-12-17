@@ -1,6 +1,5 @@
 <Module>
 
-<script src="js/gameTimeTracker.js"></script>
 
 <!-- Ultimate Game Stash file--> 
 <!-- For the regularly updating doc go to https://docs.google.com/document/d/1_FmH3BlSBQI7FGgAQL59-ZPe8eCxs35wel6JUyVaG8Q/ -->
@@ -12,7 +11,7 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Apple Worm</title>
+  <title>really cool flash game</title>
   <style>
     html, body {
       margin: 0;
@@ -127,45 +126,7 @@
   </script>
     <param name="movie" value="https://cdn.jsdelivr.net/gh/oldflashgames/games@b576399812887c0c1208aaa2a95f281dbb93af92/apple-worm.swf">
     <embed src="https://cdn.jsdelivr.net/gh/oldflashgames/games@b576399812887c0c1208aaa2a95f281dbb93af92/apple-worm.swf" width="100%" height="100%">
-
-  <script>
-  const wasdToArrow = {
-    KeyW: "ArrowUp",
-    KeyA: "ArrowLeft",
-    KeyS: "ArrowDown",
-    KeyD: "ArrowRight"
-  };
-
-  function remapKey(event, type) {
-    if (!(event.code in wasdToArrow)) return;
-
-    // Prevent default WASD behavior
-    event.preventDefault();
-
-    const arrowKey = wasdToArrow[event.code];
-
-    const simulatedEvent = new KeyboardEvent(type, {
-      key: arrowKey,
-      code: arrowKey,
-      keyCode: arrowKey === "ArrowUp" ? 38 :
-               arrowKey === "ArrowDown" ? 40 :
-               arrowKey === "ArrowLeft" ? 37 : 39,
-      which: arrowKey === "ArrowUp" ? 38 :
-             arrowKey === "ArrowDown" ? 40 :
-             arrowKey === "ArrowLeft" ? 37 : 39,
-      bubbles: true,
-      cancelable: true
-    });
-
-    document.dispatchEvent(simulatedEvent);
-  }
-
-  document.addEventListener("keydown", e => remapKey(e, "keydown"));
-  document.addEventListener("keyup", e => remapKey(e, "keyup"));
-</script>
-
 </body>
 </html>
 ]]></Content>
-
 </Module>

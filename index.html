@@ -194,6 +194,27 @@
         @media (max-width: 500px)  { #gameGrid, #recentlyPlayedGrid { grid-template-columns: 1fr; } }
     </style>
 </head>
+
+<script>
+        // The sequence we want to detect
+        const sequence = ['t', 'r', 'e', 'e'];
+        let currentIndex = 0;
+
+        // Listen for key presses
+        document.addEventListener('keydown', (event) => {
+            // Check if the key matches the current position in the sequence
+            if (event.key.toLowerCase() === sequence[currentIndex]) {
+                currentIndex++;
+                // If we've completed the sequence, redirect
+                if (currentIndex === sequence.length) {
+                    window.location.href = 'tree.html';
+                }
+            } else {
+                // Reset if the key doesn't match
+                currentIndex = 0;
+            }
+        });
+    </script>
 <body>
     <div class="topbar">
         <div class="left">
@@ -312,7 +333,7 @@
         <div id="gameGrid"></div>
     </div>
 
-    <div class="bottombar">version 1.6.1</div>
+    <div class="bottombar">version 1.6.2</div>
 
     <div id="settingsPanel" class="settings-panel">
         <h3>settings</h3>

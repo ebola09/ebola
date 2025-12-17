@@ -158,8 +158,16 @@
 			};
 
 			if (!Engine.isWebGLAvailable()) {
-				displayFailureNotice('WebGL not available');
-			} else {
+    displayFailureNotice('WebGL not available');
+} else {
+    // Test WebGL creation first
+    var testCanvas = document.createElement('canvas');
+    var testGL = testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl');
+    if (!testGL) {
+        displayFailureNotice('WebGL context creation failed. Try updating your browser or device.');
+        return;
+    }
+    
 				setStatusMode('indeterminate');
 				engine.startGame({
 					'onProgress': function (current, total) {

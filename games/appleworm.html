@@ -66,6 +66,42 @@
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@ruffle-rs/ruffle@0.2.0-nightly.2025.10.2/ruffle.min.js"></script>
+  <script>
+  // Map WASD keys to arrow keys
+  window.addEventListener("keydown", function(e) {
+    const arrowKeyMap = {
+      'w': 'ArrowUp',
+      'a': 'ArrowLeft',
+      's': 'ArrowDown',
+      'd': 'ArrowRight'
+    };
+    
+    const key = e.key.toLowerCase();
+    if (arrowKeyMap[key]) {
+      // Create a new KeyboardEvent for the arrow key
+      const event = new KeyboardEvent("keydown", { key: arrowKeyMap[key], code: arrowKeyMap[key], bubbles: true });
+      document.dispatchEvent(event);
+      e.preventDefault(); // prevent default WASD behavior
+    }
+  });
+
+  window.addEventListener("keyup", function(e) {
+    const arrowKeyMap = {
+      'w': 'ArrowUp',
+      'a': 'ArrowLeft',
+      's': 'ArrowDown',
+      'd': 'ArrowRight'
+    };
+    
+    const key = e.key.toLowerCase();
+    if (arrowKeyMap[key]) {
+      const event = new KeyboardEvent("keyup", { key: arrowKeyMap[key], code: arrowKeyMap[key], bubbles: true });
+      document.dispatchEvent(event);
+      e.preventDefault();
+    }
+  });
+</script>
+
 </head>
 <body>
   <div id="flash-container"></div>
@@ -130,4 +166,5 @@
 </html>
 ]]></Content>
 </Module>
+
 

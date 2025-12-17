@@ -1,39 +1,62 @@
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang=""><head>
+
+<!DOCTYPE html>
+<html xmlns='http://www.w3.org/1999/xhtml' lang='' xml:lang=''>
+<head>
 	<base href="https://cdn.jsdelivr.net/gh/gn-math/assets@main/286/">
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<meta charset='utf-8' />
+	<meta name='viewport' content='width=device-width, user-scalable=no' />
 	<title>Endoparasitic</title>
 	<link rel="stylesheet" href="style.css">
-<link id="-gd-engine-icon" rel="icon" type="image/png" href="blob:https://gn-math-github-io-olive.vercel.app/21b391a7-2fd4-4b8c-8372-69f7a848ebe7">
-<link rel="apple-touch-icon" href="Endoparasitic.apple-touch-icon.png">
+<link id='-gd-engine-icon' rel='icon' type='image/png' href='Endoparasitic.icon.png' />
+<link rel='apple-touch-icon' href='Endoparasitic.apple-touch-icon.png'/>
 
-<script id="CnP-init-iframe-185" src="blob:https://gn-math-github-io-olive.vercel.app/69b2023b-fbcf-4c9c-a7d7-d86d1d8a0aa9"></script><script id="CnP-iframe-185" overlayhtml="chrome-extension://bnmdedmhngbeofnafobjmcihealecgnf/overlay.html" src="blob:https://gn-math-github-io-olive.vercel.app/d5794fd2-aed1-4c5c-88c5-661329b77504"></script></head>
+</head>
 <body>
+	<script>
+    // Safari WebGL workaround
+    if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
+        window.GODOT_FORCE_WEBGL1 = true;
+    }
+	</script>
+
 	<script src="main.js"></script>
-    
-	<canvas id="canvas" tabindex="0" width="1293" height="890" style="position: absolute; top: 0px; left: 0px; width: 1293px; height: 890px; cursor: none;">
-		HTML5 canvas appears to be unsupported in the current browser.<br>
+    <div id="loading-text" style="color: white; font-family: cursive; font-size: 48px; text-align: center; margin-top: 20px;">LOADING...</div>
+	<canvas id='canvas'>
+		HTML5 canvas appears to be unsupported in the current browser.<br />
 		Please try updating or use a different browser.
 	</canvas>
-	<div id="status">
-		<div id="status-progress" style="display: none;" oncontextmenu="event.preventDefault();"><div id="status-progress-inner" style="width: 100%;"></div></div>
-		<div id="status-indeterminate" style="display: none;" oncontextmenu="event.preventDefault();">
+	<div id='status'>
+		<div id='status-progress' style='display: none;' oncontextmenu='event.preventDefault();'><div id ='status-progress-inner'></div></div>
+		<div id='status-indeterminate' style='display: none;' oncontextmenu='event.preventDefault();'>
 			<div></div>
 			<div></div>
 			<div></div>
 			<div></div>
 			<div></div>
 			<div></div>
-			<div style="border-top-color: rgb(223, 223, 223);"></div>
+			<div></div>
 			<div></div>
 		</div>
-		<div id="status-notice" class="godot" style="display: none;"></div>
+		<div id='status-notice' class='godot' style='display: none;'></div>
 	</div>
 
-	<script type="text/javascript" src="Endoparasitic.js"></script>
-	<script type="text/javascript">//<![CDATA[
+	<script type='text/javascript' src='Endoparasitic.js'></script>
+	<script type='text/javascript'>//<![CDATA[
 
-		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"Endoparasitic","experimentalVK":false,"fileSizes":{"Endoparasitic.pck":129276352,"Endoparasitic.wasm":17867504},"focusCanvas":true,"gdnativeLibs":[]};
+		const GODOT_CONFIG = {
+    "args": [],
+    "canvasResizePolicy": 2,
+    "executable": "Endoparasitic",
+    "experimentalVK": false,
+    "fileSizes": {
+        "Endoparasitic.pck": 129276352,
+        "Endoparasitic.wasm": 17867504
+    },
+    "focusCanvas": true,
+    "gdnativeLibs": [],
+    "useWebGL2": false
+};
+
 		var engine = new Engine(GODOT_CONFIG);
 
 		window.godotrunfunction = function() {
@@ -138,7 +161,6 @@
 			}
 		}
 	//]]></script>
+</body>
+</html>
 
-
-
-</body></html>

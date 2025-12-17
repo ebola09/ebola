@@ -520,6 +520,24 @@
                 gameGrid.innerHTML = `<p style="color: var(--text-color);">Failed to load gameList.json</p>`;
                 console.error("Error loading game list:", err);
             });
+
+            // Terms of Service Banner
+document.addEventListener("DOMContentLoaded", () => {
+    const tosBanner = document.getElementById("tosBanner");
+    const acceptButton = document.getElementById("acceptTOS");
+
+    // Show banner if TOS cookie is not set
+    if (!getCookie("acceptedTOS")) {
+        tosBanner.style.display = "block";
+    }
+
+    // Handle Accept button
+    acceptButton.addEventListener("click", () => {
+        setCookie("acceptedTOS", "true", 365); // store for 1 year
+        tosBanner.style.display = "none";
+    });
+});
+
     </script>
 </body>
 </html>

@@ -1,177 +1,140 @@
-
 <!DOCTYPE html>
-<html xmlns='http://www.w3.org/1999/xhtml' lang='' xml:lang=''>
+<html xmlns='http://www.w3.org/1999/xhtml'>
 <head>
-	<base href="https://cdn.jsdelivr.net/gh/gn-math/assets@main/286/">
-	<meta charset='utf-8' />
-	<meta name='viewport' content='width=device-width, user-scalable=no' />
-	<title>Endoparasitic</title>
-	<link rel="stylesheet" href="style.css">
-<link id='-gd-engine-icon' rel='icon' type='image/png' href='Endoparasitic.icon.png' />
-<link rel='apple-touch-icon' href='Endoparasitic.apple-touch-icon.png'/>
+    <base href="https://cdn.jsdelivr.net/gh/gn-math/assets@main/286/">
+    <meta charset='utf-8' />
+    <meta name='viewport' content='width=device-width, user-scalable=no' />
+    <title>Endoparasitic</title>
 
+    <link rel="stylesheet" href="style.css">
+    <link rel='icon' type='image/png' href='Endoparasitic.icon.png' />
+    <link rel='apple-touch-icon' href='Endoparasitic.apple-touch-icon.png'/>
+
+    <!-- Safari detection + flags -->
+    <script>
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+        if (isSafari) {
+            window.GODOT_FORCE_WEBGL1 = true;
+            window.GODOT_DISABLE_AA = true;
+        }
+    </script>
 </head>
+
 <body>
-	<script>
-    // Safari WebGL workaround
-    if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
-        window.GODOT_FORCE_WEBGL1 = true;
-    }
-	</script>
+    <script src="main.js"></script>
 
-	<script src="main.js"></script>
-    <div id="loading-text" style="color: white; font-family: cursive; font-size: 48px; text-align: center; margin-top: 20px;">LOADING...</div>
-	<canvas id='canvas'>
-		HTML5 canvas appears to be unsupported in the current browser.<br />
-		Please try updating or use a different browser.
-	</canvas>
-	<div id='status'>
-		<div id='status-progress' style='display: none;' oncontextmenu='event.preventDefault();'><div id ='status-progress-inner'></div></div>
-		<div id='status-indeterminate' style='display: none;' oncontextmenu='event.preventDefault();'>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-		</div>
-		<div id='status-notice' class='godot' style='display: none;'></div>
-	</div>
-	<script>
-    const canvas = document.getElementById('canvas');
-    const gl = canvas.getContext('webgl', {
-        alpha: false,
-        antialias: false,
-        depth: true,
-        stencil: false,
-        preserveDrawingBuffer: false,
-        powerPreference: 'high-performance'
-    }) || canvas.getContext('experimental-webgl');
-</script>
+    <div id="loading-text"
+         style="color:white;font-family:cursive;font-size:48px;text-align:center;margin-top:20px;">
+        LOADING...
+    </div>
 
-	<script type='text/javascript' src='Endoparasitic.js'></script>
-	<script type='text/javascript'>//<![CDATA[
+    <canvas id="canvas">
+        HTML5 canvas appears to be unsupported in the current browser.
+    </canvas>
 
-		const GODOT_CONFIG = {
-    "args": [],
-    "canvasResizePolicy": 2,
-    "executable": "Endoparasitic",
-    "experimentalVK": false,
-    "fileSizes": {
-        "Endoparasitic.pck": 129276352,
-        "Endoparasitic.wasm": 17867504
-    },
-    "focusCanvas": true,
-    "gdnativeLibs": [],
-    "useWebGL2": false
-};
+    <div id="status">
+        <div id="status-progress" style="display:none" oncontextmenu="event.preventDefault();">
+            <div id="status-progress-inner"></div>
+        </div>
 
-		var engine = new Engine(GODOT_CONFIG);
+        <div id="status-indeterminate" style="display:none" oncontextmenu="event.preventDefault();">
+            <div></div><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div>
+        </div>
 
-		window.godotrunfunction = function() {
-			const INDETERMINATE_STATUS_STEP_MS = 100;
-			var statusProgress = document.getElementById('status-progress');
-			var statusProgressInner = document.getElementById('status-progress-inner');
-			var statusIndeterminate = document.getElementById('status-indeterminate');
-			var statusNotice = document.getElementById('status-notice');
-			document.getElementById("loading-text").remove();
+        <div id="status-notice" class="godot" style="display:none;"></div>
+    </div>
 
-			var initializing = true;
-			var statusMode = 'hidden';
+    <script src="Endoparasitic.js"></script>
 
-			var animationCallbacks = [];
-			function animate(time) {
-				animationCallbacks.forEach(callback => callback(time));
-				requestAnimationFrame(animate);
-			}
-			requestAnimationFrame(animate);
+    <script>
+        const GODOT_CONFIG = {
+            args: [],
+            canvasResizePolicy: 2,
+            executable: "Endoparasitic",
+            experimentalVK: false,
+            fileSizes: {
+                "Endoparasitic.pck": 129276352,
+                "Endoparasitic.wasm": 17867504
+            },
+            focusCanvas: true,
+            gdnativeLibs: [],
+            useWebGL2: false,
+            antialias: false
+        };
 
-			function setStatusMode(mode) {
+        const engine = new Engine(GODOT_CONFIG);
 
-				if (statusMode === mode || !initializing)
-					return;
-				[statusProgress, statusIndeterminate, statusNotice].forEach(elem => {
-					elem.style.display = 'none';
-				});
-				animationCallbacks = animationCallbacks.filter(function(value) {
-					return (value != animateStatusIndeterminate);
-				});
-				switch (mode) {
-					case 'progress':
-						statusProgress.style.display = 'block';
-						break;
-					case 'indeterminate':
-						statusIndeterminate.style.display = 'block';
-						animationCallbacks.push(animateStatusIndeterminate);
-						break;
-					case 'notice':
-						statusNotice.style.display = 'block';
-						break;
-					case 'hidden':
-						break;
-					default:
-						throw new Error('Invalid status mode');
-				}
-				statusMode = mode;
-			}
+        let triedReload = false;
 
-			function animateStatusIndeterminate(ms) {
-				var i = Math.floor(ms / INDETERMINATE_STATUS_STEP_MS % 8);
-				if (statusIndeterminate.children[i].style.borderTopColor == '') {
-					Array.prototype.slice.call(statusIndeterminate.children).forEach(child => {
-						child.style.borderTopColor = '';
-					});
-					statusIndeterminate.children[i].style.borderTopColor = '#dfdfdf';
-				}
-			}
+        function startGodotSafely() {
+            try {
+                window.godotrunfunction();
+            } catch (e) {
+                console.error(e);
 
-			function setStatusNotice(text) {
-				while (statusNotice.lastChild) {
-					statusNotice.removeChild(statusNotice.lastChild);
-				}
-				var lines = text.split('\n');
-				lines.forEach((line) => {
-					statusNotice.appendChild(document.createTextNode(line));
-					statusNotice.appendChild(document.createElement('br'));
-				});
-			};
+                if (!triedReload) {
+                    triedReload = true;
+                    location.reload();
+                } else {
+                    document.body.innerHTML =
+                        "<h2 style='color:white;text-align:center;margin-top:20vh'>" +
+                        "Safari failed to initialize WebGL.<br>" +
+                        "Please reload or use Chrome / Firefox." +
+                        "</h2>";
+                }
+            }
+        }
 
-			function displayFailureNotice(err) {
-				var msg = err.message || err;
-				console.error(msg);
-				setStatusNotice(msg);
-				setStatusMode('notice');
-				initializing = false;
-			};
+        window.godotrunfunction = function () {
+            const statusProgress = document.getElementById('status-progress');
+            const statusProgressInner = document.getElementById('status-progress-inner');
+            const statusIndeterminate = document.getElementById('status-indeterminate');
+            const statusNotice = document.getElementById('status-notice');
 
-			if (!Engine.isWebGLAvailable()) {
-				displayFailureNotice('WebGL not available');
-			} else {
-				setStatusMode('indeterminate');
-				engine.startGame({
-					'onProgress': function (current, total) {
-						if (total > 0) {
-							statusProgressInner.style.width = current/total * 100 + '%';
-							setStatusMode('progress');
-							if (current === total) {
-								// wait for progress bar animation
-								setTimeout(() => {
-									setStatusMode('indeterminate');
-								}, 500);
-							}
-						} else {
-							setStatusMode('indeterminate');
-						}
-					},
-				}).then(() => {
-					setStatusMode('hidden');
-					initializing = false;
-				}, displayFailureNotice);
-			}
-		}
-	//]]></script>
+            document.getElementById("loading-text")?.remove();
+
+            function setStatus(mode) {
+                statusProgress.style.display = "none";
+                statusIndeterminate.style.display = "none";
+                statusNotice.style.display = "none";
+
+                if (mode === "progress") statusProgress.style.display = "block";
+                if (mode === "indeterminate") statusIndeterminate.style.display = "block";
+                if (mode === "notice") statusNotice.style.display = "block";
+            }
+
+            function fail(err) {
+                console.error(err);
+                statusNotice.textContent = err.message || err;
+                setStatus("notice");
+            }
+
+            if (!Engine.isWebGLAvailable()) {
+                fail("WebGL not available");
+                return;
+            }
+
+            setStatus("indeterminate");
+
+            engine.startGame({
+                onProgress(current, total) {
+                    if (total > 0) {
+                        statusProgressInner.style.width = (current / total * 100) + "%";
+                        setStatus("progress");
+                    }
+                }
+            }).then(
+                () => setStatus("hidden"),
+                fail
+            );
+        };
+
+        // Safari timing fix: delay startup
+        window.addEventListener("load", () => {
+            setTimeout(startGodotSafely, 300);
+        });
+    </script>
 </body>
 </html>
-

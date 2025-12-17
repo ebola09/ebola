@@ -13,44 +13,6 @@
     }
 })();
 </script>
-<script>
-window.addEventListener('keydown', function(event) {
-    const canvas = document.getElementById('canvas');
-
-    if (!canvas) return;
-
-    // Prevent default scrolling for spacebar
-    if (event.code === "Space") event.preventDefault();
-
-    const rect = canvas.getBoundingClientRect();
-    const mouseX = rect.left + rect.width / 2; // center of canvas
-    const mouseY = rect.top + rect.height / 2;
-
-    // Create a mouse event at the center of the canvas
-    function triggerMouseEvent(type, button) {
-        const evt = new MouseEvent(type, {
-            bubbles: true,
-            cancelable: true,
-            clientX: mouseX,
-            clientY: mouseY,
-            button: button // 0 = left, 2 = right
-        });
-        canvas.dispatchEvent(evt);
-    }
-
-    if (event.code === "Space" && !event.shiftKey) {
-        // Space = left click
-        triggerMouseEvent('mousedown', 0);
-        triggerMouseEvent('mouseup', 0);
-        triggerMouseEvent('click', 0);
-    } else if (event.code === "Space" && event.shiftKey) {
-        // Shift + Space = right click
-        triggerMouseEvent('mousedown', 2);
-        triggerMouseEvent('mouseup', 2);
-        triggerMouseEvent('contextmenu', 2);
-    }
-});
-</script>
 
 	<base href="https://cdn.jsdelivr.net/gh/gn-math/assets@main/286/">
 	<meta charset='utf-8' />
@@ -191,7 +153,47 @@ window.addEventListener('keydown', function(event) {
 			}
 		}
 	//]]></script>
+
+	<script>
+window.addEventListener('keydown', function(event) {
+    const canvas = document.getElementById('canvas');
+
+    if (!canvas) return;
+
+    // Prevent default scrolling for spacebar
+    if (event.code === "Space") event.preventDefault();
+
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = rect.left + rect.width / 2; // center of canvas
+    const mouseY = rect.top + rect.height / 2;
+
+    // Create a mouse event at the center of the canvas
+    function triggerMouseEvent(type, button) {
+        const evt = new MouseEvent(type, {
+            bubbles: true,
+            cancelable: true,
+            clientX: mouseX,
+            clientY: mouseY,
+            button: button // 0 = left, 2 = right
+        });
+        canvas.dispatchEvent(evt);
+    }
+
+    if (event.code === "Space" && !event.shiftKey) {
+        // Space = left click
+        triggerMouseEvent('mousedown', 0);
+        triggerMouseEvent('mouseup', 0);
+        triggerMouseEvent('click', 0);
+    } else if (event.code === "Space" && event.shiftKey) {
+        // Shift + Space = right click
+        triggerMouseEvent('mousedown', 2);
+        triggerMouseEvent('mouseup', 2);
+        triggerMouseEvent('contextmenu', 2);
+    }
+});
+</script>
 	</body>
 
 </html>
+
 

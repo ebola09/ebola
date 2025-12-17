@@ -105,28 +105,52 @@
       src="html5game/RetroBowl.js?WAEAC=1633155445"
     ></script>
     <script>
-      var canvas = document.getElementById("canvas");
-var gl = canvas.getContext("webgl", { preserveDrawingBuffer: true }) || 
-         canvas.getContext("experimental-webgl", { preserveDrawingBuffer: true });
+      function pauseGame() {
+    // Pause the game loop
+    if (typeof GameMaker_Pause !== "undefined") {
+        GameMaker_Pause();
+    } else {
+        // Example: stop the main animation frame
+        if (window.gameloopId) cancelAnimationFrame(window.gameloopId);
+    }
+
+    // Optionally pause audio
+    if (typeof Howler !== "undefined") Howler.pause();
+}
+
+function resumeGame() {
+    // Resume the game loop
+    if (typeof GameMaker_Resume !== "undefined") {
+        GameMaker_Resume();
+    } else {
+        // Example: restart the main animation frame
+        if (typeof GameMaker_Init === "function") GameMaker_Init();
+    }
+
+    // Optionally resume audio
+    if (typeof Howler !== "undefined") Howler.play();
+}
+
+document.addEventListener("visibilitychange", function() {
+    if (document.hidden) {
+        // User switched apps or locked the screen
+        pauseGame();
+    } else {
+        // User returned
+        resumeGame();
+    }
+});
+var canvas = document.getElementById("canvas");
 
 canvas.addEventListener("webglcontextlost", function(e) {
     e.preventDefault();
-    alert("WebGL context lost. Reload the page to continue.");
+    console.log("WebGL context lost!");
 }, false);
 
 canvas.addEventListener("webglcontextrestored", function(e) {
-    // Reinitialize your game here
+    console.log("WebGL context restored, reinitializing game...");
     GameMaker_Init();
 }, false);
-document.addEventListener("visibilitychange", function() {
-    if (document.hidden) {
-        // Pause timers or game loop
-        GameMaker_Pause();
-    } else {
-        // Resume timers or game loop
-        GameMaker_Resume();
-    }
-});
 
       window.onload = GameMaker_Init;
     </script>

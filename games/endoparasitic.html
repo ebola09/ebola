@@ -24,74 +24,135 @@
 
 </head>
 <body>
-    <script src="main.js"></script>
-    <div id="loading-text" style="color: white; font-family: cursive; font-size: 48px; text-align: center; margin-top: 20px;">LOADING...</div>
-    <canvas id='canvas'>
-        HTML5 canvas appears to be unsupported in the current browser.<br />
-        Please try updating or use a different browser.
-    </canvas>
-    <div id='status'>
-        <div id='status-progress' style='display: none;' oncontextmenu='event.preventDefault();'><div id ='status-progress-inner'></div></div>
-        <div id='status-indeterminate' style='display: none;' oncontextmenu='event.preventDefault();'>
-            <div></div><div></div><div></div><div></div>
-            <div></div><div></div><div></div><div></div>
-        </div>
-        <div id='status-notice' class='godot' style='display: none;'></div>
-    </div>
+		<script src="main.js"></script>
+	<div id="loading-text" style="color: white; font-family: cursive; font-size: 48px; text-align: center; margin-top: 20px;">LOADING...</div>
+	<canvas id='canvas'>
+		HTML5 canvas appears to be unsupported in the current browser.<br />
+		Please try updating or use a different browser.
+	</canvas>
+	<div id='status'>
+		<div id='status-progress' style='display: none;' oncontextmenu='event.preventDefault();'><div id ='status-progress-inner'></div></div>
+		<div id='status-indeterminate' style='display: none;' oncontextmenu='event.preventDefault();'>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		<div id='status-notice' class='godot' style='display: none;'></div>
+	</div>
 
-    <script type='text/javascript' src='Endoparasitic.js'></script>
-    <script type='text/javascript'>
-    const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"Endoparasitic","experimentalVK":false,"fileSizes":{"Endoparasitic.pck":129276352,"Endoparasitic.wasm":17867504},"focusCanvas":true,"gdnativeLibs":[]};
-    var engine = new Engine(GODOT_CONFIG);
+	<script type='text/javascript' src='Endoparasitic.js'></script>
+	<script type='text/javascript'>//<![CDATA[
 
-    // Wait for the engine canvas to be ready
-    window.addEventListener('load', () => {
-        const canvas = document.getElementById('canvas');
-        let leftClickHeld = false;
-        let rightClickHeld = false;
+		const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"executable":"Endoparasitic","experimentalVK":false,"fileSizes":{"Endoparasitic.pck":129276352,"Endoparasitic.wasm":17867504},"focusCanvas":true,"gdnativeLibs":[]};
+		var engine = new Engine(GODOT_CONFIG);
 
-        function triggerMouseEvent(type, button) {
-            const event = new MouseEvent(type, {
-                bubbles: true,
-                cancelable: true,
-                view: window,
-                button: button // 0 = left, 2 = right
-            });
-            canvas.dispatchEvent(event);
-        }
+		window.godotrunfunction = function() {
+			const INDETERMINATE_STATUS_STEP_MS = 100;
+			var statusProgress = document.getElementById('status-progress');
+			var statusProgressInner = document.getElementById('status-progress-inner');
+			var statusIndeterminate = document.getElementById('status-indeterminate');
+			var statusNotice = document.getElementById('status-notice');
+			document.getElementById("loading-text").remove();
 
-        document.addEventListener('keydown', (e) => {
-            if (e.code === 'Space') {
-                if (e.shiftKey && !rightClickHeld) {
-                    rightClickHeld = true;
-                    triggerMouseEvent('mousedown', 2);
-                } else if (!e.shiftKey && !leftClickHeld) {
-                    leftClickHeld = true;
-                    triggerMouseEvent('mousedown', 0);
-                }
-                e.preventDefault();
-            }
-        });
+			var initializing = true;
+			var statusMode = 'hidden';
 
-        document.addEventListener('keyup', (e) => {
-            if (e.code === 'Space') {
-                if (rightClickHeld) {
-                    rightClickHeld = false;
-                    triggerMouseEvent('mouseup', 2);
-                }
-                if (leftClickHeld) {
-                    leftClickHeld = false;
-                    triggerMouseEvent('mouseup', 0);
-                }
-                e.preventDefault();
-            }
-        });
-    });
-</script>
+			var animationCallbacks = [];
+			function animate(time) {
+				animationCallbacks.forEach(callback => callback(time));
+				requestAnimationFrame(animate);
+			}
+			requestAnimationFrame(animate);
 
-</body>
+			function setStatusMode(mode) {
+
+				if (statusMode === mode || !initializing)
+					return;
+				[statusProgress, statusIndeterminate, statusNotice].forEach(elem => {
+					elem.style.display = 'none';
+				});
+				animationCallbacks = animationCallbacks.filter(function(value) {
+					return (value != animateStatusIndeterminate);
+				});
+				switch (mode) {
+					case 'progress':
+						statusProgress.style.display = 'block';
+						break;
+					case 'indeterminate':
+						statusIndeterminate.style.display = 'block';
+						animationCallbacks.push(animateStatusIndeterminate);
+						break;
+					case 'notice':
+						statusNotice.style.display = 'block';
+						break;
+					case 'hidden':
+						break;
+					default:
+						throw new Error('Invalid status mode');
+				}
+				statusMode = mode;
+			}
+
+			function animateStatusIndeterminate(ms) {
+				var i = Math.floor(ms / INDETERMINATE_STATUS_STEP_MS % 8);
+				if (statusIndeterminate.children[i].style.borderTopColor == '') {
+					Array.prototype.slice.call(statusIndeterminate.children).forEach(child => {
+						child.style.borderTopColor = '';
+					});
+					statusIndeterminate.children[i].style.borderTopColor = '#dfdfdf';
+				}
+			}
+
+			function setStatusNotice(text) {
+				while (statusNotice.lastChild) {
+					statusNotice.removeChild(statusNotice.lastChild);
+				}
+				var lines = text.split('\n');
+				lines.forEach((line) => {
+					statusNotice.appendChild(document.createTextNode(line));
+					statusNotice.appendChild(document.createElement('br'));
+				});
+			};
+
+			function displayFailureNotice(err) {
+				var msg = err.message || err;
+				console.error(msg);
+				setStatusNotice(msg);
+				setStatusMode('notice');
+				initializing = false;
+			};
+
+			if (!Engine.isWebGLAvailable()) {
+				displayFailureNotice('WebGL not available');
+			} else {
+				setStatusMode('indeterminate');
+				engine.startGame({
+					'onProgress': function (current, total) {
+						if (total > 0) {
+							statusProgressInner.style.width = current/total * 100 + '%';
+							setStatusMode('progress');
+							if (current === total) {
+								// wait for progress bar animation
+								setTimeout(() => {
+									setStatusMode('indeterminate');
+								}, 500);
+							}
+						} else {
+							setStatusMode('indeterminate');
+						}
+					},
+				}).then(() => {
+					setStatusMode('hidden');
+					initializing = false;
+				}, displayFailureNotice);
+			}
+		}
+	//]]></script>
+	</body>
 
 </html>
-
-
-

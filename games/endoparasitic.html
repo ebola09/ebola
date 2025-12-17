@@ -20,6 +20,46 @@
 		HTML5 canvas appears to be unsupported in the current browser.<br />
 		Please try updating or use a different browser.
 	</canvas>
+	<script>
+(function () {
+	const canvas = document.getElementById("canvas");
+
+	function sendMouseEvent(type, button) {
+		if (!canvas) return;
+
+		const rect = canvas.getBoundingClientRect();
+		const event = new MouseEvent(type, {
+			bubbles: true,
+			cancelable: true,
+			view: window,
+			button: button,   // 0 = left click, 2 = right click
+			buttons: 1 << button,
+			clientX: rect.left + rect.width / 2,
+			clientY: rect.top + rect.height / 2
+		});
+
+		canvas.dispatchEvent(event);
+	}
+
+	window.addEventListener("keydown", (e) => {
+		if (e.code === "Space") {
+			e.preventDefault();
+
+			// Shift + Space → Right click
+			if (e.shiftKey) {
+				sendMouseEvent("mousedown", 2);
+				sendMouseEvent("mouseup", 2);
+			}
+			// Space → Left click
+			else {
+				sendMouseEvent("mousedown", 0);
+				sendMouseEvent("mouseup", 0);
+			}
+		}
+	});
+})();
+</script>
+
 	<div id='status'>
 		<div id='status-progress' style='display: none;' oncontextmenu='event.preventDefault();'><div id ='status-progress-inner'></div></div>
 		<div id='status-indeterminate' style='display: none;' oncontextmenu='event.preventDefault();'>
@@ -145,4 +185,5 @@
 	//]]></script>
 </body>
 </html>
+
 

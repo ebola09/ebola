@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html xmlns='http://www.w3.org/1999/xhtml'>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <base href="https://cdn.jsdelivr.net/gh/gn-math/assets@main/286/">
-    <meta charset='utf-8' />
-    <meta name='viewport' content='width=device-width, user-scalable=no' />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
     <title>Endoparasitic</title>
 
-    <link rel="stylesheet" href="style.css">
-    <link rel='icon' type='image/png' href='Endoparasitic.icon.png' />
-    <link rel='apple-touch-icon' href='Endoparasitic.apple-touch-icon.png'/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gn-math/assets@main/286/style.css">
+    <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/gn-math/assets@main/286/Endoparasitic.icon.png" />
+    <link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/gn-math/assets@main/286/Endoparasitic.apple-touch-icon.png"/>
 
     <!-- Safari detection + flags -->
     <script>
@@ -22,7 +21,7 @@
 </head>
 
 <body>
-    <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/gn-math/assets@main/286/main.js"></script>
 
     <div id="loading-text"
          style="color:white;font-family:cursive;font-size:48px;text-align:center;margin-top:20px;">
@@ -46,13 +45,22 @@
         <div id="status-notice" class="godot" style="display:none;"></div>
     </div>
 
-    <script src="Endoparasitic.js"></script>
+    <!-- Tell Godot exactly where to load WASM / PCK from -->
+    <script>
+        var Module = {
+            locateFile: function (path) {
+                return "https://cdn.jsdelivr.net/gh/gn-math/assets@main/286/" + path;
+            }
+        };
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/gh/gn-math/assets@main/286/Endoparasitic.js"></script>
 
     <script>
         const GODOT_CONFIG = {
             args: [],
             canvasResizePolicy: 2,
-            executable: "Endoparasitic",
+            executable: "https://cdn.jsdelivr.net/gh/gn-math/assets@main/286/Endoparasitic",
             experimentalVK: false,
             fileSizes: {
                 "Endoparasitic.pck": 129276352,
@@ -80,7 +88,7 @@
                 } else {
                     document.body.innerHTML =
                         "<h2 style='color:white;text-align:center;margin-top:20vh'>" +
-                        "Safari failed to initialize WebGL.<br>" +
+                        "Safari failed to initialize or load the game.<br>" +
                         "Please reload or use Chrome / Firefox." +
                         "</h2>";
                 }
@@ -88,10 +96,10 @@
         }
 
         window.godotrunfunction = function () {
-            const statusProgress = document.getElementById('status-progress');
-            const statusProgressInner = document.getElementById('status-progress-inner');
-            const statusIndeterminate = document.getElementById('status-indeterminate');
-            const statusNotice = document.getElementById('status-notice');
+            const statusProgress = document.getElementById("status-progress");
+            const statusProgressInner = document.getElementById("status-progress-inner");
+            const statusIndeterminate = document.getElementById("status-indeterminate");
+            const statusNotice = document.getElementById("status-notice");
 
             document.getElementById("loading-text")?.remove();
 
@@ -131,7 +139,7 @@
             );
         };
 
-        // Safari timing fix: delay startup
+        // Safari timing fix
         window.addEventListener("load", () => {
             setTimeout(startGodotSafely, 300);
         });

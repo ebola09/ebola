@@ -39,6 +39,17 @@
 		</div>
 		<div id='status-notice' class='godot' style='display: none;'></div>
 	</div>
+	<script>
+    const canvas = document.getElementById('canvas');
+    const gl = canvas.getContext('webgl', {
+        alpha: false,
+        antialias: false,
+        depth: true,
+        stencil: false,
+        preserveDrawingBuffer: false,
+        powerPreference: 'high-performance'
+    }) || canvas.getContext('experimental-webgl');
+</script>
 
 	<script type='text/javascript' src='Endoparasitic.js'></script>
 	<script type='text/javascript'>//<![CDATA[

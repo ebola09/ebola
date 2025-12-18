@@ -216,6 +216,13 @@
             "path": "games/hotlinemiami.html",
             "thumbnail": "assets/thumbnails/hotlinemiami.png",
             "dateAdded": "16/12/2025"
+        },
+        {
+            "gameID": 32,
+            "name": "Getting Over It",
+            "path": "games/gettingoverit.html",
+            "thumbnail": "assets/thumbnails/gettingoverit.jpeg",
+            "dateAdded": "18/12/2025"
         }
         
     ]

@@ -497,7 +497,14 @@
 
 
         const savedTheme = getCookie("theme");
-        if (savedTheme) { setTheme(savedTheme); themeSelect.value = savedTheme; }
+        if (savedTheme) {
+            setTheme(savedTheme);
+            themeSelect.value = savedTheme;
+        } else {
+            setCookie("theme", "orange", 30);
+            setTheme("orange");
+            themeSelect.value = "orange";
+        }
 
         settingsButton.addEventListener("click", () => {
             const isOpen = settingsPanel.style.display === "block";

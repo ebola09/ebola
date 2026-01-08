@@ -303,6 +303,14 @@
             "thumbnail": "assets/thumbnails/happywheels.png",
             "dateAdded": "08/01/2026",
             "tags": ["new"]
+        },
+        {
+            "gameID": 43,
+            "name": "Clash of Vikings",
+            "path": "games/clashofvikings.html",
+            "thumbnail": "assets/thumbnails/clashofvikings.png",
+            "dateAdded": "08/01/2026",
+            "tags": ["new"]
         }
         
     ]

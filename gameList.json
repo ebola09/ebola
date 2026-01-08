@@ -295,6 +295,14 @@
             "thumbnail": "assets/thumbnails/henrystickminescapingprison.png",
             "dateAdded": "08/01/2026",
             "tags": ["new"]
+        },
+        {
+            "gameID": 42,
+            "name": "Happy Wheels",
+            "path": "games/happywheels.html",
+            "thumbnail": "assets/thumbnails/happywheels.png",
+            "dateAdded": "08/01/2026",
+            "tags": ["new"]
         }
         
     ]

@@ -86,6 +86,22 @@
             margin-bottom: 20px;
             text-transform: lowercase;
         }
+        
+        .tos-button {
+            font-family: 'IBM Plex Mono', monospace;
+    padding: 6px 12px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--card-border-color);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.tos-button:hover {
+    background-color: var(--card-overlay-color);
+    border-color: var(--link-hover-color);
+}
 
         #recentlyPlayedGrid,
         #gameGrid {
@@ -130,6 +146,20 @@
             background: var(--card-overlay-color);
             opacity: 1;
         }
+
+        .card .new-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px 8px;
+    font-size: 12px;
+    text-transform: uppercase;
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    border-radius: 3px;
+    pointer-events: none;
+    box-shadow: 0 0 0 1px var(--card-border-color);
+}
 
         .bottombar {
             position: fixed;
@@ -194,7 +224,30 @@
         @media (max-width: 500px)  { #gameGrid, #recentlyPlayedGrid { grid-template-columns: 1fr; } }
     </style>
 </head>
+
+<script>
+        // The sequence we want to detect
+        const sequence = ['t', 'r', 'e', 'e'];
+        let currentIndex = 0;
+
+        // Listen for key presses
+        document.addEventListener('keydown', (event) => {
+            // Check if the key matches the current position in the sequence
+            if (event.key.toLowerCase() === sequence[currentIndex]) {
+                currentIndex++;
+                // If we've completed the sequence, redirect
+                if (currentIndex === sequence.length) {
+                    window.location.href = 'tree.html';
+                }
+            } else {
+                // Reset if the key doesn't match
+                currentIndex = 0;
+            }
+        });
+    </script>
 <body>
+    
+
     <div class="topbar">
         <div class="left">
             <a href="#" class="active">arcade</a>
@@ -312,7 +365,7 @@
         <div id="gameGrid"></div>
     </div>
 
-    <div class="bottombar">version 1.6</div>
+    <div class="bottombar">© 2026 ebola | version 1.7</div>
 
     <div id="settingsPanel" class="settings-panel">
         <h3>settings</h3>
@@ -321,6 +374,7 @@
             <option value="orange">orange</option>
             <option value="purple">purple</option>
             <option value="green">green</option>
+            <option value="teal">teal (new)</option>
         </select>
         <button id="exportProgress">export game progress</button>
         <button id="importProgress">import game progress</button>
@@ -363,6 +417,33 @@
         }
 
         function updateRecentlyPlayedUI(games) {
+    recentlyPlayedGrid.innerHTML = "";
+
+    if (!games.length) {
+        recentlyPlayedGrid.innerHTML =
+            "<p style='color: var(--link-color);'>you haven't played any games yet :(</p>";
+        return;
+    }
+
+    games.forEach(game => {
+        const card = document.createElement("a");
+        card.href = game.path || "#";
+        card.className = "card";
+        card.style.backgroundImage = `url('${game.thumbnail || ""}')`;
+        card.setAttribute("data-title", game.name || "Untitled");
+
+        // NEW badge
+        if (Array.isArray(game.tags) && game.tags.includes("new")) {
+            const badge = document.createElement("div");
+            badge.className = "new-badge";
+            badge.textContent = "new";
+            card.appendChild(badge);
+        }
+
+        recentlyPlayedGrid.appendChild(card);
+    });
+}
+
             recentlyPlayedGrid.innerHTML = "";
             if (!games.length) {
                 recentlyPlayedGrid.innerHTML = "<p style='color: var(--link-color);'>you haven't played any games yet :(</p>";
@@ -425,28 +506,36 @@
         });
 
         function setTheme(theme) {
-            const colors = {
-                orange: { bg:"#0d0502", text:"#ff7b00", link:"#7A3307", hover:"#ff7b00", border:"#210D00", overlay:"rgba(33,13,0,0.75)", bottomBorder:"#7A3307", opacity:0.6, svgColor:"#ff7b00" },
-                purple: { bg:"#0D0012", text:"#A70EE8", link:"#5A077D", hover:"#A70EE8", border:"#310046", overlay:"rgba(49,0,70,0.75)", bottomBorder:"#A70EE8", opacity:0.6, svgColor:"#A70EE8" },
-                green:  { bg:"#000000", text:"#0EE811", link:"#077408", hover:"#0EE811", border:"#077408", overlay:"rgba(7,116,8,0.75)", bottomBorder:"#0EE811", opacity:0.6, svgColor:"#0EE811" }
-            };
-            const c = colors[theme];
+    const colors = {
+        orange: { bg:"#0d0502", text:"#ff7b00", link:"#7A3307", hover:"#ff7b00", border:"#210D00", overlay:"rgba(33,13,0,0.75)", bottomBorder:"#7A3307", opacity:0.6, svgColor:"#ff7b00" },
+        purple: { bg:"#0D0012", text:"#A70EE8", link:"#5A077D", hover:"#A70EE8", border:"#310046", overlay:"rgba(49,0,70,0.75)", bottomBorder:"#5A077D", opacity:0.6, svgColor:"#A70EE8" },
+        green:  { bg:"#000000", text:"#0EE811", link:"#077408", hover:"#0EE811", border:"#004501", overlay:"rgba(7,116,8,0.75)", bottomBorder:"#077408", opacity:0.6, svgColor:"#0EE811" },
+        teal:   { bg:"#02150F", text:"#0EE8CB", link:"#0A836D", hover:"#0EE8CB", border:"#004641", overlay:"rgba(0,31,33,0.75)", bottomBorder:"#0A836D", opacity:0.6, svgColor:"#0EE8CB" } // new theme
+    };
+    const c = colors[theme];
 
-            const root = document.documentElement;
-            root.style.setProperty('--bg-color', c.bg);
-            root.style.setProperty('--text-color', c.text);
-            root.style.setProperty('--link-color', c.link);
-            root.style.setProperty('--link-hover-color', c.hover);
-            root.style.setProperty('--card-border-color', c.border);
-            root.style.setProperty('--card-overlay-color', c.overlay);
-            root.style.setProperty('--bottombar-border-color', c.bottomBorder);
-            root.style.setProperty('--bottombar-opacity', c.opacity);
+    const root = document.documentElement;
+    root.style.setProperty('--bg-color', c.bg);
+    root.style.setProperty('--text-color', c.text);
+    root.style.setProperty('--link-color', c.link);
+    root.style.setProperty('--link-hover-color', c.hover);
+    root.style.setProperty('--card-border-color', c.border);
+    root.style.setProperty('--card-overlay-color', c.overlay);
+    root.style.setProperty('--bottombar-border-color', c.bottomBorder);
+    root.style.setProperty('--bottombar-opacity', c.opacity);
 
-            const svg = document.querySelector('.topbar .logo svg');
-            if (svg) svg.querySelectorAll('path').forEach(path => path.setAttribute('fill', c.svgColor));
+    document.querySelectorAll('.tos-button').forEach(btn => {
+        btn.style.backgroundColor = c.bg;
+        btn.style.color = c.text;
+        btn.style.borderColor = c.border;
+    });
 
-            setCookie("theme", theme, 30);
-        }
+    const svg = document.querySelector('.topbar .logo svg');
+    if (svg) svg.querySelectorAll('path').forEach(path => path.setAttribute('fill', c.svgColor));
+
+    setCookie("theme", theme, 30);
+}
+
 
         const savedTheme = getCookie("theme");
         if (savedTheme) { setTheme(savedTheme); themeSelect.value = savedTheme; }
@@ -459,57 +548,56 @@
 
         themeSelect.addEventListener("change", () => setTheme(themeSelect.value));
 
-function formatTime(seconds) {
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
-    const s = seconds % 60;
-    return [
-        h > 0 ? h.toString().padStart(2,'0') : null,
-        m.toString().padStart(2,'0'),
-        s.toString().padStart(2,'0')
-    ].filter(Boolean).join(':');
-}
+        fetch("gameList.json")
+            .then(res => res.json())
+            .then(data => {
+                if (!data.games?.length) {
+                    gameGrid.innerHTML = `<p style="color: var(--text-color);">No games found. Check gameList.json.</p>`;
+                    return;
+                }
+                data.games.sort((a,b) => (a.name||"").toLowerCase().localeCompare((b.name||"").toLowerCase()));
+                data.games.forEach(game => {
+    const card = document.createElement("a");
+    card.href = game.path || "#";
+    card.className = "card";
+    card.style.backgroundImage = `url('${game.thumbnail || ""}')`;
+    card.setAttribute("data-title", game.name || "Untitled");
 
-fetch("gameList.json")
-    .then(res => res.json())
-    .then(data => {
-        if (!data.games?.length) return;
-        const cards = document.querySelectorAll("#gameGrid .card, #recentlyPlayedGrid .card");
-        cards.forEach(card => {
-            // Match the card to the game in JSON
-            const game = data.games.find(g => g.name === card.getAttribute("data-title"));
-            if (!game) return;
+    // NEW badge
+    if (Array.isArray(game.tags) && game.tags.includes("new")) {
+        const badge = document.createElement("div");
+        badge.className = "new-badge";
+        badge.textContent = "new";
+        card.appendChild(badge);
+    }
 
-            const storageKey = `timePlayed_${game.gameID}`;
-            let totalSeconds = parseInt(localStorage.getItem(storageKey)) || 0;
+    card.addEventListener("click", () => addRecentlyPlayed(game));
+    gameGrid.appendChild(card);
+});
 
-            // Create a time display element
-            const timeDiv = document.createElement("div");
-            timeDiv.className = "timePlayedOverlay";
-            timeDiv.textContent = formatTime(totalSeconds);
-            timeDiv.style.position = "absolute";
-            timeDiv.style.bottom = "5px";
-            timeDiv.style.right = "5px";
-            timeDiv.style.fontSize = "12px";
-            timeDiv.style.color = "var(--link-color)";
-            timeDiv.style.background = "rgba(0,0,0,0.5)";
-            timeDiv.style.padding = "2px 4px";
-            timeDiv.style.borderRadius = "3px";
-            timeDiv.style.display = "none";
-            timeDiv.style.pointerEvents = "none";
+            })
+            .catch(err => {
+                gameGrid.innerHTML = `<p style="color: var(--text-color);">Failed to load gameList.json</p>`;
+                console.error("Error loading game list:", err);
+            });
 
-            card.appendChild(timeDiv);
+            // Terms of Service Banner
+document.addEventListener("DOMContentLoaded", () => {
+    const tosBanner = document.getElementById("tosBanner");
+    const acceptButton = document.getElementById("acceptTOS");
 
-            // Show on hover
-            card.addEventListener("mouseenter", () => timeDiv.style.display = "block");
-            card.addEventListener("mouseleave", () => timeDiv.style.display = "none");
-        });
-    })
-    .catch(err => console.error(err));
-</script>
+    // Show banner if TOS cookie is not set
+    if (!getCookie("acceptedTOS")) {
+        tosBanner.style.display = "block";
+    }
 
-    
+    // Handle Accept button
+    acceptButton.addEventListener("click", () => {
+        setCookie("acceptedTOS", "true", 365); // store for 1 year
+        tosBanner.style.display = "none";
+    });
+});
+
+    </script>
 </body>
 </html>
-
-

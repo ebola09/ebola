@@ -147,6 +147,20 @@
             opacity: 1;
         }
 
+        .new-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid var(--card-border-color);
+            opacity: var(--bottombar-opacity);
+        }
+
         .bottombar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -351,7 +365,7 @@
         <div id="gameGrid"></div>
     </div>
 
-    <div class="bottombar">© 2026 ebola | version 1.7</div>
+    <div class="bottombar">© 2026 ebola | version 1.7.1</div>
 
     <div id="settingsPanel" class="settings-panel">
         <h3>settings</h3>
@@ -360,7 +374,7 @@
             <option value="orange">orange</option>
             <option value="purple">purple</option>
             <option value="green">green</option>
-            <option value="teal">teal (new)</option>
+            <option value="teal">teal</option>
         </select>
         <button id="exportProgress">export game progress</button>
         <button id="importProgress">import game progress</button>
@@ -529,6 +543,12 @@
                     card.style.backgroundImage = `url('${game.thumbnail || ""}')`;
                     card.setAttribute("data-title", game.name || "Untitled");
                     card.addEventListener("click", () => addRecentlyPlayed(game));
+                    if (game.tags && game.tags.includes("new")) {
+                        const newBadge = document.createElement("div");
+                        newBadge.className = "new-badge";
+                        newBadge.textContent = "new";
+                        card.appendChild(newBadge);
+                    }
                     gameGrid.appendChild(card);
                 });
             })

@@ -223,6 +223,78 @@
             "path": "games/gettingoverit.html",
             "thumbnail": "assets/thumbnails/gettingoverit.jpeg",
             "dateAdded": "18/12/2025"
+        },
+        {
+            "gameID": 33,
+            "name": "Minecraft 1.8.8",
+            "path": "games/minecraft_1_8_8.html",
+            "thumbnail": "assets/thumbnails/minecraft_1_8_8.png",
+            "dateAdded": "08/01/2026",
+            "tags": ["new"]
+        },
+        {
+            "gameID": 34,
+            "name": "Baldi's Basics",
+            "path": "games/baldisbasics.html",
+            "thumbnail": "assets/thumbnails/baldisbasics.png",
+            "dateAdded": "08/01/2026",
+            "tags": ["new"]
+        },
+        {
+            "gameID": 35,
+            "name": "Escape Road 2",
+            "path": "games/escaperoad2.html",
+            "thumbnail": "assets/thumbnails/escaperoad2.png",
+            "dateAdded": "08/01/2026",
+            "tags": ["new"]
+        },
+        {
+            "gameID": 36,
+            "name": "Five Nights at Freddy's 2",
+            "path": "games/fnaf2.html",
+            "thumbnail": "assets/thumbnails/fnaf2.png",
+            "dateAdded": "08/01/2026",
+            "tags": ["new", "FnaF"]
+        },
+        {
+            "gameID": 37,
+            "name": "Five Nights at Freddy's 3",
+            "path": "games/fnaf3.html",
+            "thumbnail": "assets/thumbnails/fnaf3.png",
+            "dateAdded": "08/01/2026",
+            "tags": ["new", "FnaF"]
+        },
+        {
+            "gameID": 38,
+            "name": "Five Nights at Freddy's 4",
+            "path": "games/fnaf4.html",
+            "thumbnail": "assets/thumbnails/fnaf4.png",
+            "dateAdded": "08/01/2026",
+            "tags": ["new", "FnaF"]
+        },
+        {
+            "gameID": 39,
+            "name": "Five Nights at Freddy's: Sister Location",
+            "path": "games/fnafsisterlocation.html",
+            "thumbnail": "assets/thumbnails/fnafsisterlocation.png",
+            "dateAdded": "08/01/2026",
+            "tags": ["new", "FnaF"]
+        },
+        {
+            "gameID": 40,
+            "name": "Five Nights at Freddy's: Ultimate Custom Night",
+            "path": "games/ultimatecustomnight.html",
+            "thumbnail": "assets/thumbnails/ultimatecustomnight.png",
+            "dateAdded": "08/01/2026",
+            "tags": ["new", "FnaF"]
+        },
+        {
+            "gameID": 41,
+            "name": "Henry Stickmin: Escaping the Prison",
+            "path": "games/henrystickmanescapingprison.html",
+            "thumbnail": "assets/thumbnails/henrystickmanescapingprison.png",
+            "dateAdded": "08/01/2026",
+            "tags": ["new"]
         }
         
     ]

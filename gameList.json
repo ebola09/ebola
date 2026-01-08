@@ -275,8 +275,8 @@
         {
             "gameID": 39,
             "name": "Five Nights at Freddy's: Sister Location",
-            "path": "games/fnafsisterlocation.html",
-            "thumbnail": "assets/thumbnails/fnafsisterlocation.png",
+            "path": "games/sisterlocation.html",
+            "thumbnail": "assets/thumbnails/sisterlocation.png",
             "dateAdded": "08/01/2026",
             "tags": ["new", "FnaF"]
         },
@@ -292,7 +292,7 @@
             "gameID": 41,
             "name": "Henry Stickmin: Escaping the Prison",
             "path": "games/henrystickmanescapingprison.html",
-            "thumbnail": "assets/thumbnails/henrystickmanescapingprison.png",
+            "thumbnail": "assets/thumbnails/henrystickminescapingprison.png",
             "dateAdded": "08/01/2026",
             "tags": ["new"]
         }

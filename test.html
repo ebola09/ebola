@@ -147,20 +147,6 @@
             opacity: 1;
         }
 
-        .card .new-badge {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    padding: 4px 8px;
-    font-size: 12px;
-    text-transform: uppercase;
-    background-color: var(--text-color);
-    color: var(--bg-color);
-    border-radius: 3px;
-    pointer-events: none;
-    box-shadow: 0 0 0 1px var(--card-border-color);
-}
-
         .bottombar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -417,60 +403,20 @@
         }
 
         function updateRecentlyPlayedUI(games) {
-    recentlyPlayedGrid.innerHTML = "";
-
-    if (!games.length) {
-        recentlyPlayedGrid.innerHTML =
-            "<p style='color: var(--link-color);'>you haven't played any games yet :(</p>";
-        return;
-    }
-
-    games.forEach(game => {
-        const card = document.createElement("a");
-        card.href = game.path || "#";
-        card.className = "card";
-        card.style.backgroundImage = `url('${game.thumbnail || ""}')`;
-        card.setAttribute("data-title", game.name || "Untitled");
-
-        // NEW badge
-        if (Array.isArray(game.tags) && game.tags.includes("new")) {
-            const badge = document.createElement("div");
-            badge.className = "new-badge";
-            badge.textContent = "new";
-            card.appendChild(badge);
+            recentlyPlayedGrid.innerHTML = "";
+            if (!games.length) {
+                recentlyPlayedGrid.innerHTML = "<p style='color: var(--link-color);'>you haven't played any games yet :(</p>";
+                return;
+            }
+            games.forEach(game => {
+                const card = document.createElement("a");
+                card.href = game.path || "#";
+                card.className = "card";
+                card.style.backgroundImage = `url('${game.thumbnail || ""}')`;
+                card.setAttribute("data-title", game.name || "Untitled");
+                recentlyPlayedGrid.appendChild(card);
+            });
         }
-
-        recentlyPlayedGrid.appendChild(card);
-    });
-}
-
-    recentlyPlayedGrid.innerHTML = "";
-
-    if (!games.length) {
-        recentlyPlayedGrid.innerHTML =
-            "<p style='color: var(--link-color);'>you haven't played any games yet :(</p>";
-        return;
-    }
-
-    games.forEach(game => {
-        const card = document.createElement("a");
-        card.href = game.path || "#";
-        card.className = "card";
-        card.style.backgroundImage = `url('${game.thumbnail || ""}')`;
-        card.setAttribute("data-title", game.name || "Untitled");
-
-        // NEW badge
-        if (Array.isArray(game.tags) && game.tags.includes("new")) {
-            const badge = document.createElement("div");
-            badge.className = "new-badge";
-            badge.textContent = "new";
-            card.appendChild(badge);
-        }
-
-        recentlyPlayedGrid.appendChild(card);
-    });
-}
-        
 
         function addRecentlyPlayed(game) {
             const recent = getRecentlyPlayed().filter(g => g.name !== game.name);
@@ -570,47 +516,23 @@
                 }
                 data.games.sort((a,b) => (a.name||"").toLowerCase().localeCompare((b.name||"").toLowerCase()));
                 data.games.forEach(game => {
-    const card = document.createElement("a");
-    card.href = game.path || "#";
-    card.className = "card";
-    card.style.backgroundImage = `url('${game.thumbnail || ""}')`;
-    card.setAttribute("data-title", game.name || "Untitled");
-
-    // NEW badge
-    if (Array.isArray(game.tags) && game.tags.includes("new")) {
-        const badge = document.createElement("div");
-        badge.className = "new-badge";
-        badge.textContent = "new";
-        card.appendChild(badge);
-    }
-
-    card.addEventListener("click", () => addRecentlyPlayed(game));
-    gameGrid.appendChild(card);
-});
-
+                    const card = document.createElement("a");
+                    card.href = game.path || "#";
+                    card.className = "card";
+                    card.style.backgroundImage = `url('${game.thumbnail || ""}')`;
+                    card.setAttribute("data-title", game.name || "Untitled");
+                    card.addEventListener("click", () => addRecentlyPlayed(game));
+                    gameGrid.appendChild(card);
+                });
             })
             .catch(err => {
                 gameGrid.innerHTML = `<p style="color: var(--text-color);">Failed to load gameList.json</p>`;
                 console.error("Error loading game list:", err);
             });
 
-            // Terms of Service Banner
-document.addEventListener("DOMContentLoaded", () => {
-    const tosBanner = document.getElementById("tosBanner");
-    const acceptButton = document.getElementById("acceptTOS");
-
-    // Show banner if TOS cookie is not set
-    if (!getCookie("acceptedTOS")) {
-        tosBanner.style.display = "block";
-    }
-
-    // Handle Accept button
-    acceptButton.addEventListener("click", () => {
-        setCookie("acceptedTOS", "true", 365); // store for 1 year
-        tosBanner.style.display = "none";
-    });
-});
-
     </script>
 </body>
 </html>
+
+
+

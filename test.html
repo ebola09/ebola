@@ -443,6 +443,33 @@
         recentlyPlayedGrid.appendChild(card);
     });
 }
+
+    recentlyPlayedGrid.innerHTML = "";
+
+    if (!games.length) {
+        recentlyPlayedGrid.innerHTML =
+            "<p style='color: var(--link-color);'>you haven't played any games yet :(</p>";
+        return;
+    }
+
+    games.forEach(game => {
+        const card = document.createElement("a");
+        card.href = game.path || "#";
+        card.className = "card";
+        card.style.backgroundImage = `url('${game.thumbnail || ""}')`;
+        card.setAttribute("data-title", game.name || "Untitled");
+
+        // NEW badge
+        if (Array.isArray(game.tags) && game.tags.includes("new")) {
+            const badge = document.createElement("div");
+            badge.className = "new-badge";
+            badge.textContent = "new";
+            card.appendChild(badge);
+        }
+
+        recentlyPlayedGrid.appendChild(card);
+    });
+}
         
 
         function addRecentlyPlayed(game) {

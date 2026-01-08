@@ -443,20 +443,6 @@
         recentlyPlayedGrid.appendChild(card);
     });
 }
-
-            recentlyPlayedGrid.innerHTML = "";
-            if (!games.length) {
-                recentlyPlayedGrid.innerHTML = "<p style='color: var(--link-color);'>you haven't played any games yet :(</p>";
-                return;
-            }
-            games.forEach(game => {
-                const card = document.createElement("a");
-                card.href = game.path || "#";
-                card.className = "card";
-                card.style.backgroundImage = `url('${game.thumbnail || ""}')`;
-                card.setAttribute("data-title", game.name || "Untitled");
-                recentlyPlayedGrid.appendChild(card);
-            });
         
 
         function addRecentlyPlayed(game) {

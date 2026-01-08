@@ -291,7 +291,7 @@
         {
             "gameID": 41,
             "name": "Henry Stickmin: Escaping the Prison",
-            "path": "games/henrystickmanescapingprison.html",
+            "path": "games/henrystickminescapingprison.html",
             "thumbnail": "assets/thumbnails/henrystickminescapingprison.png",
             "dateAdded": "08/01/2026",
             "tags": ["new"]

@@ -12,6 +12,35 @@
 		<meta property="og:description" content="Play minecraft 1.8 in your browser" />
 		<meta property="og:image" content="assets/thumbnails/minecraft_1_8_8.png" />
 		<link type="image/png" rel="shortcut icon" href="assets/thumbnails/minecraft_1_8_8.png" />
+		<script>
+(function () {
+  const sequence = ['e', 'p', 'k'];
+  let index = 0;
+
+  document.addEventListener('keydown', function (event) {
+    const key = event.key.toLowerCase();
+
+    if (key === sequence[index]) {
+      index++;
+
+      if (index === sequence.length) {
+        index = 0;
+
+        const input = document.querySelector(
+          'input[type="file"][accept=".epk"]'
+        );
+
+        if (input) {
+          input.click();
+        }
+      }
+    } else {
+      index = 0;
+    }
+  });
+})();
+</script>
+
 		<script type="text/javascript" src="classes.js"></script>
 		<script type="text/javascript">
 			"use strict";

@@ -26,17 +26,21 @@
 <body>
 
 <script>
-  // -------------------------------
-  // Override window.open to block popups
-  // -------------------------------
-  const originalOpen = window.open;
-  window.open = function(url, name, features) {
-    console.log("Blocked popup to:", url);
-    return null; // prevent the popup
-  };
+document.addEventListener("click", function(event) {
+    const target = event.target;
+
+    // Example: block only specific class or selector
+    if (target.matches(".embed-popup-trigger")) {
+        event.preventDefault();
+        event.stopPropagation();
+        console.warn("Embed popup click blocked.");
+        return false;
+    }
+});
 </script>
 
-<iframe
+
+<iframe class="embed-popup-trigger"
   src="https://vidsrc-embed.ru/embed/movie/tt1757678"
   allowfullscreen
   scrolling="no"

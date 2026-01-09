@@ -81,11 +81,77 @@
             padding: 0 40px;
         }
 
-        .grid-title {
-            color: var(--link-color);
+        .main-content {
+            display: flex;
+            max-width: 1200px;
+            margin: 40px auto 0;
+            padding: 0 40px;
+        }
+
+        .games-container {
+            flex: 1;
+        }
+
+        .ad-sidebar {
+            position: fixed;
+            left: 40px;
+            top: calc(50vh - 300px);
+            width: 200px;
+            height: 600px;
+            overflow: auto;
+            z-index: 10;
+            scrollbar-width: none;
+        }
+
+        .ad-sidebar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .ad-scroll {
+            animation: scroll-vertical 20s linear infinite;
+        }
+
+        .ad-scroll:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll-vertical {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); }
+        }
+
+        .ad-item {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 4px;
+            border: 2px solid var(--card-border-color);
+            cursor: pointer;
+            margin-bottom: 10px;
+            position: relative;
+            display: block;
+            text-decoration: none;
+        }
+
+        .ad-item::after {
+            content: attr(data-title);
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
             font-size: 14px;
-            margin-bottom: 20px;
-            text-transform: lowercase;
+            color: var(--text-color);
+            background: rgba(0,0,0,0);
+            opacity: 0;
+            transition: background 0.2s, opacity 0.2s;
+        }
+
+        .ad-item:hover::after {
+            background: var(--card-overlay-color);
+            opacity: 1;
         }
         
         .tos-button {
@@ -219,9 +285,9 @@
             border-color: var(--link-hover-color);
         }
 
-        @media (max-width: 1200px) { #gameGrid, #recentlyPlayedGrid { grid-template-columns: repeat(4, 1fr); } }
-        @media (max-width: 992px)  { #gameGrid, #recentlyPlayedGrid { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 768px)  { #gameGrid, #recentlyPlayedGrid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 1200px) { #gameGrid, #recentlyPlayedGrid { grid-template-columns: repeat(4, 1fr); } .ad-sidebar { width: 180px; } }
+        @media (max-width: 992px)  { #gameGrid, #recentlyPlayedGrid { grid-template-columns: repeat(3, 1fr); } .ad-sidebar { width: 150px; } }
+        @media (max-width: 768px)  { #gameGrid, #recentlyPlayedGrid { grid-template-columns: repeat(2, 1fr); } .ad-sidebar { display: none; } .main-content { flex-direction: column; } .games-container { margin-top: 20px; } }
         @media (max-width: 500px)  { #gameGrid, #recentlyPlayedGrid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -356,14 +422,23 @@
         </div>
     </div>
 
-    <div class="grid-section">
-        <h2 class="grid-title">recently played</h2>
-        <div id="recentlyPlayedGrid"></div>
-    </div>
+    <div class="main-content">
+        <div class="ad-sidebar">
+            <div id="adContainer" class="ad-scroll">
+                <!-- New games will be populated here -->
+            </div>
+        </div>
+        <div class="games-container">
+            <div class="grid-section">
+                <h2 class="grid-title">recently played</h2>
+                <div id="recentlyPlayedGrid"></div>
+            </div>
 
-    <div class="grid-section">
-        <h2 class="grid-title">all games</h2>
-        <div id="gameGrid"></div>
+            <div class="grid-section">
+                <h2 class="grid-title">all games</h2>
+                <div id="gameGrid"></div>
+            </div>
+        </div>
     </div>
 
     <div class="bottombar">© 2026 ebola | version 1.7.5</div>
@@ -483,7 +558,7 @@
 
         function setTheme(theme) {
     const colors = {
-        orange: { bg:"#0d0502", text:"#913800", link:"#FF6200", hover:"#ff7b00", border:"#210D00", overlay:"rgba(33,13,0,0.75)", bottomBorder:"#FF6200", opacity:0.6, svgColor:"#FF6200" },
+        orange: { bg:"#0d0502", text:"#E8620E", link:"#913800", hover:"#E8620E", border:"#210D00", overlay:"rgba(33,13,0,0.75)", bottomBorder:"#913800", opacity:0.6, svgColor:"#FF6200" },
         purple: { bg:"#0D0012", text:"#A70EE8", link:"#5A077D", hover:"#A70EE8", border:"#310046", overlay:"rgba(49,0,70,0.75)", bottomBorder:"#5A077D", opacity:0.6, svgColor:"#A70EE8" },
         green:  { bg:"#000D00", text:"#0EE811", link:"#077408", hover:"#0EE811", border:"#004501", overlay:"rgba(7,116,8,0.75)", bottomBorder:"#077408", opacity:0.6, svgColor:"#0EE811" },
         teal:   { bg:"#00150F", text:"#0EE8CB", link:"#0A836D", hover:"#0EE8CB", border:"#004641", overlay:"rgba(0,31,33,0.75)", bottomBorder:"#0A836D", opacity:0.6, svgColor:"#0EE8CB" },
@@ -541,6 +616,31 @@
                     return;
                 }
                 data.games.sort((a,b) => (a.name||"").toLowerCase().localeCompare((b.name||"").toLowerCase()));
+                const newGames = data.games.filter(g => g.tags && g.tags.includes("new"));
+                const adContainer = document.getElementById("adContainer");
+                if (newGames.length > 0) {
+                    newGames.forEach(game => {
+                        const adItem = document.createElement("a");
+                        adItem.href = game.path || "#";
+                        adItem.className = "ad-item";
+                        adItem.style.backgroundImage = `url('${game.thumbnail || ""}')`;
+                        adItem.setAttribute("data-title", game.name || "Untitled");
+                        adItem.addEventListener("click", () => addRecentlyPlayed(game));
+                        adContainer.appendChild(adItem);
+                    });
+                    // duplicate for seamless scroll
+                    newGames.forEach(game => {
+                        const adItem = document.createElement("a");
+                        adItem.href = game.path || "#";
+                        adItem.className = "ad-item";
+                        adItem.style.backgroundImage = `url('${game.thumbnail || ""}')`;
+                        adItem.setAttribute("data-title", game.name || "Untitled");
+                        adItem.addEventListener("click", () => addRecentlyPlayed(game));
+                        adContainer.appendChild(adItem);
+                    });
+                } else {
+                    adContainer.innerHTML = "<p style='color: var(--link-color); font-size: 14px;'>No new games</p>";
+                }
                 data.games.forEach(game => {
                     const card = document.createElement("a");
                     card.href = game.path || "#";

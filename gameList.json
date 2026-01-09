@@ -275,7 +275,7 @@
         {
             "gameID": 39,
             "name": "Five Nights at Freddy's: Sister Location",
-            "path": "games/sisterlocation.html",
+            "path": "/games/sisterlocation/index.html",
             "thumbnail": "assets/thumbnails/sisterlocation.png",
             "dateAdded": "08/01/2026",
             "tags": ["new", "FnaF"]

@@ -238,7 +238,7 @@
             "path": "games/baldisbasics.html",
             "thumbnail": "assets/thumbnails/baldisbasics.png",
             "dateAdded": "08/01/2026",
-            "tags": ["new"]
+            "tags": [""]
         },
         {
             "gameID": 35,
@@ -246,7 +246,7 @@
             "path": "games/escaperoad2.html",
             "thumbnail": "assets/thumbnails/escaperoad2.png",
             "dateAdded": "08/01/2026",
-            "tags": ["new"]
+            "tags": [""]
         },
         {
             "gameID": 36,
@@ -254,7 +254,7 @@
             "path": "games/fnaf2.html",
             "thumbnail": "assets/thumbnails/fnaf2.png",
             "dateAdded": "08/01/2026",
-            "tags": ["new", "FnaF"]
+            "tags": ["", "FnaF"]
         },
         {
             "gameID": 37,
@@ -262,7 +262,7 @@
             "path": "games/fnaf3.html",
             "thumbnail": "assets/thumbnails/fnaf3.png",
             "dateAdded": "08/01/2026",
-            "tags": ["new", "FnaF"]
+            "tags": ["", "FnaF"]
         },
         {
             "gameID": 38,
@@ -270,7 +270,7 @@
             "path": "games/fnaf4.html",
             "thumbnail": "assets/thumbnails/fnaf4.png",
             "dateAdded": "08/01/2026",
-            "tags": ["new", "FnaF"]
+            "tags": ["", "FnaF"]
         },
         {
             "gameID": 39,
@@ -278,7 +278,7 @@
             "path": "/games/sisterlocation.html",
             "thumbnail": "assets/thumbnails/sisterlocation.png",
             "dateAdded": "08/01/2026",
-            "tags": ["new", "FnaF"]
+            "tags": ["", "FnaF"]
         },
         {
             "gameID": 40,
@@ -286,7 +286,7 @@
             "path": "games/ultimatecustomnight.html",
             "thumbnail": "assets/thumbnails/ultimatecustomnight.png",
             "dateAdded": "08/01/2026",
-            "tags": ["new", "FnaF"]
+            "tags": ["", "FnaF"]
         },
         {
             "gameID": 41,
@@ -294,7 +294,7 @@
             "path": "games/henrystickminescapingprison.html",
             "thumbnail": "assets/thumbnails/henrystickminescapingprison.png",
             "dateAdded": "08/01/2026",
-            "tags": ["new"]
+            "tags": [""]
         },
         {
             "gameID": 42,
@@ -310,6 +310,46 @@
             "path": "games/clashofvikings.html",
             "thumbnail": "assets/thumbnails/clashofvikings.png",
             "dateAdded": "08/01/2026",
+            "tags": [""]
+        },
+        {
+            "gameID": 44,
+            "name": "Chess",
+            "path": "games/chess.html",
+            "thumbnail": "assets/thumbnails/chess.png",
+            "dateAdded": "09/01/2026",
+            "tags": ["new"]
+        },
+        {
+            "gameID": 45,
+            "name": "Monkey Mart",
+            "path": "games/monkeymart.html",
+            "thumbnail": "assets/thumbnails/monkeymart.png",
+            "dateAdded": "09/01/2026",
+            "tags": ["new"]
+        },
+        {
+            "gameID": 46,
+            "name": "Fruit Ninja",
+            "path": "games/fruitninja.html",
+            "thumbnail": "assets/thumbnails/fruitninja.png",
+            "dateAdded": "09/01/2026",
+            "tags": ["new"]
+        },
+        {
+            "gameID": 47,
+            "name": "Basketball Stars",
+            "path": "games/basketballstars.html",
+            "thumbnail": "assets/thumbnails/basketballstars.png",
+            "dateAdded": "09/01/2026",
+            "tags": ["new"]
+        },
+        {
+            "gameID": 48,
+            "name": "Football Legends",
+            "path": "games/footballlegends.html",
+            "thumbnail": "assets/thumbnails/footballlegends.png",
+            "dateAdded": "09/01/2026",
             "tags": ["new"]
         }
         

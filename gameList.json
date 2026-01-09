@@ -220,7 +220,7 @@
         {
             "gameID": 33,
             "name": "Minecraft 1.8.8",
-            "path": "games/minecraft_1_8_8.html",
+            "path": "games/minecraft/1.8.8/index.html",
             "thumbnail": "assets/thumbnails/minecraft_1_8_8.png",
             "dateAdded": "08/01/2026",
             "tags": ["new"]

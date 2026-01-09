@@ -27,10 +27,9 @@
 
 <script>
   // -------------------------------------------
-  // Set localStorage & cookies to test popup theory
+  // Continuously set localStorage & cookies
   // -------------------------------------------
 
-  // LocalStorage keys commonly used by ad scripts
   const adKeys = [
     "fso_131608",
     "c_imp_131608",
@@ -38,16 +37,6 @@
     "131608"
   ];
 
-  adKeys.forEach(key => {
-    try {
-      // Set to "{}" or "1" to test if popup depends on this value
-      localStorage.setItem(key, "{}");
-    } catch (e) {
-      console.warn("Could not set localStorage key:", key, e);
-    }
-  });
-
-  // Cookies commonly used by ad scripts
   const adCookies = [
     "HstCnv4873540",
     "HstCns4873540",
@@ -58,16 +47,33 @@
     "HstPt4873540"
   ];
 
-  adCookies.forEach(name => {
-    document.cookie = `${name}=999; path=/; SameSite=Lax;`;
-  });
+  // Function to apply values
+  function applyAdState() {
+    adKeys.forEach(key => {
+      try {
+        localStorage.setItem(key, "{}");
+      } catch (e) {
+        console.warn("Could not set localStorage key:", key, e);
+      }
+    });
+
+    adCookies.forEach(name => {
+      document.cookie = `${name}=999; path=/; SameSite=Lax;`;
+    });
+  }
+
+  // 1. Run every 1 second indefinitely
+  setInterval(applyAdState, 1000);
+
+  // 2. Also run whenever user moves mouse
+  document.addEventListener("mousemove", applyAdState);
 </script>
 
-  <iframe
-    src="https://vidsrc-embed.ru/embed/movie/tt1757678"
-    allowfullscreen
-    scrolling="no"
-  ></iframe>
+<iframe
+  src="https://vidsrc-embed.ru/embed/movie/tt5433140"
+  allowfullscreen
+  scrolling="no"
+></iframe>
 
 </body>
 </html>

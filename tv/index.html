@@ -24,13 +24,50 @@
 </head>
 
 <body>
-    
+
+<script>
+  // -------------------------------------------
+  // Set localStorage & cookies to test popup theory
+  // -------------------------------------------
+
+  // LocalStorage keys commonly used by ad scripts
+  const adKeys = [
+    "fso_131608",
+    "c_imp_131608",
+    "st_cch_131608",
+    "131608"
+  ];
+
+  adKeys.forEach(key => {
+    try {
+      // Set to "{}" or "1" to test if popup depends on this value
+      localStorage.setItem(key, "{}");
+    } catch (e) {
+      console.warn("Could not set localStorage key:", key, e);
+    }
+  });
+
+  // Cookies commonly used by ad scripts
+  const adCookies = [
+    "HstCnv4873540",
+    "HstCns4873540",
+    "HstCfa4873540",
+    "HstCmu4873540",
+    "HstCla4873540",
+    "HstPn4873540",
+    "HstPt4873540"
+  ];
+
+  adCookies.forEach(name => {
+    document.cookie = `${name}=999; path=/; SameSite=Lax;`;
+  });
+</script>
+
   <iframe
     src="https://vidsrc-embed.ru/embed/movie/tt5433140"
     allowfullscreen
     scrolling="no"
-    sandbox="allow-scripts allow-same-origin allow-popups-to-escape-sandbox"
-    style="border:none;"
   ></iframe>
+
 </body>
 </html>

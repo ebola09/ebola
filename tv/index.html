@@ -33,22 +33,6 @@
     </script>
 </head>
 
-<script>
-    const sequence = ['t', 'r', 'e', 'e'];
-    let currentIndex = 0;
-
-    document.addEventListener('keydown', (event) => {
-        if (event.key.toLowerCase() === sequence[currentIndex]) {
-            currentIndex++;
-            if (currentIndex === sequence.length) {
-                window.location.href = 'tree.html';
-            }
-        } else {
-            currentIndex = 0;
-        }
-    });
-</script>
-
 <body>
 
 <div id="topbar-placeholder"></div>
@@ -104,6 +88,10 @@ function initApp() {
 
     function displayTVShows(shows, gridElement) {
         gridElement.innerHTML = '';
+        if (!shows || shows.length === 0) {
+            gridElement.innerHTML = '<p style="color: var(--text-color);">nothing to see here...</p>';
+            return;
+        }
         shows.forEach(show => {
             if (!show.poster_path) return;
             const card = document.createElement('div');

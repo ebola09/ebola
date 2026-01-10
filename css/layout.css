@@ -6,13 +6,13 @@
 
 .main-content {
     display: flex;
-    max-width: 1200px;
+    justify-content: center;
     margin: 40px auto 0;
     padding: 0 40px;
 }
 
 .games-container {
-    flex: 1;
+    max-width: 1200px;
 }
 
 .ad-sidebar {

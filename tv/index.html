@@ -26,28 +26,7 @@
                 initApp();
             } catch (err) {
                 console.error('Error loading partials:', err);
-                (async () => {
-    // Get reference to the main grid
-    const tvGrid = document.getElementById('tvGrid');
-
-    // 1️⃣ Load trending shows instantly on page load
-    const trending = await fetchTrendingTV();
-    displayTVShows(trending, tvGrid);
-
-    // 2️⃣ Listen for search input
-    const tvSearch = document.getElementById('tvSearch');
-    tvSearch.addEventListener('input', async () => {
-        const q = tvSearch.value.trim();
-        if (q) {
-            const results = await searchTV(q);
-            displayTVShows(results, tvGrid);
-        } else {
-            // If search is empty, show trending again
-            displayTVShows(trending, tvGrid);
-        }
-    });
-})();
-
+                
             }
         }
 
@@ -80,30 +59,13 @@
 
 <script>
 function initApp() {
-
-    const leftLinks = document.querySelectorAll('.topbar .left a');
-    leftLinks.forEach(link => link.classList.remove('active'));
-    if (window.location.pathname.includes('/arcade/')) {
-        leftLinks[0].classList.add('active');
-    } else if (window.location.pathname.includes('/tv/')) {
-        leftLinks[1].classList.add('active');
-    }
+    const tvGrid = document.getElementById('tvGrid');
+    const recentlyPlayedGrid = document.getElementById('recentlyPlayedGrid');
+    const tvSearch = document.getElementById('tvSearch');
 
     /* 🔒 API calls now go through Vercel */
-    async function fetchTrendingTV() {
-        const res = await fetch('/api/tmdb?endpoint=trending/tv/week');
-        const data = await res.json();
-        return data.results;
-    }
-
-    async function fetchPopularTV() {
-        const res = await fetch('/api/tmdb?endpoint=tv/popular');
-        const data = await res.json();
-        return data.results;
-    }
-
-    async function searchTV(query) {
-        const res = await fetch(`/api/tmdb?endpoint=search/tv&query=${encodeURIComponent(query)}`);
+    async function fetchTV(endpoint) {
+        const res = await fetch(`/api/tmdb?endpoint=${endpoint}`);
         const data = await res.json();
         return data.results;
     }
@@ -127,6 +89,7 @@ function initApp() {
         });
     }
 
+    /* Theme & Settings */
     const settingsButton = document.getElementById("settingsButton");
     const settingsPanel = document.querySelector('.settings-panel');
     const themeSelect = document.getElementById("themeSelect");
@@ -169,28 +132,49 @@ function initApp() {
     themeSelect.value = savedTheme;
 
     settingsButton.addEventListener("click", () => {
-        settingsPanel.style.display =
-            settingsPanel.style.display === "block" ? "none" : "block";
+        settingsPanel.style.display = settingsPanel.style.display === "block" ? "none" : "block";
     });
 
     themeSelect.addEventListener("change", () => setTheme(themeSelect.value));
 
-    (async () => {
-        const trending = await fetchTrendingTV();
-        displayTVShows(trending, document.getElementById('recentlyPlayedGrid'));
+    /* Highlight topbar link */
+    const leftLinks = document.querySelectorAll('.topbar .left a');
+    leftLinks.forEach(link => link.classList.remove('active'));
+    if (window.location.pathname.includes('/arcade/')) leftLinks[0].classList.add('active');
+    else if (window.location.pathname.includes('/tv/')) leftLinks[1].classList.add('active');
 
-        const trendingTop = await fetchTrendingTV();
-        displayTVShows(trendingTop, document.getElementById('tvGrid'));
+    /* =======================
+       Load trending instantly
+       ======================= */
+    let trendingCache = [];
+
+    (async () => {
+        trendingCache = await fetchTV('trending/tv/week');
+        displayTVShows(trendingCache, tvGrid);
+
+        // Optionally, load recently played or popular shows
+        if (recentlyPlayedGrid) {
+            const popular = await fetchTV('tv/popular');
+            displayTVShows(popular, recentlyPlayedGrid);
+        }
     })();
 
-    const tvSearch = document.getElementById('tvSearch');
+    /* =======================
+       Search handler
+       ======================= */
     tvSearch.addEventListener('input', async () => {
-        const q = tvSearch.value.trim();
-        const results = q ? await searchTV(q) : await fetchTrendingTV();
-        displayTVShows(results, document.getElementById('tvGrid'));
+        const query = tvSearch.value.trim();
+        if (query) {
+            const results = await fetchTV(`search/tv&query=${encodeURIComponent(query)}`);
+            displayTVShows(results, tvGrid);
+        } else {
+            // Show cached trending if search is empty
+            displayTVShows(trendingCache, tvGrid);
+        }
     });
 }
 </script>
+
 
 </body>
 </html>

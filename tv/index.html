@@ -56,14 +56,7 @@
 <div class="main-content">
     <div class="games-container">
         <div class="grid-section">
-            <h2 class="grid-title">trending</h2>
-            <div id="recentlyPlayedGrid"></div>
-        </div>
 
-        <div class="grid-section">
-            <div class="grid-title-container">
-                <h2 class="grid-title">top results</h2>
-                <input type="text" class="search-input" id="gameSearch" placeholder="search">
             </div>
             <div id="gameGrid"></div>
         </div>
@@ -85,12 +78,6 @@ function initApp() {
     }
 
     /* 🔒 API calls now go through Vercel */
-    async function fetchTrendingTV() {
-        const res = await fetch('/api/tmdb?endpoint=trending/tv/week');
-        const data = await res.json();
-        return data.results;
-    }
-
     async function fetchPopularTV() {
         const res = await fetch('/api/tmdb?endpoint=tv/popular');
         const data = await res.json();
@@ -167,9 +154,6 @@ function initApp() {
     themeSelect.addEventListener("change", () => setTheme(themeSelect.value));
 
     (async () => {
-        const trending = await fetchTrendingTV();
-        displayTVShows(trending, document.getElementById('recentlyPlayedGrid'));
-
         const popular = await fetchPopularTV();
         displayTVShows(popular, document.getElementById('gameGrid'));
     })();

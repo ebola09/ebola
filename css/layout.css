@@ -48,6 +48,7 @@
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 30px;
+    place-items: center;
 }
 
 @media (max-width: 1200px) { #gameGrid, #recentlyPlayedGrid, #tvGrid { grid-template-columns: repeat(4, 1fr); } .ad-sidebar { width: 180px; } }

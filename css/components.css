@@ -249,7 +249,8 @@
 .settings-panel {
     position: fixed;
     top: 120px;
-    right: 40px;
+    left: 50%;
+    transform: translateX(-50%);
     width: 220px;
     background-color: var(--bg-color);
     color: var(--text-color);

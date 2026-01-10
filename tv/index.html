@@ -42,9 +42,9 @@
         <div class="grid-section">
             <div class="grid-title-container">
                 <h2 class="grid-title">top results</h2>
-                <input type="text" class="search-input" id="gameSearch" placeholder="search">
+                    <input type="text" class="search-input" id="tvSearch" placeholder="search">
             </div>
-            <div id="gameGrid"></div>
+            <div id="tvGrid"></div>
         </div>
 
         <div class="grid-section">
@@ -158,14 +158,14 @@ function initApp() {
         displayTVShows(trending, document.getElementById('recentlyPlayedGrid'));
 
         const trendingTop = await fetchTrendingTV();
-        displayTVShows(trendingTop, document.getElementById('gameGrid'));
+        displayTVShows(trendingTop, document.getElementById('tvGrid'));
     })();
 
-    const gameSearch = document.getElementById('gameSearch');
-    gameSearch.addEventListener('input', async () => {
-        const q = gameSearch.value.trim();
+    const tvSearch = document.getElementById('tvSearch');
+    tvSearch.addEventListener('input', async () => {
+        const q = tvSearch.value.trim();
         const results = q ? await searchTV(q) : await fetchTrendingTV();
-        displayTVShows(results, document.getElementById('gameGrid'));
+        displayTVShows(results, document.getElementById('tvGrid'));
     });
 }
 </script>

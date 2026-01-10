@@ -26,6 +26,28 @@
                 initApp();
             } catch (err) {
                 console.error('Error loading partials:', err);
+                (async () => {
+    // Get reference to the main grid
+    const tvGrid = document.getElementById('tvGrid');
+
+    // 1️⃣ Load trending shows instantly on page load
+    const trending = await fetchTrendingTV();
+    displayTVShows(trending, tvGrid);
+
+    // 2️⃣ Listen for search input
+    const tvSearch = document.getElementById('tvSearch');
+    tvSearch.addEventListener('input', async () => {
+        const q = tvSearch.value.trim();
+        if (q) {
+            const results = await searchTV(q);
+            displayTVShows(results, tvGrid);
+        } else {
+            // If search is empty, show trending again
+            displayTVShows(trending, tvGrid);
+        }
+    });
+})();
+
             }
         }
 

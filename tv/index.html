@@ -40,7 +40,7 @@
 
 <div class="main-content">
     <div class="games-container">
-        <div class="grid-section">
+        <div class="grid-section" id="gridSection">
             <div class="grid-title-container">
                 <h2 class="grid-title">top results</h2>
                     <input type="text" class="search-input" id="tvSearch" placeholder="search">
@@ -48,7 +48,9 @@
             <div id="tvGrid"></div>
         </div>
 
-        <div class="grid-section">
+        <div class="grid-section" id="singleShowSection" style="display: none;">
+            <h2 id="showTitle"></h2>
+            <canvas id="showCanvas" width="800" height="600"></canvas>
         </div>
         </div>
     </div>
@@ -62,12 +64,16 @@ function initApp() {
     const tvGrid = document.getElementById('tvGrid');
     const recentlyPlayedGrid = document.getElementById('recentlyPlayedGrid');
     const tvSearch = document.getElementById('tvSearch');
+    const gridSection = document.getElementById('gridSection');
+    const singleShowSection = document.getElementById('singleShowSection');
+    const showTitle = document.getElementById('showTitle');
+    const showCanvas = document.getElementById('showCanvas');
 
     /* 🔒 API calls now go through Vercel */
     async function fetchTV(endpoint) {
         const res = await fetch(`/api/tmdb?endpoint=${endpoint}`);
         const data = await res.json();
-        return data.results;
+        return data.results || data;
     }
 
     function displayTVShows(shows, gridElement) {
@@ -85,8 +91,22 @@ function initApp() {
                 <div class="tv-title">${show.name}</div>
                 <div class="tv-rating">★ ${show.vote_average.toFixed(1)}</div>
             `;
+            card.addEventListener('click', async () => {
+                const external = await fetchTV(`tv/${show.id}/external_ids`);
+                const imdb_id = external.imdb_id;
+                if (imdb_id) {
+                    window.location.href = `/tv/${imdb_id}`;
+                }
+            });
             gridElement.appendChild(card);
         });
+    }
+
+    function displaySingleShow(show) {
+        showTitle.textContent = show.name;
+        gridSection.style.display = 'none';
+        singleShowSection.style.display = 'block';
+        // Canvas is empty as requested
     }
 
     /* Theme & Settings */
@@ -143,35 +163,55 @@ function initApp() {
     if (window.location.pathname.includes('/arcade/')) leftLinks[0].classList.add('active');
     else if (window.location.pathname.includes('/tv/')) leftLinks[1].classList.add('active');
 
-    /* =======================
-       Load trending instantly
-       ======================= */
-    let trendingCache = [];
+    /* Check if URL has show ID */
+    const pathParts = window.location.pathname.split('/');
+    const showId = pathParts[pathParts.length - 1];
+    if (showId && showId !== 'tv' && showId !== '') {
+        (async () => {
+            let show;
+            if (showId.startsWith('tt')) {
+                // IMDb ID
+                const findData = await fetchTV(`find/${showId}?external_source=imdb_id`);
+                show = findData.tv_results && findData.tv_results[0];
+            } else {
+                // Assume TMDB ID
+                show = await fetchTV(`tv/${showId}`);
+            }
+            if (show) {
+                displaySingleShow(show);
+            }
+        })();
+    } else {
+        /* =======================
+           Load trending instantly
+           ======================= */
+        let trendingCache = [];
 
-    (async () => {
-        trendingCache = await fetchTV('trending/tv/week');
-        displayTVShows(trendingCache, tvGrid);
-
-        // Optionally, load recently played or popular shows
-        if (recentlyPlayedGrid) {
-            const popular = await fetchTV('tv/popular');
-            displayTVShows(popular, recentlyPlayedGrid);
-        }
-    })();
-
-    /* =======================
-       Search handler
-       ======================= */
-    tvSearch.addEventListener('input', async () => {
-        const query = tvSearch.value.trim();
-        if (query) {
-            const results = await fetchTV(`search/tv&query=${encodeURIComponent(query)}`);
-            displayTVShows(results, tvGrid);
-        } else {
-            // Show cached trending if search is empty
+        (async () => {
+            trendingCache = await fetchTV('trending/tv/week');
             displayTVShows(trendingCache, tvGrid);
-        }
-    });
+
+            // Optionally, load recently played or popular shows
+            if (recentlyPlayedGrid) {
+                const popular = await fetchTV('tv/popular');
+                displayTVShows(popular, recentlyPlayedGrid);
+            }
+        })();
+
+        /* =======================
+           Search handler
+           ======================= */
+        tvSearch.addEventListener('input', async () => {
+            const query = tvSearch.value.trim();
+            if (query) {
+                const results = await fetchTV(`search/tv&query=${encodeURIComponent(query)}`);
+                displayTVShows(results, tvGrid);
+            } else {
+                // Show cached trending if search is empty
+                displayTVShows(trendingCache, tvGrid);
+            }
+        });
+    }
 }
 </script>
 

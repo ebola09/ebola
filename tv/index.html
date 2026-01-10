@@ -58,130 +58,121 @@
 <div id="settingsPanel"></div>
 
 <script>
-    function initApp() {
-        const tvGrid = document.getElementById('tvGrid');
-        const recentlyPlayedGrid = document.getElementById('recentlyPlayedGrid');
-        const tvSearch = document.getElementById('tvSearch');
+function initApp() {
+    const tvGrid = document.getElementById('tvGrid');
+    const recentlyPlayedGrid = document.getElementById('recentlyPlayedGrid');
+    const tvSearch = document.getElementById('tvSearch');
 
-        // Check if the URL matches the IMDb movie ID pattern
-        const pathSegments = window.location.pathname.split('/');
-        const movieId = pathSegments[pathSegments.length - 1];
+    /* 🔒 API calls now go through Vercel */
+    async function fetchTV(endpoint) {
+        const res = await fetch(`/api/tmdb?endpoint=${endpoint}`);
+        const data = await res.json();
+        return data.results;
+    }
 
-        if (movieId.match(/^tt\d{7}$/)) { // Regex to match IMDb ID format
-            document.body.innerHTML = `<h1>${movieId}</h1><canvas id="movieCanvas" width="800" height="600"></canvas>`;
-            return; // Exit the function to prevent further execution
+    function displayTVShows(shows, gridElement) {
+        gridElement.innerHTML = '';
+        if (!shows || shows.length === 0) {
+            gridElement.innerHTML = '<p style="color: var(--text-color);">nothing to see here...</p>';
+            return;
         }
-
-        /* 🔒 API calls now go through Vercel */
-        async function fetchTV(endpoint) {
-            const res = await fetch(`/api/tmdb?endpoint=${endpoint}`);
-            const data = await res.json();
-            return data.results;
-        }
-
-        function displayTVShows(shows, gridElement) {
-            gridElement.innerHTML = '';
-            if (!shows || shows.length === 0) {
-                gridElement.innerHTML = '<p style="color: var(--text-color);">nothing to see here...</p>';
-                return;
-            }
-            shows.forEach(show => {
-                if (!show.poster_path) return;
-                const card = document.createElement('div');
-                card.className = 'tv-card';
-                card.style.backgroundImage = `url('https://image.tmdb.org/t/p/w500${show.poster_path}')`;
-                card.innerHTML = `
-                    <div class="tv-title">${show.name}</div>
-                    <div class="tv-rating">★ ${show.vote_average.toFixed(1)}</div>
-                `;
-                gridElement.appendChild(card);
-            });
-        }
-
-        /* Theme & Settings */
-        const settingsButton = document.getElementById("settingsButton");
-        const settingsPanel = document.querySelector('.settings-panel');
-        const themeSelect = document.getElementById("themeSelect");
-
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            return parts.length === 2 ? parts.pop().split(';').shift() : null;
-        }
-
-        function setCookie(name, value, days) {
-            let expires = "";
-            if (days) {
-                const date = new Date();
-                date.setTime(date.getTime() + days * 86400000);
-                expires = "; expires=" + date.toUTCString();
-            }
-            document.cookie = `${name}=${value}${expires}; path=/`;
-        }
-
-        function setTheme(theme) {
-            const c = colors[theme];
-            const root = document.documentElement;
-            Object.entries({
-                '--bg-color': c.bg,
-                '--text-color': c.text,
-                '--link-color': c.link,
-                '--link-hover-color': c.hover,
-                '--card-border-color': c.border,
-                '--card-overlay-color': c.overlay,
-                '--bottombar-border-color': c.bottomBorder,
-                '--bottombar-opacity': c.opacity
-            }).forEach(([k, v]) => root.style.setProperty(k, v));
-
-            setCookie("theme", theme, 30);
-        }
-
-        const savedTheme = getCookie("theme") || "orange";
-        setTheme(savedTheme);
-        themeSelect.value = savedTheme;
-
-        settingsButton.addEventListener("click", () => {
-            settingsPanel.style.display = settingsPanel.style.display === "block" ? "none" : "block";
-        });
-
-        themeSelect.addEventListener("change", () => setTheme(themeSelect.value));
-
-        /* Highlight topbar link */
-        const leftLinks = document.querySelectorAll('.topbar .left a');
-        leftLinks.forEach(link => link.classList.remove('active'));
-        if (window.location.pathname.includes('/arcade/')) leftLinks[0].classList.add('active');
-        else if (window.location.pathname.includes('/tv/')) leftLinks[1].classList.add('active');
-
-        /* =======================
-        Load trending instantly
-        ======================= */
-        let trendingCache = [];
-
-        (async () => {
-            trendingCache = await fetchTV('trending/tv/week');
-            displayTVShows(trendingCache, tvGrid);
-
-            // Optionally, load recently played or popular shows
-            if (recentlyPlayedGrid) {
-                const popular = await fetchTV('tv/popular');
-                displayTVShows(popular, recentlyPlayedGrid);
-            }
-        })();
-
-        /* =======================
-        Search handler
-        ======================= */
-        tvSearch.addEventListener('input', async () => {
-            const query = tvSearch.value.trim();
-            if (query) {
-                const results = await fetchTV(`search/tv&query=${encodeURIComponent(query)}`);
-                displayTVShows(results, tvGrid);
-            } else {
-                // Show cached trending if search is empty
-                displayTVShows(trendingCache, tvGrid);
-            }
+        shows.forEach(show => {
+            if (!show.poster_path) return;
+            const card = document.createElement('div');
+            card.className = 'tv-card';
+            card.style.backgroundImage = `url('https://image.tmdb.org/t/p/w500${show.poster_path}')`;
+            card.innerHTML = `
+                <div class="tv-title">${show.name}</div>
+                <div class="tv-rating">★ ${show.vote_average.toFixed(1)}</div>
+            `;
+            gridElement.appendChild(card);
         });
     }
+
+    /* Theme & Settings */
+    const settingsButton = document.getElementById("settingsButton");
+    const settingsPanel = document.querySelector('.settings-panel');
+    const themeSelect = document.getElementById("themeSelect");
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        return parts.length === 2 ? parts.pop().split(';').shift() : null;
+    }
+
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + days * 86400000);
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = `${name}=${value}${expires}; path=/`;
+    }
+
+    function setTheme(theme) {
+        const c = colors[theme];
+        const root = document.documentElement;
+        Object.entries({
+            '--bg-color': c.bg,
+            '--text-color': c.text,
+            '--link-color': c.link,
+            '--link-hover-color': c.hover,
+            '--card-border-color': c.border,
+            '--card-overlay-color': c.overlay,
+            '--bottombar-border-color': c.bottomBorder,
+            '--bottombar-opacity': c.opacity
+        }).forEach(([k, v]) => root.style.setProperty(k, v));
+
+        setCookie("theme", theme, 30);
+    }
+
+    const savedTheme = getCookie("theme") || "orange";
+    setTheme(savedTheme);
+    themeSelect.value = savedTheme;
+
+    settingsButton.addEventListener("click", () => {
+        settingsPanel.style.display = settingsPanel.style.display === "block" ? "none" : "block";
+    });
+
+    themeSelect.addEventListener("change", () => setTheme(themeSelect.value));
+
+    /* Highlight topbar link */
+    const leftLinks = document.querySelectorAll('.topbar .left a');
+    leftLinks.forEach(link => link.classList.remove('active'));
+    if (window.location.pathname.includes('/arcade/')) leftLinks[0].classList.add('active');
+    else if (window.location.pathname.includes('/tv/')) leftLinks[1].classList.add('active');
+
+    /* =======================
+       Load trending instantly
+       ======================= */
+    let trendingCache = [];
+
+    (async () => {
+        trendingCache = await fetchTV('trending/tv/week');
+        displayTVShows(trendingCache, tvGrid);
+
+        // Optionally, load recently played or popular shows
+        if (recentlyPlayedGrid) {
+            const popular = await fetchTV('tv/popular');
+            displayTVShows(popular, recentlyPlayedGrid);
+        }
+    })();
+
+    /* =======================
+       Search handler
+       ======================= */
+    tvSearch.addEventListener('input', async () => {
+        const query = tvSearch.value.trim();
+        if (query) {
+            const results = await fetchTV(`search/tv&query=${encodeURIComponent(query)}`);
+            displayTVShows(results, tvGrid);
+        } else {
+            // Show cached trending if search is empty
+            displayTVShows(trendingCache, tvGrid);
+        }
+    });
+}
 </script>
 
 

@@ -26,7 +26,6 @@
                 initApp();
             } catch (err) {
                 console.error('Error loading partials:', err);
-                
             }
         }
 
@@ -43,13 +42,13 @@
         <div class="grid-section">
             <div class="grid-title-container">
                 <h2 class="grid-title">top results</h2>
-                    <input type="text" class="search-input" id="tvSearch" placeholder="search">
+                <input type="text" class="search-input" id="tvSearch" placeholder="search">
             </div>
             <div id="tvGrid"></div>
         </div>
 
-        <div class="grid-section">
-        </div>
+        <div class="grid-section" id="recentlyPlayedGridContainer">
+            <div id="recentlyPlayedGrid"></div>
         </div>
     </div>
 </div>
@@ -60,14 +59,29 @@
 <script>
 function initApp() {
     const tvGrid = document.getElementById('tvGrid');
-    const recentlyPlayedGrid = document.getElementById('recentlyPlayedGrid');
     const tvSearch = document.getElementById('tvSearch');
+    const recentlyPlayedGrid = document.getElementById('recentlyPlayedGrid');
 
-    /* 🔒 API calls now go through Vercel */
+    /* 🔒 API calls through Vercel */
     async function fetchTV(endpoint) {
         const res = await fetch(`/api/tmdb?endpoint=${endpoint}`);
         const data = await res.json();
         return data.results;
+    }
+
+    async function fetchMovieByImdb(imdbID) {
+        try {
+            const res = await fetch(`/api/tmdb?endpoint=find/${imdbID}&external_source=imdb_id`);
+            const data = await res.json();
+            if (data.movie_results && data.movie_results.length > 0) {
+                return data.movie_results[0].title;
+            } else {
+                return "Movie not found";
+            }
+        } catch (err) {
+            console.error(err);
+            return "Error fetching movie";
+        }
     }
 
     function displayTVShows(shows, gridElement) {
@@ -89,7 +103,33 @@ function initApp() {
         });
     }
 
-    /* Theme & Settings */
+    /* ==============================
+       URL Parsing for IMDb page
+       ============================== */
+    const path = window.location.pathname;
+    const parts = path.split('/').filter(Boolean); // ["tv", "tt0816692"] or ["tv"]
+    const imdbID = parts[1] || null;
+
+    if (imdbID) {
+        // Hide search and grid
+        if (tvGrid) tvGrid.style.display = 'none';
+        if (tvSearch) tvSearch.style.display = 'none';
+        if (recentlyPlayedGrid) recentlyPlayedGrid.parentElement.style.display = 'none';
+
+        // Display movie title
+        fetchMovieByImdb(imdbID).then(title => {
+            const mainContent = document.querySelector('.main-content');
+            const titleElement = document.createElement('h1');
+            titleElement.textContent = title;
+            titleElement.style.margin = '20px 0';
+            titleElement.style.color = 'var(--text-color)';
+            mainContent.prepend(titleElement);
+        });
+    }
+
+    /* ==============================
+       Theme & Settings
+       ============================== */
     const settingsButton = document.getElementById("settingsButton");
     const settingsPanel = document.querySelector('.settings-panel');
     const themeSelect = document.getElementById("themeSelect");
@@ -131,50 +171,54 @@ function initApp() {
     setTheme(savedTheme);
     themeSelect.value = savedTheme;
 
-    settingsButton.addEventListener("click", () => {
-        settingsPanel.style.display = settingsPanel.style.display === "block" ? "none" : "block";
-    });
+    if (settingsButton) {
+        settingsButton.addEventListener("click", () => {
+            settingsPanel.style.display = settingsPanel.style.display === "block" ? "none" : "block";
+        });
+    }
 
-    themeSelect.addEventListener("change", () => setTheme(themeSelect.value));
+    if (themeSelect) {
+        themeSelect.addEventListener("change", () => setTheme(themeSelect.value));
+    }
 
-    /* Highlight topbar link */
+    /* ==============================
+       Highlight topbar link
+       ============================== */
     const leftLinks = document.querySelectorAll('.topbar .left a');
     leftLinks.forEach(link => link.classList.remove('active'));
-    if (window.location.pathname.includes('/arcade/')) leftLinks[0].classList.add('active');
-    else if (window.location.pathname.includes('/tv/')) leftLinks[1].classList.add('active');
+    if (window.location.pathname.includes('/arcade/')) leftLinks[0]?.classList.add('active');
+    else if (window.location.pathname.includes('/tv/')) leftLinks[1]?.classList.add('active');
 
-    /* =======================
-       Load trending instantly
-       ======================= */
-    let trendingCache = [];
-
-    (async () => {
-        trendingCache = await fetchTV('trending/tv/week');
-        displayTVShows(trendingCache, tvGrid);
-
-        // Optionally, load recently played or popular shows
-        if (recentlyPlayedGrid) {
-            const popular = await fetchTV('tv/popular');
-            displayTVShows(popular, recentlyPlayedGrid);
-        }
-    })();
-
-    /* =======================
-       Search handler
-       ======================= */
-    tvSearch.addEventListener('input', async () => {
-        const query = tvSearch.value.trim();
-        if (query) {
-            const results = await fetchTV(`search/tv&query=${encodeURIComponent(query)}`);
-            displayTVShows(results, tvGrid);
-        } else {
-            // Show cached trending if search is empty
+    /* ==============================
+       Load trending / recently played
+       ============================== */
+    if (!imdbID) {
+        let trendingCache = [];
+        (async () => {
+            trendingCache = await fetchTV('trending/tv/week');
             displayTVShows(trendingCache, tvGrid);
-        }
-    });
+
+            if (recentlyPlayedGrid) {
+                const popular = await fetchTV('tv/popular');
+                displayTVShows(popular, recentlyPlayedGrid);
+            }
+        })();
+
+        /* ==============================
+           Search handler
+           ============================== */
+        tvSearch.addEventListener('input', async () => {
+            const query = tvSearch.value.trim();
+            if (query) {
+                const results = await fetchTV(`search/tv&query=${encodeURIComponent(query)}`);
+                displayTVShows(results, tvGrid);
+            } else {
+                displayTVShows(trendingCache, tvGrid);
+            }
+        });
+    }
 }
 </script>
-
 
 </body>
 </html>

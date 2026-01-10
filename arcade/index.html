@@ -199,8 +199,6 @@
             });
         }
 
-        document.addEventListener("DOMContentLoaded", () => updateRecentlyPlayedUI(getRecentlyPlayed()));
-
         if (!localStorage.getItem("gameProgress")) localStorage.setItem("gameProgress", "{}");
 
         document.getElementById("exportProgress").addEventListener("click", () => {
@@ -365,6 +363,7 @@
             displayGames(sortGames(filteredGames));
         });
 
+        updateRecentlyPlayedUI(getRecentlyPlayed());
         }
     </script>
 </body>

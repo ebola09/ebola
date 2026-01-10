@@ -1,18 +1,17 @@
 .grid-section {
-    max-width: 1200px;
     margin: 40px auto 0;
     padding: 0 40px;
 }
 
 .main-content {
     display: flex;
-    justify-content: center;
+    max-width: 1200px;
     margin: 40px auto 0;
     padding: 0 40px;
 }
 
 .games-container {
-    max-width: 1200px;
+    flex: 1;
 }
 
 .ad-sidebar {

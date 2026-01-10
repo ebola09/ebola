@@ -5,12 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ebola arcade</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="assets/favicon.png">
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.png">
     <link rel="stylesheet" href="../css/themes.css">
     <link rel="stylesheet" href="../css/base.css">
     <link rel="stylesheet" href="../css/layout.css">
     <link rel="stylesheet" href="../css/components.css">
     <script src="../js/themes.js"></script>
+    <script>
+        // Load partials first
+        async function loadPartials() {
+            try {
+                const [topbar, bottombar, settings] = await Promise.all([
+                    fetch('../partials/topbar.html').then(res => res.text()),
+                    fetch('../partials/bottombar.html').then(res => res.text()),
+                    fetch('../partials/settings.html').then(res => res.text())
+                ]);
+                document.getElementById('topbar-placeholder').innerHTML = topbar;
+                document.getElementById('bottombar-placeholder').innerHTML = bottombar;
+                document.getElementById('settingsPanel').innerHTML = settings;
+                // Now initialize the app
+                initApp();
+            } catch (err) {
+                console.error('Error loading partials:', err);
+            }
+        }
+
+        loadPartials();
+    </script>
 </head>
 
 <script>
@@ -36,112 +57,7 @@
 <body>
     
 
-    <div class="topbar">
-        <div class="left">
-            <a href="#" class="active">arcade</a>
-            <a href="#">more coming soon</a>
-        </div>
-        <div class="logo">
-  <svg width="251" height="88" viewBox="0 0 251 88" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_di_36_21)">
-<path d="M172 75V62.5H182.375V50H213.625V37.5H182.375V25H224.125V37.5H234.5V75H244.875V87.5H224.125V75H213.625V62.5H192.875V75H213.625V87.5H182.375V75H172Z" fill="white"/>
-</g>
-<g filter="url(#filter1_di_36_21)">
-<path d="M177.625 75H188.125V87.5H146.375V75H156.875V12.5H146.375V0H177.625V75Z" fill="white"/>
-</g>
-<g filter="url(#filter2_di_36_21)">
-<path d="M104 75V37.5H114.375V25H156.125V37.5H166.5V75H156.125V87.5H114.375V75H104ZM124.875 75H145.625V37.5H124.875V75Z" fill="white"/>
-</g>
-<g filter="url(#filter3_di_36_21)">
-<path d="M52 87.5V75H62.375V12.5H52V0H83.25V37.5H114.5V50H124.875V75H114.5V87.5H83.25V75H104.125V50H83.25V75H72.875V87.5H52Z" fill="white"/>
-</g>
-<g filter="url(#filter4_di_36_21)">
-<path d="M0 75V37.5H10.375V25H52.125V37.5H62.5V62.5H20.875V75H52.125V87.5H10.375V75H0ZM20.875 37.5V50H41.625V37.5H20.875Z" fill="white"/>
-</g>
-<defs>
-<filter id="filter0_di_36_21" x="172" y="25" width="78.875" height="66.5" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dx="6"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_36_21"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_36_21" result="shape"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="4"/>
-<feGaussianBlur stdDeviation="2"/>
-<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="shape" result="effect2_innerShadow_36_21"/>
-</filter>
-<filter id="filter1_di_36_21" x="146.375" y="0" width="47.75" height="91.5" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dx="6"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_36_21"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_36_21" result="shape"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="4"/>
-<feGaussianBlur stdDeviation="2"/>
-<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="shape" result="effect2_innerShadow_36_21"/>
-</filter>
-<filter id="filter2_di_36_21" x="104" y="25" width="68.5" height="66.5" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dx="6"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_36_21"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_36_21" result="shape"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="4"/>
-<feGaussianBlur stdDeviation="2"/>
-<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="shape" result="effect2_innerShadow_36_21"/>
-</filter>
-<filter id="filter3_di_36_21" x="52" y="0" width="78.875" height="91.5" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dx="6"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_36_21"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_36_21" result="shape"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="4"/>
-<feGaussianBlur stdDeviation="2"/>
-<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="shape" result="effect2_innerShadow_36_21"/>
-</filter>
-<filter id="filter4_di_36_21" x="0" y="25" width="68.5" height="66.5" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dx="6"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.5 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_36_21"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_36_21" result="shape"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="4"/>
-<feGaussianBlur stdDeviation="2"/>
-<feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
-<feBlend mode="normal" in2="shape" result="effect2_innerShadow_36_21"/>
-</filter>
-</defs>
-</svg>
-</div>
-
-        <div class="right">
-            <a id="settingsButton">settings</a>
-        </div>
-    </div>
+    <div id="topbar-placeholder"></div>
 
     <div class="main-content">
         <div class="ad-sidebar">
@@ -165,30 +81,17 @@
         </div>
     </div>
 
-    <div class="bottombar">© 2026 ebola | version 1.7.7</div>
+    <div id="bottombar-placeholder"></div>
 
-    <div id="settingsPanel" class="settings-panel">
-        <h3>settings</h3>
-        <label for="themeSelect">theme:</label>
-        <select id="themeSelect">
-            <option value="orange">orange</option>
-            <option value="purple">purple</option>
-            <option value="green">green</option>
-            <option value="blue">blue</option>
-            <option value="teal">teal</option>
-            <option value="rose">rose</option>
-        </select>
-        <button id="exportProgress">export game progress</button>
-        <button id="importProgress">import game progress</button>
-        <input type="file" id="importFile" accept=".json" style="display:none;">
-    </div>
+    <div id="settingsPanel"></div>
 
     <script>
+        function initApp() {
         const MAX_RECENT = 5;
         const recentlyPlayedGrid = document.getElementById("recentlyPlayedGrid");
         const gameGrid = document.getElementById("gameGrid");
         const settingsButton = document.getElementById("settingsButton");
-        const settingsPanel = document.getElementById("settingsPanel");
+        const settingsPanel = document.querySelector('.settings-panel');
         const themeSelect = document.getElementById("themeSelect");
         const importButton = document.getElementById("importProgress");
         const importFile = document.getElementById("importFile");
@@ -453,6 +356,7 @@
             displayGames(sortGames(filteredGames));
         });
 
+        }
     </script>
 </body>
 </html>

@@ -64,7 +64,6 @@
         </div>
 
         <div class="grid-section">
-
         </div>
         </div>
     </div>
@@ -112,7 +111,7 @@ function initApp() {
             card.style.backgroundImage = `url('https://image.tmdb.org/t/p/w500${show.poster_path}')`;
             card.innerHTML = `
                 <div class="tv-title">${show.name}</div>
-                <div class="tv-rating">⭐ ${show.vote_average.toFixed(1)}</div>
+                <div class="tv-rating">★ ${show.vote_average.toFixed(1)}</div>
             `;
             gridElement.appendChild(card);
         });
@@ -170,14 +169,14 @@ function initApp() {
         const trending = await fetchTrendingTV();
         displayTVShows(trending, document.getElementById('recentlyPlayedGrid'));
 
-        const popular = await fetchPopularTV();
-        displayTVShows(popular, document.getElementById('gameGrid'));
+        const trendingTop = await fetchTrendingTV();
+        displayTVShows(trendingTop, document.getElementById('gameGrid'));
     })();
 
     const gameSearch = document.getElementById('gameSearch');
     gameSearch.addEventListener('input', async () => {
         const q = gameSearch.value.trim();
-        const results = q ? await searchTV(q) : await fetchPopularTV();
+        const results = q ? await searchTV(q) : await fetchTrendingTV();
         displayTVShows(results, document.getElementById('gameGrid'));
     });
 }

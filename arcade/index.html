@@ -256,6 +256,30 @@
             opacity: var(--bottombar-opacity);
         }
 
+        .favorite-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            border: 1px solid var(--card-border-color);
+            opacity: var(--bottombar-opacity);
+            cursor: pointer;
+            display: none;
+        }
+
+        .card:hover .favorite-badge {
+            display: block;
+        }
+
+        .card.favorited .favorite-badge {
+            display: block;
+        }
+
         .bottombar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -465,7 +489,7 @@
             <div class="grid-section">
                 <div class="grid-title-container">
                     <h2 class="grid-title">all games</h2>
-                    <input type="text" class="search-input" id="gameSearch" placeholder="Search games...">
+                    <input type="text" class="search-input" id="gameSearch" placeholder="search">
                 </div>
                 <div id="gameGrid"></div>
             </div>
@@ -547,6 +571,51 @@
             if (recent.length > MAX_RECENT) recent.pop();
             saveRecentlyPlayed(recent);
             updateRecentlyPlayedUI(recent);
+        }
+
+        function getFavorites() {
+            const cookie = getCookie("favorites");
+            if (!cookie) return [];
+            try { return JSON.parse(cookie); } catch { return []; }
+        }
+
+        function saveFavorites(games) {
+            setCookie("favorites", JSON.stringify(games), 30);
+        }
+
+        function isFavorited(game) {
+            return getFavorites().some(f => f.name === game.name);
+        }
+
+        function toggleFavorite(game) {
+            let favs = getFavorites();
+            if (isFavorited(game)) {
+                favs = favs.filter(f => f.name !== game.name);
+            } else {
+                favs.push(game);
+            }
+            saveFavorites(favs);
+            // Re-display current view
+            const query = gameSearch.value.toLowerCase();
+            let gamesToDisplay = allGames;
+            if (query) {
+                gamesToDisplay = allGames.filter(g => {
+                    const nameMatch = (g.name || "").toLowerCase().includes(query);
+                    const tagMatch = g.tags && g.tags.some(tag => tag.toLowerCase().includes(query));
+                    return nameMatch || tagMatch;
+                });
+            }
+            displayGames(sortGames(gamesToDisplay));
+        }
+
+        function sortGames(games) {
+            return games.sort((a, b) => {
+                const aFav = isFavorited(a);
+                const bFav = isFavorited(b);
+                if (aFav && !bFav) return -1;
+                if (!aFav && bFav) return 1;
+                return (a.name || "").toLowerCase().localeCompare((b.name || "").toLowerCase());
+            });
         }
 
         document.addEventListener("DOMContentLoaded", () => updateRecentlyPlayedUI(getRecentlyPlayed()));
@@ -647,9 +716,20 @@
                 const card = document.createElement("a");
                 card.href = game.path || "#";
                 card.className = "card";
+                if (isFavorited(game)) card.classList.add("favorited");
                 card.style.backgroundImage = `url('${game.thumbnail || ""}')`;
                 card.setAttribute("data-title", game.name || "Untitled");
                 card.addEventListener("click", () => addRecentlyPlayed(game));
+                // Favorite badge
+                const favoriteBadge = document.createElement("div");
+                favoriteBadge.className = "favorite-badge";
+                favoriteBadge.textContent = isFavorited(game) ? "★" : "☆";
+                favoriteBadge.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleFavorite(game);
+                });
+                card.appendChild(favoriteBadge);
                 if (game.tags && game.tags.includes("new")) {
                     const newBadge = document.createElement("div");
                     newBadge.className = "new-badge";
@@ -668,7 +748,7 @@
                     return;
                 }
                 data.games.sort((a,b) => (a.name||"").toLowerCase().localeCompare((b.name||"").toLowerCase()));
-                allGames = data.games;
+                allGames = sortGames(data.games);
                 const newGames = data.games.filter(g => g.tags && g.tags.includes("new"));
                 const adContainer = document.getElementById("adContainer");
                 if (newGames.length > 0) {
@@ -709,7 +789,7 @@
                 const tagMatch = game.tags && game.tags.some(tag => tag.toLowerCase().includes(query));
                 return nameMatch || tagMatch;
             });
-            displayGames(filteredGames);
+            displayGames(sortGames(filteredGames));
         });
 
     </script>

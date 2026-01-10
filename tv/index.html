@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ebola tv</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.png">
+    <link rel="stylesheet" href="../css/themes.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <script src="../js/themes.js"></script>
+
+    <script>
+        async function loadPartials() {
+            try {
+                const [topbar, bottombar, settings] = await Promise.all([
+                    fetch('../partials/topbar.html').then(res => res.text()),
+                    fetch('../partials/bottombar.html').then(res => res.text()),
+                    fetch('../partials/settings.html').then(res => res.text())
+                ]);
+                document.getElementById('topbar-placeholder').innerHTML = topbar;
+                document.getElementById('bottombar-placeholder').innerHTML = bottombar;
+                document.getElementById('settingsPanel').innerHTML = settings;
+                initApp();
+            } catch (err) {
+                console.error('Error loading partials:', err);
+            }
+        }
+
+        loadPartials();
+    </script>
+</head>
+
+<script>
+    const sequence = ['t', 'r', 'e', 'e'];
+    let currentIndex = 0;
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key.toLowerCase() === sequence[currentIndex]) {
+            currentIndex++;
+            if (currentIndex === sequence.length) {
+                window.location.href = 'tree.html';
+            }
+        } else {
+            currentIndex = 0;
+        }
+    });
+</script>
+
+<body>
+
+<div id="topbar-placeholder"></div>
+
+<div class="main-content">
+    <div class="games-container">
+        <div class="grid-section">
+            <h2 class="grid-title">trending</h2>
+            <div id="recentlyPlayedGrid"></div>
+        </div>
+
+        <div class="grid-section">
+            <div class="grid-title-container">
+                <h2 class="grid-title">top results</h2>
+                <input type="text" class="search-input" id="gameSearch" placeholder="search">
+            </div>
+            <div id="gameGrid"></div>
+        </div>
+    </div>
+</div>
+
+<div id="bottombar-placeholder"></div>
+<div id="settingsPanel"></div>
+
+<script>
+function initApp() {
+
+    const leftLinks = document.querySelectorAll('.topbar .left a');
+    leftLinks.forEach(link => link.classList.remove('active'));
+    if (window.location.pathname.includes('/arcade/')) {
+        leftLinks[0].classList.add('active');
+    } else if (window.location.pathname.includes('/tv/')) {
+        leftLinks[1].classList.add('active');
+    }
+
+    /* 🔒 API calls now go through Vercel */
+    async function fetchTrendingTV() {
+        const res = await fetch('/api/tmdb?endpoint=trending/tv/week');
+        const data = await res.json();
+        return data.results;
+    }
+
+    async function fetchPopularTV() {
+        const res = await fetch('/api/tmdb?endpoint=tv/popular');
+        const data = await res.json();
+        return data.results;
+    }
+
+    async function searchTV(query) {
+        const res = await fetch(`/api/tmdb?endpoint=search/tv&query=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        return data.results;
+    }
+
+    function displayTVShows(shows, gridElement) {
+        gridElement.innerHTML = '';
+        shows.forEach(show => {
+            if (!show.poster_path) return;
+            const card = document.createElement('div');
+            card.className = 'tv-card';
+            card.style.backgroundImage = `url('https://image.tmdb.org/t/p/w500${show.poster_path}')`;
+            card.innerHTML = `
+                <div class="tv-title">${show.name}</div>
+                <div class="tv-rating">⭐ ${show.vote_average.toFixed(1)}</div>
+            `;
+            gridElement.appendChild(card);
+        });
+    }
+
+    const settingsButton = document.getElementById("settingsButton");
+    const settingsPanel = document.querySelector('.settings-panel');
+    const themeSelect = document.getElementById("themeSelect");
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        return parts.length === 2 ? parts.pop().split(';').shift() : null;
+    }
+
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + days * 86400000);
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = `${name}=${value}${expires}; path=/`;
+    }
+
+    function setTheme(theme) {
+        const c = colors[theme];
+        const root = document.documentElement;
+        Object.entries({
+            '--bg-color': c.bg,
+            '--text-color': c.text,
+            '--link-color': c.link,
+            '--link-hover-color': c.hover,
+            '--card-border-color': c.border,
+            '--card-overlay-color': c.overlay,
+            '--bottombar-border-color': c.bottomBorder,
+            '--bottombar-opacity': c.opacity
+        }).forEach(([k, v]) => root.style.setProperty(k, v));
+
+        setCookie("theme", theme, 30);
+    }
+
+    const savedTheme = getCookie("theme") || "orange";
+    setTheme(savedTheme);
+    themeSelect.value = savedTheme;
+
+    settingsButton.addEventListener("click", () => {
+        settingsPanel.style.display =
+            settingsPanel.style.display === "block" ? "none" : "block";
+    });
+
+    themeSelect.addEventListener("change", () => setTheme(themeSelect.value));
+
+    (async () => {
+        const trending = await fetchTrendingTV();
+        displayTVShows(trending, document.getElementById('recentlyPlayedGrid'));
+
+        const popular = await fetchPopularTV();
+        displayTVShows(popular, document.getElementById('gameGrid'));
+    })();
+
+    const gameSearch = document.getElementById('gameSearch');
+    gameSearch.addEventListener('input', async () => {
+        const q = gameSearch.value.trim();
+        const results = q ? await searchTV(q) : await fetchPopularTV();
+        displayTVShows(results, document.getElementById('gameGrid'));
+    });
+}
+</script>
+
+</body>
+</html>

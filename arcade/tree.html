@@ -35,29 +35,39 @@
 <script>
 const fileList = document.getElementById("file-list");
 
-// GitHub API endpoint (NOT the normal GitHub URL)
-const apiUrl =
-  "https://api.github.com/repos/ebola09/ebola/contents/games?ref=cdef310d1c5e64e86390b041dc8fb4677f68edd1";
+const owner = "ebola09";
+const repo = "ebola";
+const branch = "main";   // or "master" if your repo uses it
+const folder = "games";
+
+const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${folder}?ref=${branch}`;
+
+const siteBase = `https://${owner}.github.io/${repo}`; // GitHub Pages base
 
 async function fetchFiles() {
     try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) throw new Error("GitHub API error");
+        const res = await fetch(apiUrl);
+        if (!res.ok) throw new Error("GitHub API error");
 
-        const files = await response.json();
+        const items = await res.json();
 
-        files.forEach(file => {
-            if (file.type === "file" && file.name.endsWith(".html")) {
+        items.forEach(item => {
+            if (item.type === "file" && item.name.endsWith(".html")) {
                 const li = document.createElement("li");
                 const link = document.createElement("a");
 
-                link.textContent = file.name;
-                link.href = `/games/${file.name}`; // your local path
+                link.textContent = item.name;
+
+                // This is the correct public URL to the file
+                link.href = `${siteBase}/${folder}/${item.name}`;
+
+                link.target = "_blank"; // optional
 
                 li.appendChild(link);
                 fileList.appendChild(li);
             }
         });
+
     } catch (err) {
         console.error(err);
         fileList.textContent = "Failed to load files.";

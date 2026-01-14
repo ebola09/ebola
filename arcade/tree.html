@@ -35,14 +35,16 @@
 <script>
 const fileList = document.getElementById("file-list");
 
+// GitHub repo info
 const owner = "ebola09";
 const repo = "ebola";
-const branch = "main";   // or "master" if your repo uses it
-const folder = "games";
+const branch = "main";      // change to "master" if needed
+const githubFolder = "games";
 
-const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${folder}?ref=${branch}`;
+// Where the games actually live on your site
+const siteFolder = "/arcade/games";
 
-const siteBase = `https://${owner}.github.io/${repo}`; // GitHub Pages base
+const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${githubFolder}?ref=${branch}`;
 
 async function fetchFiles() {
     try {
@@ -58,10 +60,8 @@ async function fetchFiles() {
 
                 link.textContent = item.name;
 
-                // This is the correct public URL to the file
-                link.href = `${siteBase}/${folder}/${item.name}`;
-
-                link.target = "_blank"; // optional
+                // Correct site path
+                link.href = `${siteFolder}/${item.name}`;
 
                 li.appendChild(link);
                 fileList.appendChild(li);

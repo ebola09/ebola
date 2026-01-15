@@ -1,209 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ebola arcade</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="icon" type="image/x-icon" href="../assets/favicon.png">
-<link rel="stylesheet" href="../css/themes.css">
-<link rel="stylesheet" href="../css/base.css">
-<link rel="stylesheet" href="../css/layout.css">
-<link rel="stylesheet" href="../css/components.css">
+    <title>ebola arcade</title>
 
-<script src="../js/themes.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.png" />
 
-<script>
-async function loadPartials() {
-    try {
-        const [topbar, bottombar, settings] = await Promise.all([
-            fetch('../partials/topbar.html').then(r => r.text()),
-            fetch('../partials/bottombar.html').then(r => r.text()),
-            fetch('../partials/settings.html').then(r => r.text())
-        ]);
+    <link rel="stylesheet" href="../css/themes.css" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/components.css" />
 
-        document.getElementById('topbar-placeholder').innerHTML = topbar;
-        document.getElementById('bottombar-placeholder').innerHTML = bottombar;
-        document.getElementById('settingsPanel').innerHTML = settings;
+    <script src="../js/themes.js"></script>
 
-        initApp();
-    } catch (err) {
-        console.error(err);
-    }
-}
-loadPartials();
-</script>
-</head>
+    <script>
+        async function loadPartials() {
+            try {
+                const [topbar, bottombar, settings] = await Promise.all([
+                    fetch("../partials/topbar.html").then(res => res.text()),
+                    fetch("../partials/bottombar.html").then(res => res.text()),
+                    fetch("../partials/settings.html").then(res => res.text())
+                ]);
 
-<script>
-const sequence = ['t','r','e','e'];
-let i = 0;
-document.addEventListener("keydown", e => {
-    if (e.key.toLowerCase() === sequence[i]) {
-        i++;
-        if (i === sequence.length) window.location.href = "tree.html";
-    } else i = 0;
-});
-</script>
+                document.getElementById("topbar-placeholder").innerHTML = topbar;
+                document.getElementById("bottombar-placeholder").innerHTML = bottombar;
+                document.getElementById("settingsPanel").innerHTML = settings;
 
-<body>
-
-<div id="topbar-placeholder"></div>
-
-<div class="main-content">
-    <div class="games-container">
-
-        <div class="grid-section">
-            <h2 class="grid-title">recently played</h2>
-            <div id="recentlyPlayedGrid"></div>
-        </div>
-
-        <div class="grid-section">
-            <div class="grid-title-container">
-                <h2 class="grid-title">all games</h2>
-                <input type="text" id="gameSearch" class="search-input" placeholder="search">
-            </div>
-            <div id="gameGrid"></div>
-        </div>
-
-    </div>
-</div>
-
-<div id="bottombar-placeholder"></div>
-<div id="settingsPanel"></div>
-
-<script>
-function initApp() {
-
-const MAX_RECENT = 5;
-const recentlyPlayedGrid = document.getElementById("recentlyPlayedGrid");
-const gameGrid = document.getElementById("gameGrid");
-const gameSearch = document.getElementById("gameSearch");
-const themeSelect = document.getElementById("themeSelect");
-const settingsButton = document.getElementById("settingsButton");
-const settingsPanel = document.querySelector(".settings-panel");
-
-let allGames = [];
-
-/* ---------------- Cookies ---------------- */
-
-function getCookie(n){return document.cookie.split("; ").find(r=>r.startsWith(n+"="))?.split("=")[1]||null;}
-function setCookie(n,v,d){
-    let e="";
-    if(d){const t=new Date();t.setTime(t.getTime()+d*86400000);e="; expires="+t.toUTCString();}
-    document.cookie=n+"="+v+e+"; path=/";
-}
-
-/* ------------- Recently Played ------------- */
-
-function getRecent(){ try{ return JSON.parse(getCookie("recentlyPlayed")||"[]"); }catch{return[];} }
-function saveRecent(r){ setCookie("recentlyPlayed",JSON.stringify(r),30); }
-
-function updateRecent(){
-    const r=getRecent();
-    recentlyPlayedGrid.innerHTML="";
-    if(!r.length){
-        recentlyPlayedGrid.innerHTML="<p style='color:var(--link-color)'>no games played yet</p>";
-        return;
-    }
-    r.forEach(g=>{
-        const a=document.createElement("a");
-        a.href=g.path;
-        a.className="card";
-        a.style.backgroundImage=`url('${g.thumbnail||""}')`;
-        a.dataset.title=g.name;
-        recentlyPlayedGrid.appendChild(a);
-    });
-}
-
-function addRecent(game){
-    let r=getRecent().filter(g=>g.name!==game.name);
-    r.unshift(game);
-    if(r.length>MAX_RECENT) r.pop();
-    saveRecent(r);
-    updateRecent();
-}
-
-/* -------------- Favorites -------------- */
-
-function getFav(){ try{return JSON.parse(getCookie("favorites")||"[]");}catch{return[];} }
-function saveFav(f){ setCookie("favorites",JSON.stringify(f),30); }
-function isFav(g){ return getFav().some(f=>f.name===g.name); }
-
-function toggleFav(g){
-    let f=getFav();
-    isFav(g)?f=f.filter(x=>x.name!==g.name):f.push(g);
-    saveFav(f);
-    displayGames(sortGames(allGames));
-}
-
-/* -------------- Game Grid -------------- */
-
-function sortGames(g){
-    return g.sort((a,b)=>{
-        if(isFav(a)&&!isFav(b)) return -1;
-        if(!isFav(a)&&isFav(b)) return 1;
-        return a.name.localeCompare(b.name);
-    });
-}
-
-function displayGames(games){
-    gameGrid.innerHTML="";
-    games.forEach(g=>{
-        const a=document.createElement("a");
-        a.href=g.path;
-        a.className="card";
-        if(isFav(g)) a.classList.add("favorited");
-        a.style.backgroundImage=`url('${g.thumbnail||""}')`;
-        a.dataset.title=g.name;
-        a.onclick=()=>addRecent(g);
-
-        const fav=document.createElement("div");
-        fav.className="favorite-badge";
-        fav.textContent=isFav(g)?"★":"☆";
-        fav.onclick=e=>{
-            e.preventDefault();
-            e.stopPropagation();
-            toggleFav(g);
-        };
-        a.appendChild(fav);
-
-        if(g.tags?.includes("new")){
-            const n=document.createElement("div");
-            n.className="new-badge";
-            n.textContent="new";
-            a.appendChild(n);
+                initApp();
+            } catch (err) {
+                console.error("Error loading partials:", err);
+            }
         }
 
-        gameGrid.appendChild(a);
-    });
-}
+        loadPartials();
+    </script>
 
-/* -------------- Load Games -------------- */
+    <script>
+        const sequence = ["t", "r", "e", "e"];
+        let currentIndex = 0;
 
-fetch("gameList.json")
-.then(r=>r.json())
-.then(d=>{
-    allGames = sortGames(d.games||[]);
-    displayGames(allGames);
-})
-.catch(()=> gameGrid.innerHTML="<p style='color:var(--link-color)'>failed to load games</p>");
+        document.addEventListener("keydown", event => {
+            if (event.key.toLowerCase() === sequence[currentIndex]) {
+                currentIndex++;
+                if (currentIndex === sequence.length) {
+                    window.location.href = "tree.html";
+                }
+            } else {
+                currentIndex = 0;
+            }
+        });
+    </script>
+</head>
 
-/* -------------- Search -------------- */
+<body>
+    <div id="topbar-placeholder"></div>
 
-gameSearch.addEventListener("input",()=>{
-    const q=gameSearch.value.toLowerCase();
-    const f=allGames.filter(g=>
-        g.name.toLowerCase().includes(q) ||
-        g.tags?.some(t=>t.toLowerCase().includes(q))
-    );
-    displayGames(sortGames(f));
-});
+    <div class="main-content">
+        <div class="ad-sidebar">
+            <div id="adContainer" class="ad-scroll"></div>
+        </div>
 
-updateRecent();
-}
-</script>
+        <div class="games-container">
+            <div class="grid-section">
+                <h2 class="grid-title">recently played</h2>
+                <div id="recentlyPlayedGrid"></div>
+            </div>
 
+            <div class="grid-section">
+                <div class="grid-title-container">
+                    <h2 class="grid-title">all games</h2>
+                    <input type="text" class="search-input" id="gameSearch" placeholder="search" />
+                </div>
+                <div id="gameGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="bottombar-placeholder"></div>
+    <div id="settingsPanel"></div>
+
+    <script>
+        function initApp() {
+            const MAX_RECENT = 5;
+            const recentlyPlayedGrid = document.getElementById("recentlyPlayedGrid");
+            const gameGrid = document.getElementById("gameGrid");
+            const settingsButton = document.getElementById("settingsButton");
+            const settingsPanel = document.querySelector(".settings-panel");
+            const themeSelect = document.getElementById("themeSelect");
+            const importButton = document.getElementById("importProgress");
+            const importFile = document.getElementById("importFile");
+            const gameSearch = document.getElementById("gameSearch");
+
+            const leftLinks = document.querySelectorAll(".topbar .left a");
+            leftLinks.forEach(link => link.classList.remove("active"));
+
+            if (window.location.pathname.includes("/arcade/")) {
+                leftLinks[0]?.classList.add("active");
+            } else if (window.location.pathname.includes("/tv/")) {
+                leftLinks[1]?.classList.add("active");
+            }
+
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                return parts.length === 2 ? parts.pop().split(";").shift() : null;
+            }
+
+            function setCookie(name, value, days) {
+                let expires = "";
+                if (days) {
+                    const date = new Date();
+                    date.setTime(date.getTime() + days * 86400000);
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = `${name}=${value}${expires}; path=/`;
+            }
+
+            function getRecentlyPlayed() {
+                try {
+                    return JSON.parse(getCookie("recentlyPlayed") || "[]");
+                } catch {
+                    return [];
+                }
+            }
+
+            function saveRecentlyPlayed(games) {
+                setCookie("recentlyPlayed", JSON.stringify(games), 30);
+            }
+
+            function updateRecentlyPlayedUI(games) {
+                recentlyPlayedGrid.innerHTML = "";
+                if (!games.length) {
+                    recentlyPlayedGrid.innerHTML =
+                        "<p style='color: var(--link-color);'>you haven't played any games yet :(</p>";
+                    return;
+                }
+
+                games.forEach(game => {
+                    const card = document.createElement("a");
+                    card.href = game.path || "#";
+                    card.className = "card";
+                    card.style.backgroundImage = `url('${game.thumbnail || ""}')`;
+                    card.dataset.title = game.name || "Untitled";
+                    recentlyPlayedGrid.appendChild(card);
+                });
+            }
+
+            function addRecentlyPlayed(game) {
+                const recent = getRecentlyPlayed().filter(g => g.name !== game.name);
+                recent.unshift(game);
+                if (recent.length > MAX_RECENT) recent.pop();
+                saveRecentlyPlayed(recent);
+                updateRecentlyPlayedUI(recent);
+            }
+
+            function getFavorites() {
+                try {
+                    return JSON.parse(getCookie("favorites") || "[]");
+                } catch {
+                    return [];
+                }
+            }
+
+            function saveFavorites(games) {
+                setCookie("favorites", JSON.stringify(games), 30);
+            }
+
+            function isFavorited(game) {
+                return getFavorites().some(f => f.name === game.name);
+            }
+
+            function toggleFavorite(game) {
+                let favs = getFavorites();
+                favs = isFavorited(game)
+                    ? favs.filter(f => f.name !== game.name)
+                    : [...favs, game];
+                saveFavorites(favs);
+                displayGames(sortGames(allGames));
+            }
+
+            function sortGames(games) {
+                return games.sort((a, b) => {
+                    const af = isFavorited(a);
+                    const bf = isFavorited(b);
+                    if (af !== bf) return af ? -1 : 1;
+                    return (a.name || "").localeCompare(b.name || "");
+                });
+            }
+
+            function displayGames(games) {
+                gameGrid.innerHTML = "";
+                games.forEach(game => {
+                    const card = document.createElement("a");
+                    card.href = game.path || "#";
+                    card.className = "card";
+                    if (isFavorited(game)) card.classList.add("favorited");
+                    card.style.backgroundImage = `url('${game.thumbnail || ""}')`;
+                    card.dataset.title = game.name || "Untitled";
+                    card.addEventListener("click", () => addRecentlyPlayed(game));
+
+                    const fav = document.createElement("div");
+                    fav.className = "favorite-badge";
+                    fav.textContent = isFavorited(game) ? "★" : "☆";
+                    fav.onclick = e => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        toggleFavorite(game);
+                    };
+
+                    card.appendChild(fav);
+                    gameGrid.appendChild(card);
+                });
+            }
+
+            let allGames = [];
+
+            fetch("gameList.json")
+                .then(res => res.json())
+                .then(data => {
+                    allGames = sortGames(data.games || []);
+                    displayGames(allGames);
+                })
+                .catch(() => {
+                    gameGrid.innerHTML =
+                        "<p style='color: var(--link-color);'>Failed to load game list</p>";
+                });
+
+            gameSearch.addEventListener("input", () => {
+                const q = gameSearch.value.toLowerCase();
+                displayGames(
+                    sortGames(
+                        allGames.filter(
+                            g =>
+                                (g.name || "").toLowerCase().includes(q) ||
+                                g.tags?.some(t => t.toLowerCase().includes(q))
+                        )
+                    )
+                );
+            });
+
+            updateRecentlyPlayedUI(getRecentlyPlayed());
+        }
+    </script>
 </body>
 </html>

@@ -249,8 +249,7 @@
 .settings-panel {
     position: fixed;
     top: 120px;
-    left: 50%;
-    transform: translateX(-50%);
+    right: 20px;            /* distance from the right edge */
     width: 220px;
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -261,6 +260,7 @@
     z-index: 2000;
     opacity: 0.95;
 }
+
 
 .settings-panel.show {
     display: block;

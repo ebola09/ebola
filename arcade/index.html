@@ -1,249 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ebola arcade</title>
+<title>ebola arcade</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet" />
-    <link rel="icon" type="image/x-icon" href="../assets/favicon.png" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/x-icon" href="../assets/favicon.png">
 
-    <link rel="stylesheet" href="../css/themes.css" />
-    <link rel="stylesheet" href="../css/base.css" />
-    <link rel="stylesheet" href="../css/layout.css" />
-    <link rel="stylesheet" href="../css/components.css" />
+<link rel="stylesheet" href="../css/themes.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
 
-    <script src="../js/themes.js"></script>
+<script src="../js/themes.js"></script>
 
-    <script>
-        async function loadPartials() {
-            try {
-                const [topbar, bottombar, settings] = await Promise.all([
-                    fetch("../partials/topbar.html").then(res => res.text()),
-                    fetch("../partials/bottombar.html").then(res => res.text()),
-                    fetch("../partials/settings.html").then(res => res.text())
-                ]);
-
-                document.getElementById("topbar-placeholder").innerHTML = topbar;
-                document.getElementById("bottombar-placeholder").innerHTML = bottombar;
-                document.getElementById("settingsPanel").innerHTML = settings;
-
-                initApp();
-            } catch (err) {
-                console.error("Error loading partials:", err);
-            }
-        }
-
-        loadPartials();
-    </script>
-
-    <script>
-        const sequence = ["t", "r", "e", "e"];
-        let currentIndex = 0;
-
-        document.addEventListener("keydown", event => {
-            if (event.key.toLowerCase() === sequence[currentIndex]) {
-                currentIndex++;
-                if (currentIndex === sequence.length) {
-                    window.location.href = "tree.html";
-                }
-            } else {
-                currentIndex = 0;
-            }
-        });
-    </script>
+<style>
+/* prevents flash before partials load */
+body { visibility: hidden; }
+</style>
 </head>
 
 <body>
-    <div id="topbar-placeholder"></div>
 
-    <div class="main-content">
-        <div class="ad-sidebar">
-            <div id="adContainer" class="ad-scroll"></div>
+<div id="topbar-placeholder"></div>
+
+<div class="main-content">
+    <div class="games-container">
+
+        <div class="grid-section">
+            <h2 class="grid-title">recently played</h2>
+            <div id="recentlyPlayedGrid"></div>
         </div>
 
-        <div class="games-container">
-            <div class="grid-section">
-                <h2 class="grid-title">recently played</h2>
-                <div id="recentlyPlayedGrid"></div>
+        <div class="grid-section">
+            <div class="grid-title-container">
+                <h2 class="grid-title">all games</h2>
+                <input type="text" id="gameSearch" class="search-input" placeholder="search">
             </div>
-
-            <div class="grid-section">
-                <div class="grid-title-container">
-                    <h2 class="grid-title">all games</h2>
-                    <input type="text" class="search-input" id="gameSearch" placeholder="search" />
-                </div>
-                <div id="gameGrid"></div>
-            </div>
+            <div id="gameGrid"></div>
         </div>
+
     </div>
+</div>
 
-    <div id="bottombar-placeholder"></div>
-    <div id="settingsPanel"></div>
+<div id="bottombar-placeholder"></div>
+<div id="settingsPanel"></div>
 
-    <script>
-        function initApp() {
-            const MAX_RECENT = 5;
-            const recentlyPlayedGrid = document.getElementById("recentlyPlayedGrid");
-            const gameGrid = document.getElementById("gameGrid");
-            const settingsButton = document.getElementById("settingsButton");
-            const settingsPanel = document.querySelector(".settings-panel");
-            const themeSelect = document.getElementById("themeSelect");
-            const importButton = document.getElementById("importProgress");
-            const importFile = document.getElementById("importFile");
-            const gameSearch = document.getElementById("gameSearch");
+<script>
+/* ---------------- PARTIALS ---------------- */
 
-            const leftLinks = document.querySelectorAll(".topbar .left a");
-            leftLinks.forEach(link => link.classList.remove("active"));
+async function loadPartials() {
+    const [topbar, bottombar, settings] = await Promise.all([
+        fetch("../partials/topbar.html").then(r => r.text()),
+        fetch("../partials/bottombar.html").then(r => r.text()),
+        fetch("../partials/settings.html").then(r => r.text())
+    ]);
 
-            if (window.location.pathname.includes("/arcade/")) {
-                leftLinks[0]?.classList.add("active");
-            } else if (window.location.pathname.includes("/tv/")) {
-                leftLinks[1]?.classList.add("active");
-            }
+    document.getElementById("topbar-placeholder").innerHTML = topbar;
+    document.getElementById("bottombar-placeholder").innerHTML = bottombar;
+    document.getElementById("settingsPanel").innerHTML = settings;
 
-            function getCookie(name) {
-                const value = `; ${document.cookie}`;
-                const parts = value.split(`; ${name}=`);
-                return parts.length === 2 ? parts.pop().split(";").shift() : null;
-            }
+    document.body.style.visibility = "visible";
 
-            function setCookie(name, value, days) {
-                let expires = "";
-                if (days) {
-                    const date = new Date();
-                    date.setTime(date.getTime() + days * 86400000);
-                    expires = "; expires=" + date.toUTCString();
-                }
-                document.cookie = `${name}=${value}${expires}; path=/`;
-            }
+    initApp();
+}
 
-            function getRecentlyPlayed() {
-                try {
-                    return JSON.parse(getCookie("recentlyPlayed") || "[]");
-                } catch {
-                    return [];
-                }
-            }
+/* ---------------- SECRET TREE ---------------- */
 
-            function saveRecentlyPlayed(games) {
-                setCookie("recentlyPlayed", JSON.stringify(games), 30);
-            }
+const sequence = ["t","r","e","e"];
+let seqIndex = 0;
 
-            function updateRecentlyPlayedUI(games) {
-                recentlyPlayedGrid.innerHTML = "";
-                if (!games.length) {
-                    recentlyPlayedGrid.innerHTML =
-                        "<p style='color: var(--link-color);'>you haven't played any games yet :(</p>";
-                    return;
-                }
+document.addEventListener("keydown", e => {
+    if (e.key.toLowerCase() === sequence[seqIndex]) {
+        seqIndex++;
+        if (seqIndex === sequence.length) window.location.href = "tree.html";
+    } else {
+        seqIndex = 0;
+    }
+});
 
-                games.forEach(game => {
-                    const card = document.createElement("a");
-                    card.href = game.path || "#";
-                    card.className = "card";
-                    card.style.backgroundImage = `url('${game.thumbnail || ""}')`;
-                    card.dataset.title = game.name || "Untitled";
-                    recentlyPlayedGrid.appendChild(card);
-                });
-            }
+/* ---------------- COOKIES ---------------- */
 
-            function addRecentlyPlayed(game) {
-                const recent = getRecentlyPlayed().filter(g => g.name !== game.name);
-                recent.unshift(game);
-                if (recent.length > MAX_RECENT) recent.pop();
-                saveRecentlyPlayed(recent);
-                updateRecentlyPlayedUI(recent);
-            }
+function getCookie(name) {
+    const match = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
+    return match ? match[2] : null;
+}
 
-            function getFavorites() {
-                try {
-                    return JSON.parse(getCookie("favorites") || "[]");
-                } catch {
-                    return [];
-                }
-            }
+function setCookie(name, value, days) {
+    const expires = new Date(Date.now() + days * 86400000).toUTCString();
+    document.cookie = `${name}=${value}; expires=${expires}; path=/`;
+}
 
-            function saveFavorites(games) {
-                setCookie("favorites", JSON.stringify(games), 30);
-            }
+/* ---------------- APP ---------------- */
 
-            function isFavorited(game) {
-                return getFavorites().some(f => f.name === game.name);
-            }
+function initApp() {
 
-            function toggleFavorite(game) {
-                let favs = getFavorites();
-                favs = isFavorited(game)
-                    ? favs.filter(f => f.name !== game.name)
-                    : [...favs, game];
-                saveFavorites(favs);
-                displayGames(sortGames(allGames));
-            }
+    const gameGrid = document.getElementById("gameGrid");
+    const recentGrid = document.getElementById("recentlyPlayedGrid");
+    const searchInput = document.getElementById("gameSearch");
 
-            function sortGames(games) {
-                return games.sort((a, b) => {
-                    const af = isFavorited(a);
-                    const bf = isFavorited(b);
-                    if (af !== bf) return af ? -1 : 1;
-                    return (a.name || "").localeCompare(b.name || "");
-                });
-            }
+    const settingsButton = document.getElementById("settingsButton");
+    const settingsPanel = document.querySelector(".settings-panel");
+    const themeSelect = document.getElementById("themeSelect");
 
-            function displayGames(games) {
-                gameGrid.innerHTML = "";
-                games.forEach(game => {
-                    const card = document.createElement("a");
-                    card.href = game.path || "#";
-                    card.className = "card";
-                    if (isFavorited(game)) card.classList.add("favorited");
-                    card.style.backgroundImage = `url('${game.thumbnail || ""}')`;
-                    card.dataset.title = game.name || "Untitled";
-                    card.addEventListener("click", () => addRecentlyPlayed(game));
+    /* ---- Settings button fix ---- */
+    if (settingsButton && settingsPanel) {
+        settingsButton.onclick = () => {
+            const open = settingsPanel.style.display === "block";
+            settingsPanel.style.display = open ? "none" : "block";
+            settingsButton.classList.toggle("settings-open", !open);
+        };
+    }
 
-                    const fav = document.createElement("div");
-                    fav.className = "favorite-badge";
-                    fav.textContent = isFavorited(game) ? "★" : "☆";
-                    fav.onclick = e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        toggleFavorite(game);
-                    };
+    /* ---- Theme ---- */
+    const savedTheme = getCookie("theme") || "orange";
+    setTheme(savedTheme);
+    themeSelect.value = savedTheme;
 
-                    card.appendChild(fav);
-                    gameGrid.appendChild(card);
-                });
-            }
+    themeSelect.onchange = () => {
+        setTheme(themeSelect.value);
+        setCookie("theme", themeSelect.value, 30);
+    };
 
-            let allGames = [];
+    /* ---- Recently Played ---- */
+    function getRecent() {
+        return JSON.parse(getCookie("recent") || "[]");
+    }
 
-            fetch("gameList.json")
-                .then(res => res.json())
-                .then(data => {
-                    allGames = sortGames(data.games || []);
-                    displayGames(allGames);
-                })
-                .catch(() => {
-                    gameGrid.innerHTML =
-                        "<p style='color: var(--link-color);'>Failed to load game list</p>";
-                });
+    function saveRecent(list) {
+        setCookie("recent", JSON.stringify(list), 30);
+    }
 
-            gameSearch.addEventListener("input", () => {
-                const q = gameSearch.value.toLowerCase();
-                displayGames(
-                    sortGames(
-                        allGames.filter(
-                            g =>
-                                (g.name || "").toLowerCase().includes(q) ||
-                                g.tags?.some(t => t.toLowerCase().includes(q))
-                        )
-                    )
-                );
-            });
+    function addRecent(game) {
+        let list = getRecent().filter(g => g.name !== game.name);
+        list.unshift(game);
+        list = list.slice(0, 5);
+        saveRecent(list);
+        renderRecent(list);
+    }
 
-            updateRecentlyPlayedUI(getRecentlyPlayed());
+    function renderRecent(list) {
+        recentGrid.innerHTML = "";
+        if (!list.length) {
+            recentGrid.innerHTML = "<p style='color:var(--link-color)'>no games yet</p>";
+            return;
         }
-    </script>
+        list.forEach(g => {
+            const a = document.createElement("a");
+            a.href = g.path;
+            a.className = "card";
+            a.style.backgroundImage = `url('${g.thumbnail}')`;
+            recentGrid.appendChild(a);
+        });
+    }
+
+    /* ---- Favorites ---- */
+    function getFavs() {
+        return JSON.parse(getCookie("favs") || "[]");
+    }
+
+    function saveFavs(f) {
+        setCookie("favs", JSON.stringify(f), 30);
+    }
+
+    function isFav(game) {
+        return getFavs().some(f => f.name === game.name);
+    }
+
+    function toggleFav(game) {
+        let favs = getFavs();
+        favs = isFav(game)
+            ? favs.filter(f => f.name !== game.name)
+            : [...favs, game];
+        saveFavs(favs);
+        renderGames(allGames);
+    }
+
+    /* ---- Render Games ---- */
+    function renderGames(list) {
+        gameGrid.innerHTML = "";
+        list.forEach(game => {
+            const card = document.createElement("a");
+            card.href = game.path;
+            card.className = "card";
+            if (isFav(game)) card.classList.add("favorited");
+            card.style.backgroundImage = `url('${game.thumbnail}')`;
+
+            card.onclick = () => addRecent(game);
+
+            const star = document.createElement("div");
+            star.className = "favorite-badge";
+            star.textContent = isFav(game) ? "★" : "☆";
+            star.onclick = e => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleFav(game);
+            };
+
+            card.appendChild(star);
+            gameGrid.appendChild(card);
+        });
+    }
+
+    /* ---- Load games ---- */
+    let allGames = [];
+
+    fetch("gameList.json")
+        .then(r => r.json())
+        .then(data => {
+            allGames = data.games || [];
+            renderGames(allGames);
+        });
+
+    searchInput.oninput = () => {
+        const q = searchInput.value.toLowerCase();
+        renderGames(allGames.filter(g =>
+            g.name.toLowerCase().includes(q) ||
+            g.tags?.some(t => t.toLowerCase().includes(q))
+        ));
+    };
+
+    renderRecent(getRecent());
+}
+
+loadPartials();
+</script>
+
 </body>
 </html>

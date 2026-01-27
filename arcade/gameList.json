@@ -344,10 +344,19 @@
             "thumbnail": "assets/thumbnails/footballlegends.png",
             "dateAdded": "09/01/2026",
             "tags": ["new"]
+        },
+        {
+            "gameID": 49,
+            "name": "Terraria",
+            "path": "games/terraria.html",
+            "thumbnail": "assets/thumbnails/terraria.png",
+            "dateAdded": "27/01/2026",
+            "tags": ["new"]
         }
         
     ]
 }
+
 
 
 
